@@ -1,0 +1,426 @@
+Redux is a predictable state container for javascript apps 
+
+redux is only for javascript applications 
+redux is not tied to react alone .
+can be used with react , angular vue or even vanilla javascript .
+redux is a library for javascript applications .
+======================
+It is  for javascript app
+It is a state container 
+it is a predicable 
+=======================
+redux is a state container 
+
+redux stores the state of your application 
+consider  a react app - state of a component 
+state of an app is the state represented by all the individual components of that app. 
+
+Login Form Component
+state ={
+username:'',
+password:'',
+submitting:false
+}
+
+UserListComponent
+state = {
+users:[]
+}
+
+Application
+state={
+isUserLoggedIn:true,
+username:'Samantha',
+profileUrl:'',
+onlineUsers:[],
+isModalOpened:false
+}
+is fetched data from the users ?
+
+===========================
+Redux is predictable 
+
+predictable in what way ?
+redux is a state container 
+the state of the application can change 
+ex: todo list- item(pending)-> item(completed)
+
+in redux, all state transitions are explicit and it is possible to keep track of them. 
+the changes to your apllications state become predictable. 
+========================
+
+Manage the state of your application in a predictable way , redux can help you 
+
+
+React+Redux
+react has its own state 
+why do we need react redux tools to help state management 
+===========================
+Learn React context- prevents prop drilling 
+useContext + useReducer ?
+Redux 1.0 august 2015
+===============================
+React <------------------->ReactRedux-<------------>Redux
+
+react -redux is the official redux ui library for react 
+========================
+few points before we proceed 
+----------------
+The most basic mistake you can do is learning redux and react in parallel 
+
+Is react with redux still relevant ?
+
+should you really learn react with redux if it is going to stay relevant for only a short duration ?
+
+should redux be added to all your  react application?
+
+when should i use redux in my react application ?
+
+redux has learning curve -- rap your head around this terminiology atleast thrice 
+
+course structure 
+
+==============================
+redux library 
+
+node.js 
+redux- demo = folder 
+npm init=>package.json file get installed
+npm install redux 
+node index
+======================
+Three core concepts 
+real world scenaroio
+cake shop 
+======
+Entities
+shop 
+shopkeeper
+customer 
+
+Activities 
+=======
+customer - buy a cake 
+shopkeeper- remove a cake from the shelf
+-- receipt to keep track
+========================
+cake shop scnerio 
+============= 
+shop 
+Intention to Buy-cake 
+shopkeeper
+
+  
+ redux 
+  =====      
+store 
+action
+ reducer
+
+
+purpose 
+ ======
+Holds the state of                                                    your application .
+
+describes what happened 
+
+Ties the store and actions together
+
+A store that holds the state of your application
+An action that describes the changes in the state of the apllication 
+A reducer which actually carries out the state thansistion depending on the action .
+
+================================
+
+Three principles 
+============
+
+1. First principle 
+"The state of your whole application is stored in an object which would be managed by the redux store.
+
+Cake shop :-
+Lets assume we are tracking the number of cakes on the shelf.
+
+{
+numberOfCakes:10
+}
+
+===================
+Second principle
+-----------------
+"The  only way to change the state is to emit an action, an object describing what happened "
+
+To update the state of your app , you need to let redux know about that with an action 
+
+not allowed to directly update the state object 
+
+cake shop 
+-----------
+Let the shopkeeper know about our action - Buy Cake 
+{
+type:buy_cake
+}
+
+Third Priniciple
+-------------------
+"To specify how the state tree is transformed by actions, you write pure reducers"
+
+Reducer-(previousState,action)=>newState
+
+cakeShop
+-------------
+Reducer is the shopkeeper 
+
+const reducer=(state,action)=>{
+switch(action.type){
+case BUY_CAKE: return{
+numOfCakes: state.numOfCakes -1
+}
+
+}
+}
+-------------------------------
+JavascriptApp
+|
+action
+|
+reducer
+|
+redux store 
+-------------------------------------
+Actions
+The only way your application can interact with the store 
+carry some information from your app to the redux store 
+plain javascript objects
+have a 'type' property that indicates the type of action being performed 
+The 'type' property is typically defined as string constants 
+
+
+const BUY_CAKE ='BUY_CAKE'
+
+function buyCake() {
+return{
+type:BUY_CAKE,
+info:'First redux action'
+}
+}
+----------------------------------
+Reducers 
+
+specify how the app's state changes in response to actions sent to the store
+
+function that accepts  state  and action as arguments, and returns   the next state  of the application 
+
+(previousState, action)=> newState
+
+const BUY_CAKE ='BUY_CAKE'
+
+function buyCake() {
+return{
+type:BUY_CAKE,
+info:'First redux action'
+}
+}
+//(previousState, action)=> newState
+
+our state is a simple numeric value 
+
+your application state  has to be represented by single object.
+
+const initialState ={
+numOfCakes:10
+}
+const reducer =(state = initialState,action)=>{
+switch(action.type){
+case BUY_CAKE:return{
+...state,
+numberOfCakes:   state.numOfCakes-1
+}
+default: return state 
+}
+}
+-------------------------------------------------------
+Redux Store
+.. One store for the entire application 
+Responsibilities
+----------------------
+Holds application state 
+Allow acess to state  via getState()=> method 
+getState() method allows application to have access with the state .
+
+Allows state to be updated via dispatch(action)
+
+dispatch method allows action a s a parameter .
+
+Registers listeners via subscribe(listener)
+
+ Handles unregistering of listeners via the function returned by subscribe(listener)
+
+-----------now in the code -------------------
+const redux require('redux')
+const createStore = redux.createStore
+
+
+
+
+
+const store= createStore(reducer)
+console.log('Initial state', store.getState())
+const unsubscribe = store.subscribe(()=> console.log('Updated state',store.getState()))
+store.dispatch(buyCake())
+store.dispatch(buyCake())
+store.dispatch(buyCake())
+unscubscribe()
+
+
+//getstate() is from redux library
+
+//
+
+Cakes & ice creams 
+-------------------------
+Thomas alwa edison  mother ..
+Cake shop 
+cakes stored on the shelf
+Shopkeeper to handle BUY_CAKE from customer 
+
+sell icecreams
+ice creams stored in the freezer
+new shopkeeper to handle BUY_ICECREAM from customer .
+
+-------------------------------------------------------------
+Multiple reducers 
+--------------------
+shop keeper is nothing but the reducer 
+
+....This is doing in the single reducer itself mutliple reducers.....................
+
+const redux = require('redux')
+const createStore = redux.createStore
+
+
+const BUY_CAKE= 'BUY_CAKE'
+const BUY_ICECREAM = 'BUY_ICECREAM'
+
+function buyCake() {
+return{
+type:BUY_CAKE,
+info:'First redux action'
+}
+}
+
+function buyIceCream() {
+return{
+type:BUY_ICECREAM,
+info:'First redux action'
+}
+}
+
+
+
+
+// (previousState,action)=> newState
+
+const initialState = {
+numOfCakes:10,
+numOfIceCreams:20
+
+}
+
+const reducer =(state = initialState,action)=>{
+switch(action.type){
+case BUY_CAKE:return{
+...state,
+numberOfCakes:   state.numOfCakes-1
+}
+
+case BUY_ICECREAM:return{
+...state,
+numberOfIcecream:   state.numOfIcecream-1
+}
+default: return state 
+}
+}
+
+const store= createStore(reducer)
+console.log('Initial state', store.getState())
+const unsubscribe = store.subscribe(()=> console.log("Updated state", store.getState())
+store.dispatch(buyCake())
+store.dispatch(buyCake())
+store.dispatch(buyCake())
+store.dispatch(buyCake())
+store.dispatch(buyIceCream())
+store.dispatch(buyIceCream())
+unsubscribe()
+
+
+....Here do the necessary changes and we are creating the multiple reducer.......and doing changes in the store too.....
+
+1. initial state 
+
+2. const reducer separate 
+
+3. const 
+
+4. Now to combine all the reducers  we have a method called combinedreducer
+
+const combineReducers= redux.combineReducers
+
+
+
+
+
+const rootReducer = combineReducers({
+cake:cakeReducer,
+iceCream:iceCreamReducer
+})
+
+const store = createStore(rootReducer)
+
+=============================
+create a new repoistry on the command line 
+-----------------------------------------------
+echo "# playzeon_ATHILIK_learning" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Samantha-2023/playzeon_ATHILIK_learning.git
+git push -u origin main
+------------------------------------------
+git remote add origin https://github.com/Samantha-2023/playzeon_ATHILIK_learning.git
+git branch -M main
+git push -u origin main
+-------------------------------
+
+
+
+
+
+
+
+                                                   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
