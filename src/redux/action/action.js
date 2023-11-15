@@ -7,6 +7,9 @@ export const fetchLogin =({email,password})=> async (dispatch)=>{
         userName: email,
         password:password
     });
+    console.log(email);
+    console.log(password);
+    
     if(response.status===200){
         localStorage.setItem("accessToken", response.data.accessToken);
         localStorage.setItem("refreshToken", response.data.refreshToken);
@@ -56,3 +59,5 @@ export const fetchOrganization=({organization,fname,lname,phNumber,email,role})=
     console.error('An error occured during login:', error);
 }
 };
+
+ 

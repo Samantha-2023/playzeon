@@ -1,3 +1,11 @@
+/* body {
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: url('../images/homebanner.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+} */
 
 .wrapper{
   background-color: rgba(0, 0, 0, 0.5);
@@ -20,6 +28,12 @@
 .custom-box-shadow {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Adjust the values as needed */
 }    
+
+/* 
+  body {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}   */
 
 
 

@@ -12,14 +12,16 @@ import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Icon } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Formik, useFormik } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
 import { BeakerIcon } from "@heroicons/react/24/solid";
 import Login from "./login";
 import LoginMain from "./loginmain";
 import "./loginmain.css";
 import { fetchOrganization } from "../redux/action/action";
+import { Formik, useFormik } from "formik";
+import * as Yup from "yup";
+
+
 
 
 
@@ -93,8 +95,9 @@ const Loginpartner = ({ showPartnerForm, setShowPartnerForm }) => {
 		<div>
 			<div className="col-lg-9 ">
 				<Card  style={{ backgroundColor: "#EDEEF0" }}>
-				<div  style={{ color: "gray", textDecoration: "none" }} onClick={()=>setShowPartnerForm(false)}>
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mt-0 ms-1">
+				<div  style={{ color: "gray", textDecoration: "none" }} 
+				onClick={()=>setShowPartnerForm(false)}>
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mt-2 ms-1">
 								<path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
 							</svg></div>	
 					<Form className="gap-1 mt-1 px-2 mx-1"   onSubmit={formik.handleSubmit} style ={{marginBottom:"1px"}}>
@@ -204,14 +207,24 @@ const Loginpartner = ({ showPartnerForm, setShowPartnerForm }) => {
 								</Col>
 							</Row>
 							<div class="d-grid col-6 mx-auto mt-1 mb-2">
-								<button class="btn  btn-secondary btn-lg "
+								{/* <button class="btn  btn-secondary btn-lg "
 								 size="lg" 
 								 type="submit" 
 								 style={{backgroundColor:"#DE342F" , fontsize:"5px"}} 
 								//  onClick={handleFormSubmit}
 								 >
 									Submit
-								</button>
+								</button> */}
+
+								<Button size="lg" type="submit" style={{ color: "white", backgroundColor: "red", borderColor: "red", fontSize: "15px" }}>
+								Submit
+							   </Button>
+
+
+
+
+
+
 								</div> 			
 						</Form.Group>
 					</Form>

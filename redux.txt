@@ -400,7 +400,36 @@ git push -u origin main
 
 
                                                    
+  <Row>
+      <Col>
+      
+       <Col />
+       <Row>
+       <Card>
+      <Card.Body>
+      <div style={{backgroundColor:"gray"}}><Card.Title >CardTitle </Card.Title></div>
+        <Card.Text>
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </Card.Text>
+     </Card.Body>
+    </Card>
 
+    <Card>
+      <Card.Body>
+      <div style={{backgroundColor:"gray"}}><Card.Title >CardTitle </Card.Title></div>
+        <Card.Text>
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </Card.Text>
+     </Card.Body>
+    </Card>
+    <Col />
+    <Row />
+
+       </div>
+      </Col>
+    </Row>
 
 
 

@@ -25,7 +25,7 @@ const Login = () => {
 			<div className=" wrapper bg-cover w-full vh-100  " style={{ paddingBottom:"15px", backgroundImage: `url(${homebanner})` }}>
 				<Row>
 					<Col xs={4}>
-				<img class="ml-20 mt-10 " src={Athlitik_Whitelogo} alt="logo" style={{ width: "300px" }} />
+				<img className="ml-20 mt-10 " src={Athlitik_Whitelogo} alt="logo" style={{ width: "300px" }} />
           </Col>
 				</Row>
 				<div className="flex flex-row">

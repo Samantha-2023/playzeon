@@ -14,6 +14,8 @@
 // import { useNavigate } from "react-router-dom";
 // import Loginpartner from "./loginpartner";
 
+import { FaCentercode } from "react-icons/fa"
+
 
 // const LoginMain = ({setShowPartnerForm ,showPartnerForm}) => {
 // 	// 
@@ -267,3 +269,39 @@
 	/* <Link to="/LoginMain" >{"<"}</Link> */
 }
 // =====================================================================================================
+add center
+
+
+<Col className="mx-3 ">
+							<div 
+              // xs={12} sm={6} md={4} lg={4}
+               className="text-center mx-auto">
+
+								<Card className="pt-5 pb-5 " style={{ borderStyle: "dashed", borderColor: "lightgray", borderWidth: "3px", width: "18rem" }}>
+									<div className="d-flex justify-content-center ">
+										<img src={addplus} alt="logo" style={{ width: "50px" }} 
+										onClick={()=>navigate("/addcenter")}
+
+										/>
+									</div>
+									<h6 style={{ fontSize: "15px", fontWeight: "lighter" }}>Add center</h6>
+								</Card>
+							</div>
+						</Col>
+
+
+
+
+<Col xs={12} sm={6} md={4} lg={4} >
+							<div className="text-center">
+								<Card className="border border-dotted  mb-3" style={{ width: "18rem", fontWeight: "lighter" }}>
+									<div style={{ backgroundColor: "grey", fontWeight: "lighter" }}>
+										<Card.Header>Header</Card.Header>
+									</div>
+									<Card.Body>
+										This is some text within a card body. This is some text within a card body. This is some text within a card body. This
+										is some text within a card body.
+									</Card.Body>
+								</Card>
+							</div>
+						</Col>
