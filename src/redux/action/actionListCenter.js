@@ -37,3 +37,8 @@ console.log(values,"action");
     }
 
 };
+
+
+// The payload of an API is the data you are interested in transporting to the server when you make an API request.
+// A type property to indicate the type of action to be carried out
+// A payload object that contains the information that should be used to change the state

@@ -24,6 +24,8 @@ const DashBoard = () => {
 	const data = useSelector((state) => state.accountdata?.account?.data);
 	// account is the initial values set in reducer// accountdata is from the reducer== index.js
 	//
+	console.log( data ,"7777777777")
+
 	const dataListCenter = useSelector((state) => state.listCenterData?.listCenter?.data);
 
 	console.log(dataListCenter, "33333");
@@ -55,29 +57,31 @@ const DashBoard = () => {
 
 	return (
 		<Container className="flex-fill">
-			<div className="vh-100" style={{ backgroundColor: "#EDEEF0", color: "black", fontSize: "15px", fontWeight: "bold" }}>
-				<p className="pt-2">Center </p>
+			<div className="vh-100" style={{ backgroundColor: "#EDEEF0", color: "black", fontSize: "13px", fontWeight:"400" }}>
+				<p className="pt-2 mb-0 ms-2">Center </p>
 				<hr className="mt-0 pt-0" />
 				<div className="row">
 					<div className="container">
 						<div className="card border-0 rounded-4 mx-2 mb-2">
 							<div className="card-body">
 								<div className="row">
-									<div className="col-xl-3 my-1">
+									<div className="col-xl-3 col-lg-4 col-md-6 my-2">
 										<div className="text-center rounded-3 addlocation">
 											<div className="d-flex justify-content-center">
 												<img src={addplus} alt="logo" className="  addplus" onClick={() => navigate("/addcenter")} />
 											</div>
-											<div className="text-center  text-muted fw-light f5">Add center</div>
+											<div className="text-center  text-muted  f5">Add center</div>
 										</div>
 									</div>
+												{/* check how to put the log inside the return function  h-100" */}
 
 									{console.log(dataListCenter)}
 
 									{dataListCenter?.map((center, index) => (
-										<div className="col-xl-3 my-1 px-xl-1 py-xl-1 px-md-1 ">
-											<div key={index} className="card custom-card">
-												{/* check how to put the log inside the return function  h-100" */}
+										<div className="col-xl-3  col-lg-4 col-md-6 py-lg-1 px-1g-2 px-xl-3 px-md-1  ">
+										{/* my-1 px-xl-1 py-xl-1 px-md-1  */}
+											<div key={index} className="card custom-card h-100">
+												{/* changes done here  */}
 												<div className="card-img-top overflow-hidden" style={{ cursor: "pointer",backgroundColor:" rgba(0,0,0,.5)"   }}>
 													<img className="w-100 imgsize" src={working} alt="logo" />
 													<div className="card-img-overlay mt-5 pt-4 text-white text-capitalize">
@@ -86,7 +90,7 @@ const DashBoard = () => {
 														</h6>
 													</div>
 												</div>
-												<div className="card-body location py-2px-md-1 px-lg-2" style={{ cursor: "pointer", minHeight: "175px" }}>
+												<div className="card-body location py-2 px-md-1 px-lg-1" style={{ cursor: "pointer", minHeight: "175px" }}>
 													<div>
 														<div
 															className="small d-inline-block text-truncate"

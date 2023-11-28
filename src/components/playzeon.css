@@ -1,0 +1,232 @@
+/* 3 login pages css follwoed here */
+
+.wrapper{
+  background-color: rgba(0, 0, 0, 0.5);
+  /* background-image: url('../images/homebanner.jpg'); */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+} 
+
+.backgrounddesign{
+/* backgroundImage: `url(${homebanner})`,  */
+background-image: url('../images/homebanner.jpg');
+background-position:center; 
+background-size: cover; 
+width:100%; 
+height:100vh;   
+/* overflow:hidden; */
+background-color:black;
+padding: 40px;
+}
+.htext{
+  color: white;
+}
+
+.custom-box-shadow {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Adjust the values as needed */
+}    
+
+.error-text {
+    color: red;
+    font-size: 10px;
+    margin-top: 4px;
+  }
+
+/* loginmain css */
+
+.cardbackground {
+  /* background-color:black; */
+  background-color:"#edeefo";
+}
+.labelformat{
+   font-size: 14px;
+    font-weight: 350;
+     color: black ;
+}
+
+.signin{
+ color:white;
+  /* background-color:"#de342f"; */
+  background-color: red;
+
+}
+
+.signin:hover {
+  background-color: red; 
+}
+.labelshadow{
+  box-shadow: 0px 4px 5px 0 rgba(0,0,0,0.2);
+   background-color: white;
+} 
+.signup{
+color: red;
+font-size: 12px; 
+font-weight: 500;
+}
+.smallfont{
+ font-size:9px ;
+ white-space:nowrap;
+}
+
+.partner{
+ color:red;
+font-size:12px;
+font-weight: 500;
+cursor: pointer;
+}
+
+/* .small-font {
+  font-size: 12px;
+}
+
+.close-btn {
+  color: red;
+} */
+/* partner with us form css */
+
+.partnercard{
+   /* background-color: "#EDEEF0"; */
+   background-color:"#edeefo";
+
+   color:gray;
+  textDecoration:none;
+}
+.labelpartner{
+color:black;
+font-size:12px;
+font-weight:200;
+}
+.submitbutton{
+color:white;
+background-color:red;
+border-color:red;
+font-size:15px;
+}
+.pleaseline{
+ color:black;
+font-size:12px;
+}
+
+
+/* /* .wrapper{background: url('../images/homebanner.jpg') no-repeat   center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;}  
+  /* label{
+  box-shadow: 0px 3px 4px 0 rgba(0,0,0,0.2)
+  /* 
+  body {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}  
+
+/* body {
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: url('../images/homebanner.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+} */
+
+/* add center css */
+
+
+/* body {
+  overflow-y: hidden; 
+  overflow-x: hidden; 
+} */
+
+
+.bannerimage{
+  height: 146px;
+  border: 1px solid ;
+  border-color: #bfbfbf;
+  border-radius: 5px;
+  width: 100% !important;
+}
+
+.banner{
+  width: 104px;
+  font-size: 16px;
+}
+.addimage{
+  border-radius: 5px;
+  border-color: #bfbfbf !important;
+  border:1px solid;
+
+}
+.add{
+  display:block;
+  color:#2d77d2 !important;
+  margin-top: 3px;
+}
+/*  */
+/* Style the DatePicker component input */
+.react-datepicker-wrapper input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+  /* Add other styles as needed */
+}
+
+/* Style the DatePicker calendar container */
+.react-datepicker {
+  font-size: 14px;
+  background-color: #fff;
+  /* Add other styles as needed */
+}
+
+/* Style the DatePicker selected date */
+.react-datepicker__day--selected {
+  background-color: #2d77d2;
+  color: #fff;
+  /* Add other styles as needed */
+}
+
+/* Style the DatePicker day on hover */
+.react-datepicker__day--hovered {
+  background-color: #f0f0f0;
+  /* Add other styles as needed */
+}
+
+/* Style the DatePicker day outside the current month */
+.react-datepicker__day--outside-month {
+  color: #ccc;
+  /* Add other styles as needed */
+}
+
+/* Style the DatePicker day that is today */
+.react-datepicker__day--today {
+  font-weight: bold;
+  /* Add other styles as needed */
+}
+.error-text{
+color:red;
+}  
+
+/* facilities add sports page modal css */
+.labelname{
+  font-size: 13px;
+  font-weight: 800;
+  font-family: sans-serif;
+}
+
+.datepicker-size{
+  width: 200px; 
+  font-size: 14px; 
+}
+
+.reservationlabelname{
+  opacity: 1;
+  font-size: 13px;
+  font-family:  sans-serif;
+
+}
+

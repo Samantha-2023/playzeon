@@ -1,27 +1,12 @@
 import React, { useState } from "react";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import image3 from "../images/image3.jpg";
-import logo from "../images/sport.jpg";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import sport from "../images/sport.jpg";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import Loginpartner from "./loginpartner";
-import "./loginmain.css";
+import "./playzeon.css";
 import { fetchLogin } from "../redux/action/action";
 import { useDispatch } from "react-redux";
-import AddCenter from "../pages/addcenter";
 
-const LoginMain = ({ setShowPartnerForm, ShowPartnerForm }) => {
-	const navigate = useNavigate();
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+const LoginMain = ({ setShowPartnerForm }) => {
 	const dispatch = useDispatch();
 
 	const initialValues = {
@@ -33,9 +18,7 @@ const LoginMain = ({ setShowPartnerForm, ShowPartnerForm }) => {
 		email: Yup.string()
 			.matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}/, "Enter a valid email")
 			.required("Enter a valid mail id"),
-		password: Yup.string()
-			// .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}/, 'enter a valid password')
-			.required("Enter a valid password"),
+		password: Yup.string().required("Enter a valid password"),
 	});
 
 	const submitForm = async (values) => {
@@ -43,21 +26,6 @@ const LoginMain = ({ setShowPartnerForm, ShowPartnerForm }) => {
 
 		try {
 			dispatch(fetchLogin({ email: values.email, password: values.password }));
-			// const response = await axios.post("https://dev-api.playzeon.com/api/user-management/login", {
-			//  email: values.email,
-			// password: values.password,
-
-			// }
-
-			// const{ message, accesstoken } = response.data;
-			// toast.success(message);
-			// setAuthenticate(true);
-			// localStorage.setItem("authToken", accesstoken);
-			setTimeout(() => {
-				navigate("/dashboard");
-				// // navigate("/sidebar");
-				// navigate("/navbar");
-			}, 2000);
 		} catch (error) {
 			console.error("Login failed. Please check your credentials.");
 		}
@@ -70,86 +38,87 @@ const LoginMain = ({ setShowPartnerForm, ShowPartnerForm }) => {
 	});
 	console.log(formik.errors?.email);
 
-	//   const handleSignIn = () => {
-	//     const requestData = {
-	//       userName: email,
-	//       password:password,
-	//       };
-
 	return (
-		<div>
-			<div className="col-lg-7">
-				<div className="card " style={{ backgroundColor: "#EDEEF0" }}>
-					<Form className="p-4" onSubmit={formik.handleSubmit}>
-						<div class="mb-3">
-							<label for="exampleInputEmail1" className="form-label ">
-								Email address
-							</label>
-							<input
-								className="form-control"
-								id="exampleInputEmail1"
-								aria-describedby="emailHelp"
-								name="email"
-								type="email"
-								onChange={formik.handleChange}
-								value={formik.values.email}
-							/>
-							{formik.touched.email && formik.errors?.email?.length && <p className="error-text">{formik.errors?.email}</p>}
-						</div>
-						<div class="mb-3">
-							<label for="exampleInputPassword1" className="form-label">
-								Password
-							</label>
-							<input
-								className="form-control  
-	custom-box-shadow"
-								id="exampleInputPassword1"
-								name="password"
-								type="password"
-								onChange={formik.handleChange}
-								value={formik.values.password}
-							/>
-							{formik.touched.password && formik.errors?.password && <p className="error-text">{formik.errors?.password}</p>}
-						</div>
+		<div className="col-lg-7 col-md-10 col-sm-12 mt-0">
+			<div className="card  w-100 p-4 cardbackground">
+				<div className="card-body p-0">
+					<div className="row">
+						<div className="col-lg-12">
+							<form onSubmit={formik.handleSubmit}>
+								<div className="row">
+									<div className="col-lg-12">
+										<label for="exampleInputEmail1" className="form-label labelformat">
+											Email address
+										</label>
+										<input
+											className="form-control labelshadow mt-1"
+											id="exampleInputEmail1"
+											aria-describedby="emailHelp"
+											name="email"
+											type="email"
+											onChange={formik.handleChange}
+											value={formik.values.email}
+										/>
+										{formik.touched.email && formik.errors?.email?.length && <p className="error-text">{formik.errors?.email}</p>}
+									</div>
+								</div>
 
-						<div className=" text-end mb-1" style={{ color: "red", fontSize: "15px" }}>
-							
-							Forgot Password?
-						</div>
-						<div className=" d-grid mb-3">
-							<Button size="lg" type="submit" style={{ color: "white", backgroundColor: "red", borderColor: "red", fontSize: "15px" }}>
-								Sign in
-							</Button>
-						</div>
+								<div className="row mt-3">
+									<div className="col-lg-12">
+										<label for="exampleInputPassword1" className="form-label  labelformat">
+											Password
+										</label>
+										<input
+											className="form-control  labelshadow mt-1"
+											id="exampleInputPassword1"
+											name="password"
+											type="password"
+											onChange={formik.handleChange}
+											value={formik.values.password}
+										/>
 
-						<div className="row justify-content-between ">
-							<div className="col">
-								{/* <p className="mb-0" style={{fontSize:"10px"}}>Don't have an account?</p> */}
-								<small style={{ fontSize: "9px" }}>Don't have an account?</small>
-								<p style={{ color: "red", fontSize: "12px", fontWeight: "bold" }}>Sign up</p>
-							</div>
-							<div className="col">
-								{/* <p className="mb-0"  style={{fontSize:"10px"}}> Are you a Sports Organization? </p> */}
-								<small style={{ fontSize: "9px" }}>Are you a sports Organization?</small>
-								<button
-									className="btn btn-link mt-0"
-									type="button"
-									onClick={() => setShowPartnerForm(true)}
-									style={{ fontSize: "12px", color: "red", textDecoration: "none", fontWeight: "bold" }}
-								>
-									Partner with us
-								</button>
-							</div>
+										{formik.touched.password && formik.errors?.password && <p className="error-text">{formik.errors?.password}</p>}
+									</div>
+								</div>
+
+								<div className="row  mt-3">
+									<div className="col-lg-12">
+										<div className="d-flex justify-content-end fs-6">
+											<a href="#" className="link-opacity-50" style={{ color: "red", textDecoration: "none", fontSize: "12px" }}>
+												Forgot Password?
+											</a>
+										</div>
+									</div>
+								</div>
+
+								<div className="row mt-3 ">
+									<div className="col-lg-12">
+										<div className=" d-flex justify-content-center">
+											<button type="submit" className="btn w-100  fs-6 fw-light signin ">
+												Sign in
+											</button>
+										</div>
+									</div>
+								</div>
+
+								<div className="row mt-3">
+									<div className="col-lg-6">
+										<small className="smallfont">Don't have an account?</small>
+										<p className="signup">Sign up</p>
+									</div>
+									<div className="col-lg-6 ">
+										<small className="smallfont">Are you a sports Organization?</small>
+										<p className="partner" onClick={() => setShowPartnerForm(true)}>
+											Partner with us
+										</p>
+									</div>
+								</div>
+							</form>
 						</div>
-					</Form>
+					</div>
 				</div>
 			</div>
 		</div>
 	);
 };
-
 export default LoginMain;
-
-{
-	/*  <p style ={{color:"red"}}>Partner with us</p> */
-}

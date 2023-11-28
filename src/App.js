@@ -11,21 +11,32 @@ import DashBoard from "./pages/dashboard";
 import { Switch} from "react";
 import { RiDashboard2Fill } from "react-icons/ri";
 import Layout from "./components/layout";
-
+import Organisation from "./pages/organisation";
+import Facilities from "./pages/facilities";
 
 export default function App() {
   return (
     <div className="App">
 
-<BrowserRouter>
+ <BrowserRouter>
        <Routes>
       <Route path="/" element={<Login/>} />
        <Route path="/dashboard" element={<>  <NavBar/>  <Combine/>     </> } /> 
 
         <Route path="/addcenter"  element={<>    <NavBar/> <AddCenter/> </> }  >
-       </Route>     
+       </Route>    
+
+
+       <Route path="/organization"  element={<>    <NavBar/> <Organisation/> </> }  >
+       </Route> 
+
+       
+       <Route path="/facilities"  element={<>    <NavBar/> <Facilities/> </> }  >
+       </Route>  
+       
+
         </Routes>
-     </BrowserRouter> 
+     </BrowserRouter>  
 
      </div>
   )

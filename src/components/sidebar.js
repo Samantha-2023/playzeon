@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -9,125 +9,164 @@ import { RiListCheck3, RiRefund2Fill } from "react-icons/ri";
 import { BiSolidHomeCircle } from "react-icons/bi";
 import { FaUserCog } from "react-icons/fa";
 import { Outlet } from "react-router";
-
-
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
+	const location = useLocation();
+
+	const { pathname } = location;
+
+	const isHomePage = pathname === "/dashboard";
 
 	const [isAddCenterActive, setIsAddCenterActive] = useState(false);
 
 	return (
 		<div>
-			<Container fluid>
-				<Row>
-					<Col className="background vh-100" >
-						<a href="/your-link-url" className="sidebarlink" style={{ textDecoration: "none" }}>
-							<div className="d-flex justify-content-between  gap-2 pt-5 ">
-								<AiFillHome className="mt-1" style={{ width: "15px", height: "15px" }} /> <span>Home</span>
-								<svg
-									aria-hidden="true"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="0.3"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-									style={{ width: "16px", height: "16px" }}
-								>
-									<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
-								</svg>
-							</div>
-						</a>
+			<div className="row mt-3 ms-1">
+				<div className="col  d-flex justify-content-between">
+					<div className="sidebarlink">
+						<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
+							<AiFillHome style={{ width: "15px", height: "15px" }} /> <span> Home</span>
+						</p>
+					</div>
+					<svg
+						aria-hidden="true"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="0.9"
+						viewBox="0 0 20 20"
+						xmlns="http://www.w3.org/2000/svg"
+						style={{ width: "14px", height: "14px" }}
+					>
+						<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+					</svg>
+				</div>
+			</div>
 
-						<a href="/your-link-url" className="sidebarlink" style={{ textDecoration: "none" }}>
-							<div className="d-flex justify-content-between pt-2  ">
-								<BiSolidHomeCircle className="mt-1" style={{ width: "15px", height: "15px" }} />
-								<span> Facilities</span>
-								<svg
-									aria-hidden="true"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="0.3"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-									style={{ width: "16px", height: "16px" }}
-								>
-									<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
-								</svg>
-							</div>
-						</a>
+			{isHomePage ? null : (
+				<>
+					{/* 2 */}
 
-						<a href="/your-link-url" className="sidebarlink" style={{ textDecoration: "none" }}>
-							<div className="d-flex justify-content-between  gap-2 pt-2 ">
-								<AiFillDollarCircle className="mt-1" style={{ width: "15px", height: "15px" }} />
-								<span>Pricing</span>
-								<svg
-									aria-hidden="true"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="0.3"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-									style={{ width: "16px", height: "16px" }}
-								>
-									<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
-								</svg>
+					<div className="row mt-1 ms-1">
+						<div className="col  d-flex justify-content-between">
+							<div className="sidebarlink">
+							<Link to="/facilities" className="sidebarlink">
+								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
+									<BiSolidHomeCircle style={{ width: "15px", height: "15px" }} />
+									<span > Facilities</span>
+								</p>
+								</Link>
 							</div>
-						</a>
+							<svg
+								aria-hidden="true"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="0.9"
+								viewBox="0 0 20 20"
+								xmlns="http://www.w3.org/2000/svg"
+								style={{ width: "14px", height: "14px" }}
+							>
+								<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+							</svg>
+						</div>
+					</div>
+					{/* 3 */}
+					<div className="row mt-1 ms-1">
+						<div className="col  d-flex justify-content-between">
+							<div className="sidebarlink">
+								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
+									<AiFillDollarCircle style={{ width: "15px", height: "15px" }} />
+									<span>Pricing</span>
+								</p>
+							</div>
+							<svg
+								aria-hidden="true"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="0.9"
+								viewBox="0 0 20 20"
+								xmlns="http://www.w3.org/2000/svg"
+								style={{ width: "14px", height: "14px" }}
+							>
+								<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+							</svg>
+						</div>
+					</div>
+					{/* 4 */}
 
-						<a href="/your-link-url" className="sidebarlink" style={{ textDecoration: "none" }}>
-							<div className="d-flex justify-content-between  gap-2 pt-2 ">
-								<RiListCheck3 className="mt-1" style={{ width: "15px", height: "15px" }} /> <span>Reservation</span>
-								 <svg
-									aria-hidden="true"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="0.3"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-									style={{ width: "16px", height: "16px" }}
-								>
-									<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
-								</svg> 
+					<div className="row mt-1 ms-1">
+						<div className="col  d-flex justify-content-between">
+							<div className="sidebarlink">
+								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
+									<RiListCheck3 style={{ width: "15px", height: "15px" }} />
+									<span>Reservation</span>
+								</p>
 							</div>
-						</a>
+							<svg
+								aria-hidden="true"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="0.9"
+								viewBox="0 0 20 20"
+								xmlns="http://www.w3.org/2000/svg"
+								style={{ width: "14px", height: "14px" }}
+							>
+								<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+							</svg>
+						</div>
+					</div>
 
-						<a href="/your-link-url" className="sidebarlink" style={{ textDecoration: "none" }}>
-							<div className="d-flex justify-content-between  gap-2 pt-2 ">
-								<RiRefund2Fill className="mt-1" style={{ width: "15px", height: "15px" }} />
-								<span>Refunds</span>
-								<svg
-									aria-hidden="true"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="0.3"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-									style={{ width: "16px", height: "16px" }}
-								>
-									<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
-								</svg>
-							</div>
-						</a>
+					{/* 5 */}
 
-						<a href="/your-link-url" className="sidebarlink" style={{ textDecoration: "none" }}>
-							<div className="d-flex justify-content-between  gap-2 pt-2 ">
-								<FaUserCog className="mt-1" style={{ width: "15px", height: "15px" }} /> <span>User Management</span>
-								<svg
-									aria-hidden="true"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="0.3"
-									viewBox="0 0 20 20"
-									xmlns="http://www.w3.org/2000/svg"
-									style={{ width: "16px", height: "16px" }}
-								>
-									<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
-								</svg>
+					<div className="row mt-1 ms-1">
+						<div className="col  d-flex justify-content-between">
+							<div className="sidebarlink">
+								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
+									<RiRefund2Fill style={{ width: "15px", height: "15px" }} />
+									<span>Refunds</span>
+								</p>
 							</div>
-						</a>
-					</Col>
-				</Row>
-			</Container>
+							<svg
+								aria-hidden="true"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="0.9"
+								viewBox="0 0 20 20"
+								xmlns="http://www.w3.org/2000/svg"
+								style={{ width: "14px", height: "14px" }}
+							>
+								<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+							</svg>
+						</div>
+					</div>
+
+					{/* 6 */}
+
+					<div className="row mt-1 ms-1">
+						<div className="col  d-flex justify-content-between">
+							<div className="sidebarlink">
+								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
+									<FaUserCog style={{ width: "15px", height: "15px" }} />
+									<span>User Management</span>
+								</p>
+							</div>
+							<svg
+								aria-hidden="true"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="0.9"
+								viewBox="0 0 20 20"
+								xmlns="http://www.w3.org/2000/svg"
+								style={{ width: "14px", height: "14px" }}
+							>
+								<path d="M8.25 4.5l7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round"></path>
+							</svg>
+						</div>
+					</div>
+				</>
+			)}
+			{/* main div closing div  */}
 		</div>
 	);
 };
