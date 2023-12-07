@@ -5,6 +5,8 @@ import { listCenterReducer } from "./reducerListCenter";
 import { accountReducer } from "./reducerAccount";
 import { organisationDataReducer, organisationPutDataReducer } from "./reducerOrganisation";
 import { sportsPhotosReducer } from "./reducerSportsPhotos";
+import { sportsFacilityReducer, sportsPostFacilityReducer } from "./reducerSportsFacility";
+import { addFacilityDisplayPageReducer } from "./reducerFacilityDisplayPage";
 
 const reducers = combineReducers({
     offersListData:offersListReduce,
@@ -15,7 +17,9 @@ const reducers = combineReducers({
     organisationDataaa:organisationDataReducer,
     organisationPutDataaa:organisationPutDataReducer,
     sportsPhotosGetData: sportsPhotosReducer,
- 
+    sportsFacilityData: sportsFacilityReducer,
+    sportsFacilityPostdata:sportsPostFacilityReducer,
+    facilityDisplayPageData: addFacilityDisplayPageReducer,
 });
 
 export default reducers;

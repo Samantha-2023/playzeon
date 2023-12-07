@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -12,30 +12,30 @@ import SideBar from "../components/sidebar";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { OrganizationAction, OrganizationActionPutData } from "../redux/action/actionOrganisation";
-
+import { useNavigate } from "react-router-dom";
 
 const Organisation = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
-    //  const data={
+	//  const data={
 	// 	id:"",
 	// 	title:" ",
 	// 	summary:" ",
 
 	//  };
 
-
-	const data = useSelector((state) => state.organisationDataaa.organisationdata?.data);
-	//get api data is here 
+	const data = useSelector((state) => state.organisationDataaa.organisationdata);
+	//get api data is here
 	// .organisationDataaa?.organisationdata?.data
-	//organisationDataaa is from the reducer== index.js// organisationdata is the initial values set in reducer// 
-	
-	const dataacc = useSelector((state)=> state?.accountdata?.account?.data);
+	//organisationDataaa is from the reducer== index.js// organisationdata is the initial values set in reducer//
 
-	const dataput = useSelector((state)=> state?. organisationPutDataaa?.initialValuesPut?.data);
-     console.log(data);
+	const dataacc = useSelector((state) => state?.accountdata?.account?.data);
 
-     console.log(dataacc?.orgId,"888888888888888")
+	const dataput = useSelector((state) => state?.organisationPutDataaa?.organisationputdata);
+	console.log(data, "dataput", dataput);
+
+	console.log(dataacc?.orgId, "888888888888888");
 
 	// const startTimeRef = useRef();
 	const [showstarttime, setShowStartTime] = useState(null);
@@ -56,53 +56,14 @@ const Organisation = () => {
 
 	const [chooseDays, setChooseDays] = useState([]);
 	const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-	
-	// logic for displaying the time and weekdays 
+
+	// logic for displaying the time and weekdays
 
 	const [selectedDays, setSelectedDays] = useState([]);
-  const [selectedStartTime, setSelectedStartTime] = useState(null);
-  const [selectedEndTime, setSelectedEndTime] = useState(null);
+	const [selectedStartTime, setSelectedStartTime] = useState(null);
+	const [selectedEndTime, setSelectedEndTime] = useState(null);
 
-
-	const initialValues = {
-		id: " ",
-		title: " ",
-		summary: " ",
-		createdAt: " ",
-		updatedAt: " ",
-		phoneNumber: " ",
-
-		suite: " ",
-		email: " ",
-		streetAddress: " ",
-		city: " ",
-		stateProvince: " ",
-		zipCode: " ",
-		organizationUsers: "",
-		organizationHours: [
-			{ id: "", weekday: "", startTime: "", endTime: "", createdAt: "", updatedAt: "" },
-			{
-				id: "",
-				weekday: "",
-				startTime: "",
-				endTime: "",
-				createdAt: "",
-				updatedAt: "",
-			},
-		],
-		organizationPhotos: [
-			{
-				id: "",
-				title: "",
-				url: "",
-				tags: "",
-				createdAt: "",
-				updatedBy: "",
-			},
-		],
-		organizationvideos: [],
-		centers: "",
-	};
+	console.log(data?.data?.title, "title");
 
 	const validationSchema = Yup.object().shape({
 		phoneNumber: Yup.string()
@@ -126,17 +87,53 @@ const Organisation = () => {
 
 	const submitForm = async (values) => {
 		try {
-			
-			dispatch(OrganizationActionPutData(values))  
-			//https://dev-api.playzeon.com/api/v1/organizations/64014
-		} 
-		catch(error) {
+			values.id = "64014";
+			dispatch(OrganizationActionPutData(values));
+		} catch (error) {
 			console.error("Form submission failed", error);
 		}
 	};
 
 	const formik = useFormik({
-		initialValues: data,
+		initialValues: {
+			id: " ",
+			title: data.data?.title,
+			summary: " ",
+			createdAt: " ",
+			updatedAt: " ",
+			phoneNumber: " ",
+
+			suite: " ",
+			email: " ",
+			streetAddress: data.data?.streetAddress,
+			city: " ",
+			stateProvince: " ",
+			zipCode: data.data?.zipCode,
+			organizationUsers: "",
+			organizationHours: [
+				{ id: "", weekday: "", startTime: "", endTime: "", createdAt: "", updatedAt: "" },
+				{
+					id: "",
+					weekday: "",
+					startTime: "",
+					endTime: "",
+					createdAt: "",
+					updatedAt: "",
+				},
+			],
+			organizationPhotos: [
+				{
+					id: "",
+					title: "",
+					url: "",
+					tags: "",
+					createdAt: "",
+					updatedBy: "",
+				},
+			],
+			organizationvideos: [],
+			centers: "",
+		},
 		validationSchema: validationSchema,
 		onSubmit: submitForm,
 	});
@@ -167,27 +164,27 @@ const Organisation = () => {
 		setSelectedEndTime(time);
 	};
 
-// console.log(data,"findout");
+	// console.log(data,"findout");
 
-// changes  done here 
+	// changes  done here
 	useEffect(() => {
-
 		dispatch(OrganizationAction(dataacc.orgId));
-	}, []);
+	}, [dataacc?.orgId]);
 
+	useEffect(() => {
+		formik.setValues({
+			title: data.data?.title,
+			zipCode: data.data?.zipCode,
+			phoneNumber: data.data?.phoneNumber,
+			suite: data.data?.suite,
+			stateProvince: data.data?.stateProvince,
+			city: data.data?.city,
+			streetAddress: data.data?.streetAddress,
+			email: data.data?.email,
+		});
+	}, [data]);
 
-	// useEffect(() => {
-	// 	if (orgId) {
-	// 	  console.log("Organization ID:", orgId);
-	// 	} else {
-	// 	  dispatch(OrganizationAction());
-	// 	}
-	//   }, [dispatch, orgId]);
-
-
-
-
-
+	console.log(formik?.values, "formik values");
 
 	return (
 		<div>
@@ -253,8 +250,17 @@ const Organisation = () => {
 										<label htmlFor="suite" className="form-label">
 											Suite
 										</label>
-										<input type="text" className="form-control" id="inputname" placeholder="" />
+										<input
+											className="form-control"
+											id="inputname"
+											placeholder=""
+											name="suite"
+											type="text"
+											onChange={formik.handleChange}
+											value={formik?.values?.suite}
+										/>
 									</div>
+									{formik?.touched?.suite && formik?.errors?.suite?.length && <p className="error-text">{formik?.errors?.suite}</p>}
 
 									<div class="col-xl-2  col-md-4 mt-2">
 										<label htmlFor="city" className="form-label">
@@ -274,8 +280,6 @@ const Organisation = () => {
 										/>
 										{formik?.touched?.city && formik?.errors?.city?.length && <p className="error-text">{formik?.errors?.city}</p>}
 									</div>
-									{/* { formik.touched.city && formik.errors?.city?.length && (
-  <p className="error-text">{formik.errors?.city}</p>)} */}
 
 									<div class="col-xl-2  col-md-4 mt-2">
 										<label htmlFor="state" className="form-label">
@@ -333,7 +337,7 @@ const Organisation = () => {
 											id="inputname"
 											placeholder=""
 											name="phoneNumber"
-											type="number"
+											type="text"
 											onChange={formik.handleChange}
 											value={formik?.values?.phoneNumber}
 										/>
@@ -488,6 +492,7 @@ const Organisation = () => {
 									<hr className="mt-2" />
 									<div className="justify-content end" style={{ fontSize: "80%" }}>
 										<button
+											type="submit"
 											className=" btn-sm float-right me-3  align-self-center  btn btn-danger "
 											style={{ backgroundColor: "red", color: "white" }}
 										>
@@ -497,6 +502,7 @@ const Organisation = () => {
 											type="submit"
 											className=" btn-sm float-right bg-white  border-0 me-3  align-self-center btn btn-danger "
 											style={{ color: "red" }}
+											onClick={() => navigate("/dashboard")}
 										>
 											Cancel
 										</button>
@@ -515,9 +521,8 @@ const Organisation = () => {
 
 export default Organisation;
 
-
-
-{/*
+{
+	/*
 const submitForm = async (values) => {
 		try {
 			const orgId = dataacc?.orgId;
@@ -536,4 +541,5 @@ const submitForm = async (values) => {
 			console.error("Form submission failed", error);
 		}
 	};
-*/}
+*/
+}

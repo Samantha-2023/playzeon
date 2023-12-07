@@ -3,10 +3,8 @@ import { FETCH_ORGANIZATIONPUTDATA } from "../constants/constants";
 
 const initialValues={
         organisationdata:[],
-    };
-const initialValuesPut={
-    organisationputdata:[],
-}    
+        organisationputdata:[],
+    };  
 
 
 
@@ -30,7 +28,7 @@ export const organisationDataReducer =(value =initialValues, action)=>{
 
 
 // REDUCER FOR PUT organisation data 
-export const organisationPutDataReducer =(value =initialValuesPut, action)=>{
+export const organisationPutDataReducer =(value =initialValues, action)=>{
     switch (action?.type) {
         case FETCH_ORGANIZATIONPUTDATA.REQUEST:
             return { organisationputdata: action?.payload };

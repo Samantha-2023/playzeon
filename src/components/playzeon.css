@@ -91,7 +91,7 @@ cursor: pointer;
    background-color:"#edeefo";
 
    color:gray;
-  textDecoration:none;
+  text-decoration:none;
 }
 .labelpartner{
 color:black;
@@ -209,12 +209,18 @@ font-size:12px;
 }
 .error-text{
 color:red;
+font-size: 9px;
 }  
 
 /* facilities add sports page modal css */
 .labelname{
+  font-size: 12px;
+  font-weight: 400;
+  font-family: sans-serif;
+}
+
+.labelweek{
   font-size: 13px;
-  font-weight: 800;
   font-family: sans-serif;
 }
 
@@ -225,8 +231,213 @@ color:red;
 
 .reservationlabelname{
   opacity: 1;
-  font-size: 13px;
+  font-size: 12px;
   font-family:  sans-serif;
 
 }
 
+.modal-lg {
+  max-width: 700px !important;
+}
+
+.displaytimefacilityform{
+   font-size: 9px;
+   color:lightslategray;
+}
+
+.modelonetitle{
+  font-size: 12px;
+}
+.modeltwotitle{
+  font-size: 13px;
+}
+.modeltwoadd{
+   font-size: 13px;
+   cursor: pointer;
+}
+.modaltwocancelbutton{
+ color:red;
+ cursor:pointer;
+text-decoration:none;
+
+}
+
+/* //////////////////////navbar.css////////////////////////////////////////////// */
+.bg-location{
+  background-color: rgba(95, 94, 94, 0.5)!important;
+   border: none!important;
+
+}
+.dropdowncolor{
+  background-color:#212529 !important;
+  border:none;
+}
+
+
+
+
+
+
+
+
+/*/////////////////////////// dashboard css///////////////////////////////////////////  */
+
+ /* body {
+    overflow-y: hidden;
+    overflow-x: hidden; 
+}  */
+
+.dashbackground{
+  background-color: #EDEEF0;
+  color: black; 
+  font-size: 13px;
+   font-weight:400 ;
+}
+.dashboardcardbody{
+ cursor: pointer;
+  min-height: 175px;
+}
+.addlocation{
+ border: 2px dashed #d3d3d3;
+ min-height: 268px;
+  padding-top: 28%;
+ align-items: center;
+ justify-content: center;
+}
+.addplus{
+ cursor: pointer;
+ margin-top: 14px;
+ width:27%;
+ 
+
+}
+.text-center{
+ text-align: center!important;
+}
+.custom-card{
+ position: relative;
+}
+.imgsize{
+ max-height: 98px;
+ min-height:98px;
+ object-fit: cover;
+}
+.titlee{
+color: gray;
+font-size: smaller;
+font-weight: 600;
+letter-spacing: .5px;
+font-family: sans-serif;
+
+}
+.text-truncate{
+ overflow: hidden;
+ text-overflow: ellipsis;
+ white-space: nowrap;
+}
+
+.spandashboard
+{
+      max-width: 150px;
+    font-size:  smaller;
+    font-family: sans-serif;
+    font-weight: lighter;
+ }
+.spandashboardtime{
+ max-width: 70px;
+ font-size: smaller;
+ font-family:sans-serif;
+ font-weight: lighter;
+
+}
+.dashboardcardaddress{
+ max-width:150px;
+ font-size:smaller;
+font-family:sans-serif;
+ font-weight: lighter;
+
+}
+/* /////////////////////////////add center css is below //////////////////////////////// */
+.ADDaddcenter{
+  font-size: 13px;
+}
+.addcenteruploadimage{
+ font-size: 14px;
+font-family:PT Sans,sans-serif;
+}
+.addcenterbannerimage{
+font-size: 89% ;
+}
+
+
+/* Style the DatePicker day outside the current month */
+.react-datepicker__day--outside-month {
+  color: #ccc;
+  /* Add other styles as needed */
+}
+
+/* Style the DatePicker day that is today */
+.react-datepicker__day--today {
+  font-weight: bold;
+  /* Add other styles as needed */
+}
+.error-text{
+color:red;
+}  
+
+/* //////////////////////////////Facility display page css////////////////////////////////// */
+.facilitydpage-p{
+  font-size: 13px;
+}
+.spanadd{
+  color: rgb(77,140,217);
+  font-size: 13px;
+  font-weight: 600;
+}
+.cardcolor-fdp{
+  background-color: whitesmoke;
+}
+.editicons-fdp{
+  color:red;
+  height: 16px;
+  width: 16px;
+  padding-top:3px;
+  cursor: pointer;
+}
+.editiconsmodal-fdp{
+  height: 30px;
+  width: 30px;
+   justify-content: center;
+  color: red;
+  align-items: center;
+}
+
+/* /////////////////////////sidebar csss /////////////////////////////////////////////*/
+.sidebarbackground{
+  background-color: #ffffff;
+  /* background-color: rgb(231, 225, 225); */
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: smaller;
+
+  
+}
+
+.sidebarlink {
+  text-decoration: none; 
+  color: black;
+  /* display: flex; */
+   /* align-items: center;  */
+}  
+ 
+.sidebarlink:hover,
+.sidebarlink:active {
+  color: red;
+}
+
+/* .sidebarlink:hover{
+  color: red;
+}
+.sidebarlink:active{
+  color: red; 
+}  */

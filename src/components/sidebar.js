@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import "./sidebar.css";
 import { AiFillHome, AiFillDollarCircle } from "react-icons/ai";
 import { RiListCheck3, RiRefund2Fill } from "react-icons/ri";
 import { BiSolidHomeCircle } from "react-icons/bi";
@@ -11,8 +10,12 @@ import { FaUserCog } from "react-icons/fa";
 import { Outlet } from "react-router";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import "../components/playzeon.css";
 
 const SideBar = () => {
+	const navigate = useNavigate();
+
 	const location = useLocation();
 
 	const { pathname } = location;
@@ -23,11 +26,15 @@ const SideBar = () => {
 
 	return (
 		<div>
-			<div className="row mt-3 ms-1">
+			<div className="row mt-3 ms-1 sidebarbackground">
 				<div className="col  d-flex justify-content-between">
 					<div className="sidebarlink">
 						<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
-							<AiFillHome style={{ width: "15px", height: "15px" }} /> <span> Home</span>
+							<AiFillHome style={{ width: "15px", height: "15px" }} />{" "}
+							<span className="cursor-pointer" onClick={() => navigate("/dashboard")}>
+								{" "}
+								Home
+							</span>
 						</p>
 					</div>
 					<svg
@@ -51,11 +58,11 @@ const SideBar = () => {
 					<div className="row mt-1 ms-1">
 						<div className="col  d-flex justify-content-between">
 							<div className="sidebarlink">
-							<Link to="/facilities" className="sidebarlink">
-								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
-									<BiSolidHomeCircle style={{ width: "15px", height: "15px" }} />
-									<span > Facilities</span>
-								</p>
+								<Link to="/facilities" className="sidebarlink">
+									<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
+										<BiSolidHomeCircle style={{ width: "15px", height: "15px" }} />
+										<span className="cursor-pointer" onClick={() => navigate("/facilities")}> Facilities</span>
+									</p>
 								</Link>
 							</div>
 							<svg
@@ -77,7 +84,7 @@ const SideBar = () => {
 							<div className="sidebarlink">
 								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
 									<AiFillDollarCircle style={{ width: "15px", height: "15px" }} />
-									<span>Pricing</span>
+									<span className="cursor-pointer">Pricing</span>
 								</p>
 							</div>
 							<svg
@@ -100,7 +107,7 @@ const SideBar = () => {
 							<div className="sidebarlink">
 								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
 									<RiListCheck3 style={{ width: "15px", height: "15px" }} />
-									<span>Reservation</span>
+									<span className="cursor-pointer">Reservation</span>
 								</p>
 							</div>
 							<svg
@@ -124,7 +131,7 @@ const SideBar = () => {
 							<div className="sidebarlink">
 								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
 									<RiRefund2Fill style={{ width: "15px", height: "15px" }} />
-									<span>Refunds</span>
+									<span className="cursor-pointer">Refunds</span>
 								</p>
 							</div>
 							<svg
@@ -148,7 +155,7 @@ const SideBar = () => {
 							<div className="sidebarlink">
 								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
 									<FaUserCog style={{ width: "15px", height: "15px" }} />
-									<span>User Management</span>
+									<span className="cursor-pointer">User Management</span>
 								</p>
 							</div>
 							<svg

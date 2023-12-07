@@ -5,7 +5,6 @@ import Loginpartner from "./loginpartner";
 import Athlitik_Whitelogo from "../images/Athlitik_Whitelogo.svg";
 import "./playzeon.css";
 
-
 const Login = () => {
 	const [showPartnerForm, setShowPartnerForm] = useState(false);
 

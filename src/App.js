@@ -13,6 +13,7 @@ import { RiDashboard2Fill } from "react-icons/ri";
 import Layout from "./components/layout";
 import Organisation from "./pages/organisation";
 import Facilities from "./pages/facilities";
+import FacilityDisplayPage from "./pages/facilityDisplayPage";
 
 export default function App() {
   return (
@@ -34,6 +35,9 @@ export default function App() {
        <Route path="/facilities"  element={<>    <NavBar/> <Facilities/> </> }  >
        </Route>  
        
+       <Route path="/facilitiesdisplaypage"  element={<>    <NavBar/> < FacilityDisplayPage/> </> }  >
+       </Route>  
+
 
         </Routes>
      </BrowserRouter>  

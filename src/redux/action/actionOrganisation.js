@@ -1,6 +1,8 @@
 import axios from  "axios";
 import { FETCH_ORGANIZATION } from "../constants/constants";
 import {FETCH_ORGANIZATIONPUTDATA} from "../constants/constants";
+import Swal from "sweetalert2";
+
 
 export const OrganizationAction  = (values)=> async(dispatch)=>{
  
@@ -54,17 +56,23 @@ export const OrganizationAction  = (values)=> async(dispatch)=>{
         method:"PUT",
         headers:{"Authorization" : `Bearer ${localStorage.getItem("accessToken")}` },
         data:values,
+        url:`https://dev-api.playzeon.com/api/v1/organizations/${values?.id}`
     };
     console.log(values,"checkkkputdata")
 
       try{
-    const { data }= await axios.put(`https://dev-api.playzeon.com/api/v1/organizations/${values}`, optionss);    
-  
+              const { data }= await axios(optionss);    
+             
+              Swal.fire({
+                icon: "success",
+                title: "",
+                text: "Organization has been updated successfully",
+              });
+
 
   await dispatch ({
     type: FETCH_ORGANIZATIONPUTDATA.SUCCESS,
     payload:{loading:false,data:data},
-
   });
     }
     catch(error){

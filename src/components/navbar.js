@@ -7,12 +7,13 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { Button } from "react-bootstrap";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import "./navbarr.css";
 import Athlitik_Whitelogo from "../images/Athlitik_Whitelogo.svg";
 import { BsPersonCircle } from "react-icons/bs";
 import { Outlet } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "../components/playzeon.css";
+
 
 const NavBar = () => {
 	const [isLogOut, setIsLogOut] = useState(false);

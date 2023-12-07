@@ -1,12 +1,9 @@
 import React, { useState, useRef } from "react";
 import Form from "react-bootstrap/Form";
 import addbanner from "../images/addbanner.svg";
-import "./addcenter.css";
-// import "./playzeon.css";
+import "../components/playzeon.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
-// import { TimePickerComponent } from '@syncfusion/ej2-react-calendars';
 import addimage from "../images/addimage.svg";
 import NavBar from "../components/navbar";
 import SideBar from "../components/sidebar";
@@ -16,9 +13,12 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { AddCenterAction } from "../redux/action/actionAddCenter";
+import { useNavigate } from "react-router-dom";
+import "../components/playzeon.css";
 
 const AddCenter = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const startTimeRef = useRef();
 
@@ -137,7 +137,7 @@ const AddCenter = () => {
 
 			<div className="row">
 				<div className="col-lg-2">
-				<SideBar />
+					<SideBar />
 				</div>
 				<div className="col-lg-10 ">
 					<div className="card w-100" style={{ backgroundColor: "#edeef0" }}>
@@ -228,7 +228,7 @@ const AddCenter = () => {
 										{formik.touched.city && formik.errors?.city?.length && <p className="error-text">{formik.errors?.city}</p>}
 									</div>
 									{/* { formik.touched.city && formik.errors?.city?.length && (
-  <p className="error-text">{formik.errors?.city}</p>)} */}
+                                         <p className="error-text">{formik.errors?.city}</p>)} */}
 
 									<div class="col-xl-2  col-md-4 mt-2">
 										<label htmlFor="state" className="form-label">
@@ -412,8 +412,8 @@ const AddCenter = () => {
 													placeholderText="Please select end time"
 												/>
 												{/* <div className="arrow-select">
-                          <Icon icon="fe:arrow-down" />
-                        </div>  */}
+                                                      <Icon icon="fe:arrow-down" />
+                                                      </div>  */}
 											</div>
 											<div className=" d-flex align-items-center gap-0">
 												<svg
@@ -429,9 +429,7 @@ const AddCenter = () => {
 														style={{ backgroundColor: "#2d77d2", color: "#2d77d2" }}
 													/>
 												</svg>
-												<small className=" d-flex text-primary" style={{ fontSize: "13px" }}>
-													Add
-												</small>
+												<small className=" d-flex text-primary ADDaddcenter">Add</small>
 											</div>
 										</div>
 									</div>
@@ -439,17 +437,13 @@ const AddCenter = () => {
 
 								{/*  */}
 								<div className="row mt-5 mb-0">
-									<h6 className=" text-dark mb-0" style={{ fontSize: "14px", fontFamily: "PT Sans,sans-serif" }}>
-										Upload image
-									</h6>
+									<h6 className=" text-dark mb-0 addcenteruploadimage">Upload image</h6>
 								</div>
 								<hr />
 								<div className="row mt-2">
 									<div className="col-sm-3">
 										<div className="row text-muted mb-2">
-											<div className="col-xl-6 title " style={{ fontsize: "89%" }}>
-												Banner image
-											</div>
+											<div className="col-xl-6 title addcenterbannerimage ">Banner image</div>
 											<div className="col-xl-6  text-end title  mt-1" style={{ fontSize: "70%" }}>
 												Min:800px x 600px
 											</div>
@@ -485,8 +479,9 @@ const AddCenter = () => {
 									<hr className="mt-2" />
 									<div className="justify-content end" style={{ fontSize: "80%" }}>
 										<button
+											type="submit"
 											className=" btn-sm float-right me-3  align-self-center  btn btn-danger "
-											style={{ backgroundColor: "red", color: "white" }}
+											style={{ backgroundColor: "red", color: "white", cursor: "pointer" }}
 										>
 											Save
 										</button>
@@ -494,6 +489,7 @@ const AddCenter = () => {
 											type="submit"
 											className=" btn-sm float-right bg-white border-0 me-3  align-self-center btn btn-danger "
 											style={{ color: "red" }}
+											onClick={() => navigate("/dashboard")}
 										>
 											Cancel
 										</button>
@@ -513,124 +509,3 @@ const AddCenter = () => {
 };
 
 export default AddCenter;
-
-{
-	/* <div className="react-datepicker-wrapper">
-<div className="react-datepicker-container">
-  <span  role="alert" aria-live="polite" className='react-datepicker_aria-live'>
-Selected time:
-  </span>
-<input type="text" placeholder='Please select end time' className="form-control ps-1" value/>
-</div> */
-}
-
-// =======================================
-// <div className="form-check form-check-inline mt-2 me-2">
-// 									<input className="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1" />
-// 									<label className="form-check-label" for="inlineCheckbox1">
-// 										Sun
-// 									</label>
-// 								</div>
-// 								<div className="form-check form-check-inline mt-2 me-2">
-// 									<input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-// 									<label className="form-check-label" for="inlineCheckbox2">
-// 										Mon
-// 									</label>
-// 								</div>
-// 								<div className="form-check form-check-inline mt-2 me-2">
-// 									<input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-// 									<label className="form-check-label" for="inlineCheckbox2">
-// 										Tue
-// 									</label>
-// 								</div>
-// 								<div className="form-check form-check-inline mt-2 me-2">
-// 									<input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-// 									<label className="form-check-label" for="inlineCheckbox2">
-// 										Wed
-// 									</label>
-// 								</div>
-// 								<div className="form-check form-check-inline mt-2 me-2">
-// 									<input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-// 									<label className="form-check-label" for="inlineCheckbox2">
-// 										Thu
-// 									</label>
-// 								</div>
-// 								<div className="form-check form-check-inline mt-2 me-2">
-// 									<input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-// 									<label className="form-check-label" for="inlineCheckbox2">
-// 										Fri
-// 									</label>
-// 								</div>
-// 								<div className="form-check form-check-inline mt-2 me-2">
-// 									<input className="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2" />
-// 									<label className="form-check-label" for="inlineCheckbox2">
-// 										Sat
-// 									</label>
-// 								</div>
-//  =====================time picker =======================================
-{
-	/* <div className="react-datepicker-wrapper">
-  <div className="react-datepicker_input-container  ">
-  <span role="alert" aria-live="polite" class="react-datepicker_aria-live"></span>
-    <input type="text" placeholder='Please select start time' className="form-control ps-1 react-datepicker-ignore-onclickoutside" /> 
-    </div></div> */
-}
-{
-	/* <TimePickerComponent  placeholder="Select a start time" style={{borderRadius:"1px solid"}}>  </TimePickerComponent> */
-}
-
-// -----------------------------------------
-{
-	/* <div className="react-datepicker-wrapper">
-  <div className="react-datepicker_input-container"> 
-  <span role="alert" aria-live="polite" class="react-datepicker_aria-live"></span>
-     <input type="text" placeholder='Please select end time' className="form-control ps-1" /> 
-    </div></div>  */
-}
-// ======================================================================================
-
-// <DatePicker
-// 								className="form-control ps-1"
-// 								ref={startTimeRef}
-// 								popperPlacement="bottom"
-// 								selected={showstarttime}
-// 								onChange={(time) => handleTimeChange(time)}
-// 								showTimeSelect
-// 								showTimeSelectOnly
-// 								timeFormat="h:mm aa"
-// 								timeIntervals={30}
-// 								timeCaption="Time"
-// 								dateFormat="h:mm aa"
-// 								placeholderText="Please select start time"
-// 							/>
-
-{
-	/*  */
-}
-// &nbsp; &nbsp;
-
-// <DatePicker
-// 	className="form-control ps-1"
-// 	ref={startTimeRef}
-// 	popperPlacement="bottom"
-// 	selected={showendtime}
-// 	onChange={(time) => handleEndTimeChange(time)}
-// 	showTimeSelect
-// 	showTimeSelectOnly
-// 	timeFormat="h:mm aa"
-// 	timeIntervals={30}
-// 	timeCaption="Time"
-// 	dateFormat="h:mm aa"
-// 	placeholderText="Please select end time"
-// />
-// <div className="ms-1 mt-2 text-secondary d-flex add">
-// 	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="-2 -2 24 24">
-// 		<g transform="rotate(-90 10 10)">
-// 			<path
-// 				fill="#2d77d2"
-// 				d="M11 11h4a1 1 0 0 0 0-2h-4V5a1 1 0 0 0-2 0v4H5a1 1 0 1 0 0 2h4v4a1 1 0 0 0 2 0v-4zm-1 9C4.477 20 0 15.523 0 10S4.477 0 10 0s10 4.477 10 10s-4.477 10-10 10z"
-// 			/>
-// 		</g>
-// 	</svg>
-// 	Add
-// </div>
