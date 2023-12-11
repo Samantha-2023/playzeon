@@ -52,6 +52,8 @@ export const fetchLogin =
 			});
 		}
 	};
+
+	
 export const fetchOrganization =
 	({ organization, fname, lname, phNumber, email, role }) =>
 	async (dispatch) => {

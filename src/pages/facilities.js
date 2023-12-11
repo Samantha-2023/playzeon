@@ -129,32 +129,32 @@ const Facilities = () => {
 		advanceBookingMax: Yup.number("advanceBookingMax use only number")
 			.min(1, "Minimum should be less than maximum")
 			.max(10, "Enter maximum value")
-			.required("required"),
+			.required("Maximum value is required"),
 
 		advanceBookingMin: Yup.number("advanceBookingMin use only number")
 			.min(1, "Minimum should be less than maximum")
 			.max(10, "Enter maximum value")
-			.required("required"),
+			.required("Minimum should be less than maximum"),
 
 		durationAllowedMax: Yup.number("durationallowed use only number")
 			.min(1, "Minimum should be less than maximum")
 			.max(10, "Enter maximum value")
-			.required(" required"),
+			.required(" Maximum value is required"),
 
 		durationAllowedMin: Yup.number("durationallowedmin use only number")
 			.min(1, "Minimum should be less than maximum")
 			.max(10, "Enter maximum value")
-			.required("required"),
+			.required("Minimum should be less than maximum"),
 
 		playerAllowedMax: Yup.number("players allowed use only number")
 			.min(1, "Minimum should be less than maximum")
 			.max(10, "Enter maximum value")
-			.required("required"),
+			.required("Maximum value is required"),
 
 		playerAllowedMin: Yup.number("players allowed use only number")
 			.min(1, "Minimum should be less than maximum")
 			.max(10, "Enter maximum value")
-			.required("required"),
+			.required("Minimum should be less than maximum"),
 	});
 
 	//  useEffect(() => {
@@ -506,7 +506,7 @@ const Facilities = () => {
 												onChange={formik.handleChange}
 												value={formik.values?.playerAllowedMin}
 											/>
-											{formik.touched?.playerAllowedMin && formik.errors?.playerAllowedMin?.length && (
+											{formik.errors?.playerAllowedMin?.length && (
 												<p className="error-text">{formik.errors?.playerAllowedMin}</p>
 											)}
 										</div>
@@ -521,7 +521,7 @@ const Facilities = () => {
 												onChange={formik.handleChange}
 												value={formik.values?.playerAllowedMax}
 											/>
-											{formik.touched?.playerAllowedMax && formik.errors?.playerAllowedMax?.length && (
+											{ formik.errors?.playerAllowedMax?.length && (
 												<p className="error-text">{formik.errors?.playerAllowedMax}</p>
 											)}
 										</div>
@@ -543,7 +543,7 @@ const Facilities = () => {
 												onChange={formik.handleChange}
 												value={formik.values?.durationAllowedMin}
 											/>
-											{formik.touched?.durationAllowedMin && formik.errors?.durationAllowedMin?.length && (
+											{formik.errors?.durationAllowedMin?.length && (
 												<p className="error-text">{formik.errors?.durationAllowedMin}</p>
 											)}
 										</div>
@@ -558,7 +558,7 @@ const Facilities = () => {
 												value={formik.values?.durationAllowedMax}
 											/>
 
-											{formik.touched?.durationAllowedMax && formik.errors?.durationAllowedMax?.length && (
+											{ formik.errors?.durationAllowedMax?.length && (
 												<p className="error-text">{formik.errors?.durationAllowedMax}</p>
 											)}
 										</div>
@@ -579,7 +579,7 @@ const Facilities = () => {
 												onChange={formik.handleChange}
 												value={formik.values?.advanceBookingMin}
 											/>
-											{formik.touched?.advanceBookingMin && formik.errors?.advanceBookingMin?.length && (
+											{formik.errors?.advanceBookingMin?.length && (
 												<p className="error-text">{formik.errors?.advanceBookingMin}</p>
 											)}
 										</div>
@@ -593,7 +593,7 @@ const Facilities = () => {
 												onChange={formik.handleChange}
 												value={formik.values?.advanceBookingMax}
 											/>
-											{formik.touched?.advanceBookingMax && formik.errors?.advanceBookingMax?.length && (
+											{formik.errors?.advanceBookingMax?.length && (
 												<p className="error-text">{formik.errors?.advanceBookingMax}</p>
 											)}
 										</div>

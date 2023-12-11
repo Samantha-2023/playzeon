@@ -9,10 +9,11 @@ import SideBar from "../components/sidebar";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { FacilityDisplayPageAction } from "../redux/action/actionFaciltyDisplayPage";
-import { addFacilityDisplayPageReducer } from "../redux/reducer/reducerFacilityDisplayPage";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { FacitilityActionCopyData, FacitilityActionCopyGetData } from "../redux/action/actionCopyFacility";
+import { FacitilityActionDeleteData, FacitilityActionGetDeleteData } from "../redux/action/actionDeleteFacility";
 
 const FacilityDisplayPage = () => {
 	const navigate = useNavigate();
@@ -34,7 +35,20 @@ const FacilityDisplayPage = () => {
 	//get api data is here
 	//facilityDisplayPageData is from the reducer== index.js//  addfaciltydisplayPage  is the initial values set in reducer//
 
-	// reducer function name = addFacilityDisplayPageReducer
+    const datacopy = useSelector((state)=>state.copyFacilityData?.copyfacility);
+	//post api data is here	//copyFacilityData is from the reducer== index.js//copyfacility  is the initial values set in reducer//
+
+	 const datagetcopy =useSelector((state)=>state.copyGetFacilityData?.copygetfacility);
+	//get api data is here	//copyGetFacilityData is from the reducer== index.js//copygetfacility  is the initial values set in reducer//
+
+     
+	const datadelete= useSelector((state)=>state.deleteFacilityData?.deletefacility);
+	//delete api data is here // state.deleteFacilityData is from the reducer==index.js//deletefacility is the initial values set in reducer
+
+
+   const  datagetdelete =  useSelector((state)=>state.deleteGetFacilityData?.deletegetfacility);
+
+	 
 
 	// edit modal function
 	const openEditModal = (facility) => {
@@ -76,6 +90,22 @@ const FacilityDisplayPage = () => {
 	useEffect(() => {
 		dispatch(FacilityDisplayPageAction(centerId));
 	}, []);
+
+	// copy get api dispatch 
+     useEffect(()=>{
+		dispatch(FacitilityActionCopyGetData(centerId))
+	 },[datacopy]);//here in dependencecy the post api selector is used 
+
+	// this log shows eror why ? console.log(selectedFacility.id,"valuesiddddd");
+	console.log(selectedFacility && selectedFacility.id,"showvaluessssss");
+
+     // delete get api dispatch
+	  useEffect(()=>{
+           dispatch(FacitilityActionGetDeleteData(centerId))
+	  },	[datadelete]);
+
+
+
 
 	return (
 		<div>
@@ -158,7 +188,9 @@ const FacilityDisplayPage = () => {
 															<span className="text-secondary pointer">{facility.name}</span>
 														</div>
 
-														<div className="col-xl-6 col-lg-6 col-md-5 ps-1">{facility.features.join(",")}</div>
+														<div className="col-xl-6 col-lg-6 col-md-5 ps-1">
+															{facility.features.join(",")}
+															</div>
 
 														<div className="col-xl-2 col-lg-3 col-md-2 ps-4">
 															<span className="d-inline-block" onClick={() => openEditModal(facility)}>
@@ -202,6 +234,14 @@ const FacilityDisplayPage = () => {
 											{/* ... (other fields) ... */}
 										</div>
 									)}
+
+
+
+
+
+
+
+									
 								</Modal.Body>
 								<Modal.Footer>
 									<Button className="btn btn-link" style={{ textDecoration: "none", color: "red" }} onClick={closeEditModal}>
@@ -231,10 +271,12 @@ const FacilityDisplayPage = () => {
 									<Button className="btn btn-link" style={{ textDecoration: "none", color: "red" }} onClick={closeCopyModal}>
 										Cancel
 									</Button>
-									<Button variant="danger">Copy</Button>
+									<Button variant="danger" onClick={()=>dispatch(FacitilityActionCopyData(selectedFacility?.id))}> Copy</Button>
 									{/* Add a Save changes button or any other actions you need */}
 								</Modal.Footer>
 							</Modal>
+
+
 							{/* delete modal  */}
 							<Modal show={showDeleteModal} onHide={closeDeleteModal}>
 								<Modal.Header closeButton>
@@ -255,10 +297,11 @@ const FacilityDisplayPage = () => {
 									<Button className="btn btn-link" style={{ textDecoration: "none", color: "red" }} onClick={closeDeleteModal}>
 										Cancel
 									</Button>
-									<Button variant="danger">Delete</Button>
+									<Button variant="danger"  onClick={()=>dispatch(FacitilityActionDeleteData(selectedFacility?.id))}>Delete</Button>
 									{/* Add a Save changes button or any other actions you need */}
 								</Modal.Footer>
 							</Modal>
+
 						</div>{" "}
 						{/* this is col -10 complate background color closing div */}
 					</div>
