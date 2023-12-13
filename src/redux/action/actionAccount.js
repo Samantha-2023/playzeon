@@ -1,5 +1,7 @@
 import axios from "axios";
 import { FETCH_ACCOUNT } from "../constants/constants";
+import {API_URL  } from "../../constantsUrl/constantsUrl.js";
+
 // import {Constants }  from "../constants/constants.js";
 
 export const AccountAction = (values) => async (dispatch) => {
@@ -12,9 +14,9 @@ export const AccountAction = (values) => async (dispatch) => {
 	try {
 		const options = {
 			method: "GET",
-			headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+			headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
 			data: values,
-			url: "https://dev-api.playzeon.com/api/account",
+			url: `${API_URL}/api/account`,
 		};
 
 		const { data } = await axios(options);

@@ -25,6 +25,11 @@ const Facilities = () => {
 	const navigate = useNavigate();
 
 	const [chooseDays, setChooseDays] = useState([]);
+
+	// to display the features in the ui 2 use states 
+	const [facilityFeatures, setFacilityFeatures] = useState();
+	const [addFeatures, setAddFeatures] = useState([]);
+
 	// const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 	const daysOfWeek = [
 		{ id: 1, shortName: "Sun", fullName: "Sunday" },
@@ -45,22 +50,18 @@ const Facilities = () => {
 
 	const [selectedDaysAndTimes, setSelectedDaysAndTimes] = useState([]); // Add state for selected days and times
 
-	const [selectedFacilityId, setSelectedFacilityId] = useState(null); // For post Api
-	console.log(selectedFacilityId, "outout id");
-
+	 // For post Api
+    const [selectedFacilityId, setSelectedFacilityId] = useState(null);
 	const [selectedWeekdays, setSelectedWeekdays] = useState([]); // state for dding the weekdays dynamically in the initial values
 
 	const data = useSelector((state) => state.sportsPhotosGetData?.sportsphotos);
 	//sportsPhotosGetData is from the reducer== index.js// sportsphotos is the initial values set in reducer//
 
-	console.log(data.data, "data faciliyyyy");
 
 	const datafacility = useSelector((state) => state.sportsFacilityData?.sportsfacilityputdata?.data);
-	console.log(datafacility, "put data faility");
 	// sportsFacilityData is from the reducer== index.js// sportsfacilityputdata is the initial values set in reducer
 
 	const datapostfacility = useSelector((state) => state.sportsFacilityPostdata?.sportsfacilitypostdata);
-	console.log(datapostfacility, "postdataaa");
 
 	const initialValues = {
 		reservationAttribute: {
@@ -109,17 +110,7 @@ const Facilities = () => {
 				updatedAt: moment().utc(),
 			},
 		],
-		facilityMetas: [
-			{
-				value: "",
-			},
-			{
-				value: " ",
-			},
-			{
-				value: "",
-			},
-		],
+		facilityMetas: [],
 		video: null,
 	};
 
@@ -163,9 +154,7 @@ const Facilities = () => {
 	//  }, []);
 
 	const submitForm = async (values) => {
-		try {
-			console.log(values, "samaaaaaaaaaaaa");
-			values.sport.id = selectedFacilityId;
+		values.sport.id = selectedFacilityId;
 			values.facilityHours[0].startTime = startTime;
 			values.facilityHours[0].endTime = endTime;
 			values.facilityHours[0].weekday = selectedWeekdays.join(",");
@@ -175,7 +164,10 @@ const Facilities = () => {
 			values.reservationAttribute.durationAllowedMax = values.durationAllowedMax;
 			values.reservationAttribute.playerAllowedMin = values.playerAllowedMin;
 			values.reservationAttribute.playerAllowedMax = values.playerAllowedMax;
-
+			values.facilityMetas = addFeatures;
+		try {			
+			console.log(values, "values");
+			console.log(addFeatures, "addFeatures");
 			dispatch(FacitilityActionPostData(values));
 		} catch (error) {
 			console.error("Form submission failed", error);
@@ -187,18 +179,13 @@ const Facilities = () => {
 		validationSchema: validationSchema,
 		onSubmit: submitForm,
 	});
-	console.log(formik.errors);
-
-	console.log(selectedWeekdays);
 
 	const handleAddFacility = (facilityId) => {
 		// Handle logic for adding a facility
-		console.log(facilityId, "id");
 		setSelectedFacilityId(facilityId); // to handle the sports id to pass to another modal for post api to work
 		setShowModal(false); // Close the modal after adding
 		setShowAddSportsModal(true); // Show the second modal
 	};
-	console.log(selectedWeekdays, "selectedWeekdays");
 	const handleDayChange = (day) => {
 		if (selectedWeekdays.includes(day.fullName)) {
 			setSelectedWeekdays(selectedWeekdays.filter((selectedDay) => selectedDay !== day.fullName));
@@ -228,7 +215,6 @@ const Facilities = () => {
 	};
 
 	useEffect(() => {
-		console.log("Data photos :", data);
 		if (showModal) {
 			dispatch(SportsPhotosAction()); // Dispatching  the action function name  to fetch sports photos from the api
 		}
@@ -291,7 +277,7 @@ const Facilities = () => {
 			<Modal show={showModal} onHide={() => setShowModal(false)}>
 				<div style={{ backgroundColor: "#edeef0" }}>
 					<Modal.Header closeButton>
-						<Modal.Title className="modelonetitle">Add </Modal.Title>
+						<Modal.Title className="modelonetitle">Add {formik.values.facility?.title} </Modal.Title>
 					</Modal.Header>
 					<Modal.Body className="text-center">
 						<div className="row ">
@@ -342,7 +328,7 @@ const Facilities = () => {
 				</div>
 			</Modal>
 
-			{/* add sports modal is below  */}
+			{/* add sports form modal is below  */}
 
 			<div className="modal-customwidth">
 				<Modal size="lg" show={showAddSportsModal} onHide={() => setShowAddSportsModal(false)} style={{ overflow: "auto" }}>
@@ -506,9 +492,7 @@ const Facilities = () => {
 												onChange={formik.handleChange}
 												value={formik.values?.playerAllowedMin}
 											/>
-											{formik.errors?.playerAllowedMin?.length && (
-												<p className="error-text">{formik.errors?.playerAllowedMin}</p>
-											)}
+											{formik.errors?.playerAllowedMin?.length && <p className="error-text">{formik.errors?.playerAllowedMin}</p>}
 										</div>
 
 										<div className="col-sm-3">
@@ -521,9 +505,7 @@ const Facilities = () => {
 												onChange={formik.handleChange}
 												value={formik.values?.playerAllowedMax}
 											/>
-											{ formik.errors?.playerAllowedMax?.length && (
-												<p className="error-text">{formik.errors?.playerAllowedMax}</p>
-											)}
+											{formik.errors?.playerAllowedMax?.length && <p className="error-text">{formik.errors?.playerAllowedMax}</p>}
 										</div>
 
 										<div className="col-sm-2"></div>
@@ -543,9 +525,7 @@ const Facilities = () => {
 												onChange={formik.handleChange}
 												value={formik.values?.durationAllowedMin}
 											/>
-											{formik.errors?.durationAllowedMin?.length && (
-												<p className="error-text">{formik.errors?.durationAllowedMin}</p>
-											)}
+											{formik.errors?.durationAllowedMin?.length && <p className="error-text">{formik.errors?.durationAllowedMin}</p>}
 										</div>
 										<div className="col-sm-3">
 											<input
@@ -558,9 +538,7 @@ const Facilities = () => {
 												value={formik.values?.durationAllowedMax}
 											/>
 
-											{ formik.errors?.durationAllowedMax?.length && (
-												<p className="error-text">{formik.errors?.durationAllowedMax}</p>
-											)}
+											{formik.errors?.durationAllowedMax?.length && <p className="error-text">{formik.errors?.durationAllowedMax}</p>}
 										</div>
 										<div className="col-sm-2"></div>
 									</div>
@@ -579,9 +557,7 @@ const Facilities = () => {
 												onChange={formik.handleChange}
 												value={formik.values?.advanceBookingMin}
 											/>
-											{formik.errors?.advanceBookingMin?.length && (
-												<p className="error-text">{formik.errors?.advanceBookingMin}</p>
-											)}
+											{formik.errors?.advanceBookingMin?.length && <p className="error-text">{formik.errors?.advanceBookingMin}</p>}
 										</div>
 										<div className="col-sm-3">
 											<input
@@ -593,9 +569,7 @@ const Facilities = () => {
 												onChange={formik.handleChange}
 												value={formik.values?.advanceBookingMax}
 											/>
-											{formik.errors?.advanceBookingMax?.length && (
-												<p className="error-text">{formik.errors?.advanceBookingMax}</p>
-											)}
+											{formik.errors?.advanceBookingMax?.length && <p className="error-text">{formik.errors?.advanceBookingMax}</p>}
 										</div>
 										<div className="col-sm-2"></div>
 									</div>
@@ -614,10 +588,24 @@ const Facilities = () => {
 									</div>
 									<div className="row">
 										<div className="col-6">
-											<input maxLength={50} type="text" className="form-control" />
+											<input
+												maxLength={50}
+												type="text"
+												className="form-control"
+												value={facilityFeatures}
+												onChange={(e) => {
+													setFacilityFeatures(e.target.value);
+												}}
+											/>
 										</div>
 										<div className="col-sm-2" style={{ opacity: "0.5", cursor: "pointer" }}>
-											<div className=" d-flex align-items-center gap-0">
+											<div
+												className=" d-flex align-items-center gap-0"
+												onClick={() => {
+													setAddFeatures([...addFeatures, { value: facilityFeatures }]);
+													console.log("add clickkkk");
+												}}
+											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													width="13"

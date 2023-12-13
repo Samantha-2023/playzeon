@@ -1,4 +1,4 @@
-import { FETCH_SPORTSFACILITY } from "../constants/constants";
+import {FETCH_SPORTS_PUT_FACILITY } from "../constants/constants";
 import { FETCH_SPORTSPOSTFACILITY } from "../constants/constants";
 
 
@@ -9,13 +9,13 @@ const initialValues={
 
 export const sportsFacilityReducer =(value =initialValues, action)=>{
     switch (action?.type) {
-        case FETCH_SPORTSFACILITY.REQUEST:
+        case FETCH_SPORTS_PUT_FACILITY.REQUEST:
             return { sportsfacilityputdata:action?.payload };
 
-         case FETCH_SPORTSFACILITY.SUCCESS:
+         case FETCH_SPORTS_PUT_FACILITY.SUCCESS:
             return{sportsfacilityputdata:action?.payload};
 
-         case FETCH_SPORTSFACILITY.ERROR:
+         case FETCH_SPORTS_PUT_FACILITY.ERROR:
               return{sportsfacilityputdata:action?.payload};
 
  default:

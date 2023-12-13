@@ -1,6 +1,8 @@
 import axios from "axios";
 import { FETCH_FACILITYCOPY, FETCH_FACILITYCOPYGET } from "../constants/constants";
 import Swal from "sweetalert2";
+import {API_URL  } from "../../constantsUrl/constantsUrl.js";
+
 
 export const FacitilityActionCopyData = (values) => async (dispatch) => {
 
@@ -11,9 +13,9 @@ export const FacitilityActionCopyData = (values) => async (dispatch) => {
 
 	const optionscopy = {
 		method: "POST",
-		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
 		data: values,
-		url: `https://dev-api.playzeon.com/api/v1/facility/copy/${values}`,
+		url: `${API_URL}/api/v1/facility/copy/${values}`,
 	};
 	console.log(values, "sports-copy -data-pleasecome");
 
@@ -53,9 +55,9 @@ export const FacitilityActionCopyGetData = (values) => async (dispatch) => {
 
 	const optionscopyget = {
 		method: "GET",
-		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
 		data: values,
-		url: `https://dev-api.playzeon.com/api/v1/facilities?centerId.equals=${values}`,
+		url: `${API_URL}/api/v1/facilities?centerId.equals=${values}`,
 	};
 
 	try {

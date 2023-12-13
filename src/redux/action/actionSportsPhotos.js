@@ -1,5 +1,6 @@
 import axios from "axios";
 import { FETCH_SPORTSPHOTOS } from "../constants/constants";
+import {API_URL} from "../../constantsUrl/constantsUrl.js";
 // import {Constants }  from "../constants/constants.js";
 
 export const SportsPhotosAction = (values)=>async(dispatch)=>{
@@ -12,9 +13,9 @@ console.log(values,"action");
     try{
         const options = {
             method: 'GET',
-            headers: { "Authorization":`Bearer ${localStorage.getItem("accessToken")} `},
+            headers: { "Authorization":`Bearer ${localStorage.getItem("accessToken")}` , "ngrok-skip-browser-warning": 53},
             data: values,
-            url:"https://dev-api.playzeon.com/api/v1/sport-photos",
+            url:`${API_URL}/api/v1/sport-photos`,
           };
 
         const { data }=await axios(options);

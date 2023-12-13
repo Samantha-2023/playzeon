@@ -1,6 +1,6 @@
 import axios from "axios";
 import {FETCH_FACILITYDISPLAYPAGE} from  "../constants/constants";
-
+import{API_URL} from "../../constantsUrl/constantsUrl.js";
 
 export  const FacilityDisplayPageAction  =(values)=> async(dispatch)=>{
     console.log(values,"getfacilitydisplaypage-dataa");
@@ -12,9 +12,9 @@ export  const FacilityDisplayPageAction  =(values)=> async(dispatch)=>{
 
      const options = {
         method: "GET",
-        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+        headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
         data: values,
-        url: `https://dev-api.playzeon.com/api/v1/facilities?centerId.equals=${values}`
+        url: `${API_URL}/api/v1/facilities?centerId.equals=${values}`
      }
 
        try{

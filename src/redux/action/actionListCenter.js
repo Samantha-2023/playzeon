@@ -1,5 +1,6 @@
 import axios from "axios";
 import { FETCH_LISTCENTER } from "../constants/constants";
+import {API_URL} from "../../constantsUrl/constantsUrl.js";
 // import {Constants }  from "../constants/constants.js";
 
 export const ListCenterAction = (values) => async (dispatch) => {
@@ -11,13 +12,13 @@ export const ListCenterAction = (values) => async (dispatch) => {
 
 	const options = {
 		method: "GET",
-		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
 		data: values,
 	};
 
 	try {
 		const { data } = await axios.get(
-			`https://dev-api.playzeon.com/api/v1/centers?organizationId.equals=${values}`,
+			`${API_URL}/api/v1/centers?organizationId.equals=${values}`,
 			options
 			// ,values
 		);

@@ -1,12 +1,13 @@
 import axios from "axios";
 import { Constants } from "../constants/constants.js";
 import Swal from "sweetalert2";
+import {API_URL  } from "../../constantsUrl/constantsUrl.js";
 
 export const fetchLogin =
 	({ email, password }) =>
 	async (dispatch) => {
 		try {
-			const response = await axios.post("https://dev-api.playzeon.com/api/user-management/login", {
+			const response = await axios.post(`${API_URL}/api/user-management/login`, {
 				userName: email,
 				password: password,
 			});
@@ -58,7 +59,7 @@ export const fetchOrganization =
 	({ organization, fname, lname, phNumber, email, role }) =>
 	async (dispatch) => {
 		try {
-			const response = await axios.post(" https://dev-api.playzeon.com/api/user-management/create/organization", {
+			const response = await axios.post("/api/user-management/create/organization", {
 				phoneNumber: phNumber,
 				orgName: organization,
 				firstName: fname,

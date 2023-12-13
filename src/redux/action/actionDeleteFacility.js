@@ -1,6 +1,8 @@
 import axios from "axios";
 import { FETCH_FACILITYDELETE,FETCH_FACILITYDELETEGET } from "../constants/constants";
 import Swal from "sweetalert2";
+import {API_URL  } from "../../constantsUrl/constantsUrl.js";
+
 
 export const FacitilityActionDeleteData = (values) => async (dispatch) => {
 
@@ -11,9 +13,9 @@ export const FacitilityActionDeleteData = (values) => async (dispatch) => {
 
 	const optionsdelete = {
 		method: "DELETE",
-		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
 		data: values,
-		url: `https://dev-api.playzeon.com/api/v1/facilities/${values}`,
+		url: `${API_URL}/api/v1/facilities/${values}`,
 	};
 	console.log(values, "sports-delete-data-pleasecome");
 
@@ -53,9 +55,9 @@ export const FacitilityActionGetDeleteData = (values) => async (dispatch) => {
 
 	const optionsdeleteget = {
 		method: "GET",
-		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
 		data: values,
-		url: `https://dev-api.playzeon.com/api/v1/facilities?centerId.equals=${values}`,
+		url: `${API_URL}/api/v1/facilities?centerId.equals=${values}`,
 	};
 
 	try {

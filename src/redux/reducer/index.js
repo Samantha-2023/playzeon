@@ -9,6 +9,7 @@ import { sportsFacilityReducer, sportsPostFacilityReducer } from "./reducerSport
 import { addFacilityDisplayPageReducer } from "./reducerFacilityDisplayPage";
 import { copyFacilityReducer, copyGetFacilityReducer } from "./reducerCopyFacility";
 import { deleteFacilityReducer, deleteGetFacilityReducer } from "./reducerDeleteFacility";
+import { editFacilityReducer } from "./reducerEditFacility";
 
 const reducers = combineReducers({
     offersListData:offersListReduce,
@@ -26,6 +27,7 @@ const reducers = combineReducers({
     copyGetFacilityData:copyGetFacilityReducer,
     deleteFacilityData:deleteFacilityReducer,
     deleteGetFacilityData:deleteGetFacilityReducer,
+    editGetFacilityData:editFacilityReducer,
 
 });
 

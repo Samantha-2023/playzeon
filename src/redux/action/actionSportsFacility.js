@@ -1,6 +1,7 @@
 import axios from "axios";
-import { FETCH_SPORTSFACILITY } from "../constants/constants";
+import { FETCH_SPORTS_PUT_FACILITY } from "../constants/constants";
 import { FETCH_SPORTSPOSTFACILITY } from "../constants/constants";
+import {API_URL}  from "../../constantsUrl/constantsUrl.js";
 import Swal from "sweetalert2";
 
 export const FacitilityActionPostData = (values) => async (dispatch) => {
@@ -12,9 +13,9 @@ export const FacitilityActionPostData = (values) => async (dispatch) => {
 
 	const optionspost = {
 		method: "POST",
-		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
 		data: values,
-		url: `https://dev-api.playzeon.com/api/v1/facilities`,
+		url: `${API_URL}/api/v1/facilities`,
 	};
 	console.log(values, "sports-post-data-pleasecome");
 
@@ -42,20 +43,20 @@ export const FacitilityActionPostData = (values) => async (dispatch) => {
 };
 
 
-// put  api  sports facility   
+// put  api  sports facility for update ie; edit icon put api 
 export const FacitilityActionPutData = (values) => async (dispatch) => {
 	await dispatch({
-		type: FETCH_SPORTSFACILITY.REQUEST,
+		type: FETCH_SPORTS_PUT_FACILITY.REQUEST,
 		payload: { loading: true },
 	});
 
 	const options = {
 		method: "PUT",
-		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` },
+		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` , "ngrok-skip-browser-warning": 53 },
 		data: values,
-		url: `https://dev-api.playzeon.com/api/v1/facilities/${values?.id}`,
+		url: `${API_URL}/api/v1/facilities/${values?.id}`,
 	};
-	console.log(values, "sportsdatapleasecome");
+	console.log(values, "sports edit-data-pleasecome");
 
 	try {
 		const { data } = await axios(options);
@@ -67,12 +68,12 @@ export const FacitilityActionPutData = (values) => async (dispatch) => {
 		});
 
 		await dispatch({
-			type: FETCH_SPORTSFACILITY.SUCCESS,
+			type: FETCH_SPORTS_PUT_FACILITY.SUCCESS,
 			payload: { loading: false, data: data },
 		});
 	} catch (error) {
 		await dispatch({
-			type: FETCH_SPORTSFACILITY.ERROR,
+			type: FETCH_SPORTS_PUT_FACILITY.ERROR,
 			payload: { loading: false, data: {} },
 		});
 		console.error("An error occured :", error);

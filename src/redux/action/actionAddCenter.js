@@ -1,5 +1,7 @@
 import axios from "axios";
 import { FETCH_CENTER } from "../constants/constants";
+import {API_URL  } from "../../constantsUrl/constantsUrl.js";
+
 // import {Constants }  from "../constants/constants.js";
 
 export const AddCenterAction = (values) => async (dispatch) => {
@@ -12,9 +14,9 @@ export const AddCenterAction = (values) => async (dispatch) => {
 	try {
 		const options = {
 			method: "POST",
-			headers: { Bearer: localStorage.getItem("accessToken") },
+			headers: { Bearer: localStorage.getItem("accessToken"), "ngrok-skip-browser-warning": 53 },
 			data: values,
-			url: "https://dev-api.playzeon.com/api/v1/centers",
+			url: `${API_URL}/api/v1/centers`,
 		};
 		const { data } = await axios(options);
 		//data any name  data is a variable ... we are using this instead of . then  respone --promise

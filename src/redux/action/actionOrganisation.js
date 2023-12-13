@@ -1,6 +1,7 @@
 import axios from  "axios";
 import { FETCH_ORGANIZATION } from "../constants/constants";
 import {FETCH_ORGANIZATIONPUTDATA} from "../constants/constants";
+import {API_URL} from "../../constantsUrl/constantsUrl.js";
 import Swal from "sweetalert2";
 
 
@@ -14,13 +15,13 @@ export const OrganizationAction  = (values)=> async(dispatch)=>{
 
     const options= {
         method:"GET",
-        headers:{"Authorization" : `Bearer ${localStorage.getItem("accessToken")}` },
+        headers:{"Authorization" : `Bearer ${localStorage.getItem("accessToken")}` , "ngrok-skip-browser-warning": 53},
         data:values,
     };
     console.log(values,"checkkk")
 
       try{
-    const { data }=   await axios.get(`https://dev-api.playzeon.com/api/v1/organizations/${values}`
+    const { data }=   await axios.get(`${API_URL}/api/v1/organizations/${values}`
          , options
         );
 
@@ -54,9 +55,9 @@ export const OrganizationAction  = (values)=> async(dispatch)=>{
 
     const optionss= {
         method:"PUT",
-        headers:{"Authorization" : `Bearer ${localStorage.getItem("accessToken")}` },
+        headers:{"Authorization" : `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
         data:values,
-        url:`https://dev-api.playzeon.com/api/v1/organizations/${values?.id}`
+        url:`${API_URL}/api/v1/organizations/${values?.id}`
     };
     console.log(values,"checkkkputdata")
 
