@@ -131,7 +131,7 @@ const SideBar = () => {
 							<div className="sidebarlink">
 								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
 									<RiRefund2Fill style={{ width: "15px", height: "15px" }} />
-									<span className="cursor-pointer">Refunds</span>
+									<span className="cursor-pointer" onClick={() => navigate("/refunds")}>Refunds</span>
 								</p>
 							</div>
 							<svg

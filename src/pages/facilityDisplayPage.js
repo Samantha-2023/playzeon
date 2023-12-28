@@ -23,6 +23,7 @@ import { useFormik } from "formik";
 import moment from "moment";
 import addplus from "../images/addplus.svg";
 import { FacitilityActionEditGetData } from "../redux/action/actionEditFacility";
+import { CourtGetAction } from "../redux/action/actionCourtGet";
 
 const FacilityDisplayPage = () => {
 	const navigate = useNavigate();
@@ -90,7 +91,25 @@ const FacilityDisplayPage = () => {
 
 	console.log(dataupdateget, "update=getmodaldata");
 
-	console.log(dataupdateput,"update==put modaldata")
+	console.log(dataupdateput,"update==put modaldata");
+
+
+
+	// about court detail getting information
+
+	const courtget =useSelector((state)=>state.courtGetData.courtgetdisplay);
+	console.log(courtget,"courtdetailgetdatas....");
+
+	
+	 localStorage.setItem("facilityid", selectedFacility?.id);
+
+    // Retrieve the value from local storage
+     const facilityid = localStorage.getItem("facilityid");
+
+     console.log(facilityid);
+	 console.log(selectedFacility && selectedFacility.id);
+
+
 
 
 
@@ -237,11 +256,23 @@ const FacilityDisplayPage = () => {
 		values.reservationAttribute.durationAllowedMax = values.durationAllowedMax;
 		values.reservationAttribute.playerAllowedMin = values.playerAllowedMin;
 		values.reservationAttribute.playerAllowedMax = values.playerAllowedMax;
-		values.facilityMetas = addFeatures;
+		values.facilityMetas=values.addFeatures;//check only addFeatures before 
+		values.defaultPlayDuration=values.defaultPlayDuration;
+		values.sku=values.sku;
+		values.description=values.description;
+		values.createdAt=values.createdAt;
+		values.createdBy=values.createdBy;
+		values.updatedAt=values.updatedAt;
+		values.updatedBy=values.updatedBy;
 		try {
-			console.log(values, "values");
-			console.log(addFeatures, "addFeatures");
-			dispatch(FacitilityActionEditGetData(values));
+			
+				console.log(values, "values3");
+				console.log(addFeatures, "addFeatures");
+		
+					dispatch(FacitilityActionEditGetData(values));
+					// dispatch(FacitilityActionPutData(dataupdateget.data?.id,values))
+					// dispatch(FacitilityActionPutData(values));
+			
 
 		} catch (error) {
 			console.error("Form submission failed", error);
@@ -303,6 +334,8 @@ const FacilityDisplayPage = () => {
 	// this log shows eror why ? console.log(selectedFacility.id,"valuesiddddd");
 	console.log(selectedFacility && selectedFacility.id, "showvaluessssss");
 
+	
+
 	// delete get api dispatch
 	useEffect(() => {
 		dispatch(FacitilityActionGetDeleteData(centerId));
@@ -310,6 +343,8 @@ const FacilityDisplayPage = () => {
 
 	// update modal to show values in the form
 
+    //  formik.setValues(values: object, shouldValidate?: boolean)
+	// syntax: input tag initial values (title vs name like data.name )formik.setValues({KEY(intialvalues):value(response name for the key)})
 	useEffect(() => {
 		 formik.setValues({
 			title: dataupdateget.data?.title,
@@ -325,6 +360,15 @@ const FacilityDisplayPage = () => {
 			facilityHours: dataupdateget.data?.reservationAttribute?.facilityHours,
 			name: dataupdateget.data?.name,
 			features: dataupdateget.data?.features,
+			defaultPlayDuration:dataupdateget.data?.defaultPlayDuration,
+			sku:dataupdateget.data?.sku,
+			createdAt:dataupdateget.data?.sku,
+			createdBy:dataupdateget.data?.createdBy,
+			description:dataupdateget.data?.description,
+			createdAt:dataupdateget.data?.createdAt,
+			workingPlans:dataupdateget.data?.workingPlans,
+
+
 		});
 		// formik.setFieldValue("title",dataupdateget.data?.title)
 		console.log("test",dataupdateget);
@@ -333,6 +377,7 @@ const FacilityDisplayPage = () => {
 	console.log(formik?.values, "formik  update modal  values");
 
 	console.log(selectedFacility, "================================");
+	console.log(formik.errors,"errorrssss");
 
 	return (
 		<div>
@@ -350,11 +395,14 @@ const FacilityDisplayPage = () => {
 									Object.entries(data).map(([facilityType, facilities]) => (
 										<div className="card-body">
 											<div className="row  d-flex">
+												
+												{console.log(data,facilities,facilityType)}
+
 												<div className="col flex-grow-0 pe-1 text-nowrap ms-2 me-1">
 													<h5 className="fw-bold">{facilityType}</h5>
 												</div>
 												<div className="col line flex-grow-1"></div>
-												<div className="col flex-grow-0 px-1 cursor-pointer" onClick={() => navigate("/facilities")}>
+												<div className="col flex-grow-0 px-1 cursor-pointer" onClick={() =>openEditModal(true)}>
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
 														width="13"
@@ -370,7 +418,7 @@ const FacilityDisplayPage = () => {
 													</svg>
 												</div>
 												<div className="col flex-grow-0 p-0 me-1 cursor-pointer">
-													<small className=" d-flex text-primary pointer" onClick={() => navigate("/facilities")}>
+													<small className=" d-flex text-primary pointer"   onClick={() =>openEditModal(true)}>
 														Add
 													</small>
 												</div>
@@ -409,7 +457,8 @@ const FacilityDisplayPage = () => {
 														<div className="col-xl-6 col-lg-6 col-md-5 ps-1">{facility.features.join(",")}</div>
 
 														<div className="col-xl-2 col-lg-3 col-md-2 ps-4">
-															<span className="d-inline-block" onClick={() => openEditModal(facility)}>
+															<span className="d-inline-block" onClick={() => {openEditModal(true);dispatch(CourtGetAction(facility.id))}}>
+															
 																<FaRegEdit className="editicons-fdp" />
 															</span>
 															<label className="vl">&nbsp;|</label>&nbsp;
@@ -439,7 +488,7 @@ const FacilityDisplayPage = () => {
 							{/* all 5 icon modal coding is down  */}
 							{/* 1st edit modal opening up here  */}
 							{/* Edit Facility Modal */}
-
+{/* ============================================================================================= */}
 							<Modal show={showEditModal} onHide={closeEditModal}>
 								<Modal.Header closeButton>
 									<Modal.Title className="fs-6">Court Detail</Modal.Title>
@@ -454,7 +503,14 @@ const FacilityDisplayPage = () => {
 													</h6>
 													<hr className="mt-1"></hr>
 													<div className="row">
-														<div className="col-sm-5">{selectedFacility.name}</div>
+														<div className="col-sm-5">
+
+															{courtget?.data?.sport?.title}
+
+
+															{/* {selectedFacility.name} {selectedFacility.id} */}
+															
+															</div>
 														<div className="col-sm-7">
 															<div classname="form-check">
 																<input className=" form-check-input" type="checkbox" id="flexCheckDefault" value />
@@ -470,12 +526,23 @@ const FacilityDisplayPage = () => {
 														Timings
 													</h6>
 													<hr className="mt-1" style={{ marginRight: "-28px" }}></hr>
+
 													<div className="row">
 														<div className="col-12">
-															<span className="text-capitalize">{selectedFacility.selectedWeekdays}</span>
-															{selectedFacility.facilityHours}
+														{courtget?.data?.facilityHours?.map((hour, index) => (
+															<span  key={index} className="text-capitalize fw-bold">
+															{hour.weekday}: {moment(hour.startTime,'HH:mm').format('h:mm A')} - {moment(hour.endTime,'HH:mm').format('h:mm A')}
+																</span>
+																))}
+															{/* {facilityHours && `${facilityHours.startTime} - ${facilityHours.endTime}`}
+															{courtget?.data?.facilityHours?.startTime}-{courtget?.data?.facilityHours?.endTime}
+                                                             */}
+
 														</div>
 													</div>
+
+
+
 												</div>
 											</div>
 											<div className="row mt-4">
@@ -491,16 +558,29 @@ const FacilityDisplayPage = () => {
 													<div className="d-flex justify-content-between">
 														<div className="">
 															<div className="fontadjustmentstwo text-muted">Players allowed</div>
-															<p className="fontadjustments">{selectedFacility.playerAllowedMin} {selectedFacility.playerAllowedMax}</p>
+															<p className="fontadjustments fw-bold">
+															{courtget?.data?.reservationAttribute?.playerAllowedMin}-
+															{courtget?.data?.reservationAttribute?.playerAllowedMax}
+
+																</p>
 														</div>
 
 														<div className="">
 															<div className="fontadjustmentstwo text-muted">Duration allowed</div>
-															<p className="fontadjustments">{selectedFacility.durationAllowedMin} {selectedFacility.durationAllowedMax}   </p>
+															<p className="fontadjustments fw-bold">
+															{courtget?.data?.reservationAttribute?.durationAllowedMin}-
+															{courtget?.data?.reservationAttribute?.durationAllowedMax}
+
+																  </p>
 														</div>
 														<div className="">
 															<div className="fontadjustmentstwo text-muted">Advanced booking window</div>
-															<p className="fontadjustments">{selectedFacility.advanceBookingMin} {selectedFacility.advanceBookingMin}</p>
+															<p className="fontadjustments fw-bold">
+																
+															{courtget?.data?.reservationAttribute?.advanceBookingMin}-
+															{courtget?.data?.reservationAttribute?.advanceBookingMax}
+																
+																</p>
 														</div>
 													</div>
 												</div>
@@ -524,6 +604,9 @@ const FacilityDisplayPage = () => {
 									</Button>
 								</Modal.Footer>
 							</Modal>
+{/* ======================================================================= */}
+
+
 							{/* when the edit button is clicked  this edit modal opens up to update the data */}
 
 
@@ -682,6 +765,9 @@ const FacilityDisplayPage = () => {
 															</div>
 														</div>
 
+
+														
+
 														<div className="row mt-3">
 															<div className="col-sm-12">
 																<label className="text-muted-50 col-12 labelname  fw-bold mb-0">Reservation attributes</label>
@@ -788,7 +874,7 @@ const FacilityDisplayPage = () => {
 																	type="number"
 																	className="form-control form-control"
 																	onChange={formik.handleChange}
-																	value={formik.values?.selectedFacility?.advanceBookingMax}
+																	value={formik.values?.advanceBookingMax}
 																/>
 																{formik.errors?.advanceBookingMax?.length && (
 																	<p className="error-text">{formik.errors?.advanceBookingMax}</p>
@@ -816,18 +902,16 @@ const FacilityDisplayPage = () => {
 																	type="text"
 																	className="form-control"
 																	value={facilityFeatures}
-																	// onChange={(e) => {
-																	// 	setFacilityFeatures(e.target.value);
-																	// }}
 																/>
 															</div>
 															<div className="col-sm-2" style={{ opacity: "0.5", cursor: "pointer" }}>
 																<div
 																	className=" d-flex align-items-center gap-0"
-																	onClick={() => {
-																		setAddFeatures([...addFeatures, { value: facilityFeatures }]);
-																		console.log("add clickkkk");
-																	}}
+																	// onClick={() => {
+																	// 	setAddFeatures([...addFeatures, { value: facilityFeatures }]);
+																	// 	console.log("add clickkkk");
+																	// }}
+
 																>
 																	<svg
 																		xmlns="http://www.w3.org/2000/svg"
@@ -869,15 +953,21 @@ const FacilityDisplayPage = () => {
 														type="submit"
 														className=" btn-sm float-right me-3  align-self-center  btn btn-danger "
 														style={{ backgroundColor: "red", color: "white" }}
-														onClick={() => dispatch(FacitilityActionPutData(selectedFacility?.id))}
-													>
-														Update
-													</button>
+													  onClick={()=>dispatch(FacitilityActionPutData(dataupdateget.data?.id,formik?.values))}
+														>
+															Update
+													</button>				
 
+													 {/* understand the changes done here in values,data why??? */}
+			
+{/* here we are sending this dispatch action data to  action  and telling what value should be sent remember here .....*/}
 													<button
 														type="button"
 														className="btn btn-link modaltwocancelbutton "
-														onClick={() => navigate("/facilitiesdisplaypage")}
+														onClick={() => {
+															setShowEditModal(true);
+															setShowUpdateModal(false);
+														}}
 													>
 														Cancel
 													</button>
@@ -887,6 +977,10 @@ const FacilityDisplayPage = () => {
 									</div>
 								</Modal>
 							</div>
+
+
+
+
 							{/* copy modal  */}
 							<Modal show={showCopyModal} onHide={closeCopyModal}>
 								<Modal.Header closeButton>

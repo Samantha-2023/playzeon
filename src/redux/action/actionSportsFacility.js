@@ -44,7 +44,8 @@ export const FacitilityActionPostData = (values) => async (dispatch) => {
 
 
 // put  api  sports facility for update ie; edit icon put api 
-export const FacitilityActionPutData = (values) => async (dispatch) => {
+// understand the changes done here in values,data why???
+export const FacitilityActionPutData = (values,data) => async (dispatch) => {
 	await dispatch({
 		type: FETCH_SPORTS_PUT_FACILITY.REQUEST,
 		payload: { loading: true },
@@ -53,10 +54,10 @@ export const FacitilityActionPutData = (values) => async (dispatch) => {
 	const options = {
 		method: "PUT",
 		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}` , "ngrok-skip-browser-warning": 53 },
-		data: values,
-		url: `${API_URL}/api/v1/facilities/${values?.id}`,
+		 data: data,
+		url: `${API_URL}/api/v1/facilities/${values}`,
 	};
-	console.log(values, "sports edit-data-pleasecome");
+	console.log(data, "sports editvs update-data-pleasecome");
 
 	try {
 		const { data } = await axios(options);

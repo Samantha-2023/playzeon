@@ -14,6 +14,8 @@ import Layout from "./components/layout";
 import Organisation from "./pages/organisation";
 import Facilities from "./pages/facilities";
 import FacilityDisplayPage from "./pages/facilityDisplayPage";
+import Refunds from "./pages/refunds";
+import Past from "./pages/past";
 
 export default function App() {
   return (
@@ -38,6 +40,11 @@ export default function App() {
        <Route path="/facilitiesdisplaypage"  element={<>    <NavBar/> < FacilityDisplayPage/> </> }  >
        </Route>  
 
+       <Route path="/refunds"  element={<>    <NavBar/> < Refunds/> </> }  >
+       </Route> 
+
+       <Route path="/refunds_past"  element={<>    <NavBar/> <Past/> </> }  >
+       </Route> 
 
         </Routes>
      </BrowserRouter>  

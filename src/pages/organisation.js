@@ -166,8 +166,14 @@ const Organisation = () => {
 
 	// console.log(data,"findout");
 
+
+
+
 	// changes  done here
 	useEffect(() => {
+		if (dataacc?.orgId) {
+			localStorage.setItem("orgId", dataacc.orgId);
+		  }
 		dispatch(OrganizationAction(dataacc.orgId));
 	}, [dataacc?.orgId]);
 

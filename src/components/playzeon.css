@@ -369,6 +369,9 @@ font-family:PT Sans,sans-serif;
 font-size: 89% ;
 }
 
+/* .browse{
+  display:none;
+} */
 
 /* Style the DatePicker day outside the current month */
 .react-datepicker__day--outside-month {
@@ -448,3 +451,38 @@ color:red;
 .sidebarlink:active{
   color: red; 
 }  */
+
+/*************************************** refunds css******************************************** */
+.nav-link{
+  cursor: pointer;
+  color: #212529;
+}
+.activecolor{
+ color:white;
+ background-color: black;
+}
+
+.nav-pills-link-active{
+  background-color: #212529;
+  color: #bfbfbf;
+}
+.tableheadrow{
+  font-size:11px;
+  height:20px;
+  font-weight:normal;
+}
+.tablehead{
+  font-weight:normal
+}
+/* .custom-modal{
+  background-color:#edeefo;
+} */
+
+.form-control{
+font-weight: 400;
+font-size: small;
+}
+.activeColor {
+  color: white;
+  background-color: black;
+}
