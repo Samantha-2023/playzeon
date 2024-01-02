@@ -41,7 +41,10 @@ export const fetchLogin =
 			});
 		} catch (error) {
 			console.error("An error occured during login:", error);
-			const errorMessage = error.response?.data.message; // 'An error occurred during login';
+
+			const errorMessage = error.response?.data?.message; // 'An error occurred during login';
+
+
 			Swal.fire({
 				icon: "error",
 				title: "Login Failed",

@@ -4,6 +4,7 @@ import {API_URL  } from "../../constantsUrl/constantsUrl.js";
 
 // import {Constants }  from "../constants/constants.js";
 
+
 export const RefundsFilterAction = (values) => async (dispatch) => {
 	console.log(values, "action");
 		await dispatch({
@@ -11,12 +12,21 @@ export const RefundsFilterAction = (values) => async (dispatch) => {
 		payload: { loading: true },
 	});
 
+	// Accessing ID from local storage
+
+// const centerId = localStorage.getItem("centerId");
+const centerId = localStorage.getItem("centerIddd");
+
+
+
+  // Clearing the stored user ID from local storage
+//localStorage.removeItem('userId');
 	try {
 		const options = {
 			method: "GET",
 			headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
 			// url: `${API_URL}/api/v1/facility/${values}`,
-            url:`${API_URL}//api/v1/refunds?ascending=true&pageNo=0&pageSize=10&sortByReservationDate=true&refundStatus.greaterThan=0&centerId.equals=${values}`,
+            url:`${API_URL}/api/v1/refunds?ascending=true&pageNo=0&pageSize=10&sortByReservationDate=true&refundStatus.greaterThan=0&centerId.equals=${centerId}`,
 		};
 
         // facility id should pass above url 

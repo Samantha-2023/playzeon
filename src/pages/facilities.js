@@ -186,6 +186,8 @@ const Facilities = () => {
 		setShowModal(false); // Close the modal after adding
 		setShowAddSportsModal(true); // Show the second modal
 	};
+
+	
 	const handleDayChange = (day) => {
 		if (selectedWeekdays.includes(day.fullName)) {
 			setSelectedWeekdays(selectedWeekdays.filter((selectedDay) => selectedDay !== day.fullName));
@@ -258,7 +260,7 @@ const Facilities = () => {
 															<img
 																src={addplus}
 																alt="logo"
-																className="  addplus"
+																className="addplus"
 																// onClick={() => navigate("")}
 															/>
 														</div>
@@ -274,6 +276,7 @@ const Facilities = () => {
 					</Container>
 				</div>
 			</div>
+	{/* sports photo  modal pop up */}
 			<Modal show={showModal} onHide={() => setShowModal(false)}>
 				<div style={{ backgroundColor: "#edeef0" }}>
 					<Modal.Header closeButton>
