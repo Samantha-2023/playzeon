@@ -69,7 +69,7 @@ const DashBoard = () => {
 													className="card-img-top overflow-hidden"
 													onClick={() => {
 														localStorage.setItem("centerIddd", center?.id);
-														navigate("/facilities");
+														navigate("/facilitiesdisplaypage");
 													}}
 													style={{ cursor: "pointer", backgroundColor: " rgba(0,0,0,.5)" }}
 												>
