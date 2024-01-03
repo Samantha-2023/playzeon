@@ -32,7 +32,6 @@ const FacilityDisplayPage = () => {
 
 	const dispatch = useDispatch();
 
-
 	// these use states for update modal after clicking the edit modal
 	const [startTime, setStartTime] = useState(null);
 	const [endTime, setEndTime] = useState(null);
@@ -56,11 +55,9 @@ const FacilityDisplayPage = () => {
 		{ id: 7, shortName: "Sat", fullName: "Saturday" },
 	];
 
-    // sports picture modal  state variables
+	// sports picture modal  state variables
 	const [showModal, setShowModal] = useState(false);
 	const [showAddSportsModal, setShowAddSportsModal] = useState(false); // Adding another  state for the second modal to open
-
-
 
 	// state variables for modal 1- edit
 	const [showEditModal, setShowEditModal] = useState(false);
@@ -74,6 +71,7 @@ const FacilityDisplayPage = () => {
 
 	// state variables for modal 3 -copy
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
+
 
 	const centerId = localStorage.getItem("centerIddd");
 
@@ -101,39 +99,32 @@ const FacilityDisplayPage = () => {
 
 	console.log(dataupdateget, "update=getmodaldata");
 
-	console.log(dataupdateput,"update==put modaldata");
-    
+	console.log(dataupdateput, "update==put modaldata");
 
-	// sports facility get the picture and post the data seselector 
-
+	// sports facility get the picture and post the data seselector
 
 	const dataphoto = useSelector((state) => state.sportsPhotosGetData?.sportsphotos);
 	//sportsPhotosGetData is from the reducer== index.js// sportsphotos is the initial values set in reducer//
-
 
 	const datafacility = useSelector((state) => state.sportsFacilityData?.sportsfacilityputdata?.data);
 	// sportsFacilityData is from the reducer== index.js// sportsfacilityputdata is the initial values set in reducer
 
 	const datapostfacility = useSelector((state) => state.sportsFacilityPostdata?.sportsfacilitypostdata);
 
-
 	// about court detail getting information
 
-	const courtget =useSelector((state)=>state.courtGetData.courtgetdisplay);
-	console.log(courtget,"courtdetailgetdatas....");
+	const courtget = useSelector((state) => state.courtGetData.courtgetdisplay);
+	console.log(courtget, "courtdetailgetdatas....");
 
-	
-	 localStorage.setItem("facilityid", selectedFacility?.id);
+	localStorage.setItem("facilityid", selectedFacility?.id);
 
-    // Retrieve the value from local storage
-     const facilityid = localStorage.getItem("facilityid");
+	// Retrieve the value from local storage
+	const facilityid = localStorage.getItem("facilityid");
 
-     console.log(facilityid);
-	 console.log(selectedFacility && selectedFacility.id);
+	console.log(facilityid);
+	console.log(selectedFacility && selectedFacility.id);
 
-
-
-	//  sports picture modal  functionality 
+	//  sports picture modal  functionality
 
 	const handleAddFacility = (facilityId) => {
 		// Handle logic for adding a facility
@@ -141,10 +132,6 @@ const FacilityDisplayPage = () => {
 		setShowModal(false); // Close the modal after adding
 		setShowAddSportsModal(true); // Show the second modal
 	};
-
-
-
-
 
 	// edit modal function
 	const openEditModal = (facility) => {
@@ -289,24 +276,21 @@ const FacilityDisplayPage = () => {
 		values.reservationAttribute.durationAllowedMax = values.durationAllowedMax;
 		values.reservationAttribute.playerAllowedMin = values.playerAllowedMin;
 		values.reservationAttribute.playerAllowedMax = values.playerAllowedMax;
-		values.facilityMetas=values.addFeatures;//check only addFeatures before 
-		values.defaultPlayDuration=values.defaultPlayDuration;
-		values.sku=values.sku;
-		values.description=values.description;
-		values.createdAt=values.createdAt;
-		values.createdBy=values.createdBy;
-		values.updatedAt=values.updatedAt;
-		values.updatedBy=values.updatedBy;
+		values.facilityMetas = values.addFeatures; //check only addFeatures before
+		values.defaultPlayDuration = values.defaultPlayDuration;
+		values.sku = values.sku;
+		values.description = values.description;
+		values.createdAt = values.createdAt;
+		values.createdBy = values.createdBy;
+		values.updatedAt = values.updatedAt;
+		values.updatedBy = values.updatedBy;
 		try {
-			
-				console.log(values, "values3");
-				console.log(addFeatures, "addFeatures");
-		
-					dispatch(FacitilityActionEditGetData(values));
-					// dispatch(FacitilityActionPutData(dataupdateget.data?.id,values))
-					// dispatch(FacitilityActionPutData(values));
-			
+			console.log(values, "values3");
+			console.log(addFeatures, "addFeatures");
 
+			dispatch(FacitilityActionEditGetData(values));
+			// dispatch(FacitilityActionPutData(dataupdateget.data?.id,values))
+			// dispatch(FacitilityActionPutData(values));
 		} catch (error) {
 			console.error("Form submission failed", error);
 		}
@@ -367,8 +351,6 @@ const FacilityDisplayPage = () => {
 	// this log shows eror why ? console.log(selectedFacility.id,"valuesiddddd");
 	console.log(selectedFacility && selectedFacility.id, "showvaluessssss");
 
-	
-
 	// delete get api dispatch
 	useEffect(() => {
 		dispatch(FacitilityActionGetDeleteData(centerId));
@@ -376,10 +358,10 @@ const FacilityDisplayPage = () => {
 
 	// update modal to show values in the form
 
-    //  formik.setValues(values: object, shouldValidate?: boolean)
+	//  formik.setValues(values: object, shouldValidate?: boolean)
 	// syntax: input tag initial values (title vs name like data.name )formik.setValues({KEY(intialvalues):value(response name for the key)})
 	useEffect(() => {
-		 formik.setValues({
+		formik.setValues({
 			title: dataupdateget.data?.title,
 			id: dataupdateget.data?.id,
 			reservationAttribute: dataupdateget.data?.reservationAttribute,
@@ -393,25 +375,22 @@ const FacilityDisplayPage = () => {
 			facilityHours: dataupdateget.data?.reservationAttribute?.facilityHours,
 			name: dataupdateget.data?.name,
 			features: dataupdateget.data?.features,
-			defaultPlayDuration:dataupdateget.data?.defaultPlayDuration,
-			sku:dataupdateget.data?.sku,
-			createdAt:dataupdateget.data?.sku,
-			createdBy:dataupdateget.data?.createdBy,
-			description:dataupdateget.data?.description,
-			createdAt:dataupdateget.data?.createdAt,
-			workingPlans:dataupdateget.data?.workingPlans,
-
-
+			defaultPlayDuration: dataupdateget.data?.defaultPlayDuration,
+			sku: dataupdateget.data?.sku,
+			createdAt: dataupdateget.data?.sku,
+			createdBy: dataupdateget.data?.createdBy,
+			description: dataupdateget.data?.description,
+			createdAt: dataupdateget.data?.createdAt,
+			workingPlans: dataupdateget.data?.workingPlans,
 		});
 		// formik.setFieldValue("title",dataupdateget.data?.title)
-		console.log("test",dataupdateget);
+		console.log("testttttttttttttttttttt", dataupdateget);
 	}, [dataupdateget]);
 
 	console.log(formik?.values, "formik  update modal  values");
 
 	console.log(selectedFacility, "================================");
-	console.log(formik.errors,"errorrssss");
-
+	console.log(formik.errors, "errorrssss");
 
 	useEffect(() => {
 		if (showModal) {
@@ -435,19 +414,16 @@ const FacilityDisplayPage = () => {
 									Object.entries(data).map(([facilityType, facilities]) => (
 										<div className="card-body">
 											<div className="row  d-flex">
-												
-												{console.log(data,facilities,facilityType)}
+												{console.log(data, facilities, facilityType)}
 
 												<div className="col flex-grow-0 pe-1 text-nowrap ms-2 me-1">
 													<h5 className="fw-bold">{facilityType}</h5>
 												</div>
 												<div className="col line flex-grow-1"></div>
-												<div className="col flex-grow-0 px-1 cursor-pointer"
-												//  onClick={() => openEditModal(true)}
-												 onClick={() => setShowModal(true)}
-												
-												
-												
+												<div
+													className="col flex-grow-0 px-1 cursor-pointer"
+													//  onClick={() => openEditModal(true)}
+													onClick={() => setShowModal(true)}
 												>
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
@@ -464,13 +440,11 @@ const FacilityDisplayPage = () => {
 													</svg>
 												</div>
 												<div className="col flex-grow-0 p-0 me-1 cursor-pointer">
-													<small className=" d-flex text-primary pointer"
-													//    onClick={() =>openEditModal(true)}
-													   onClick={() => setShowModal(true)}
-													   
-													   
-													   
-													   >
+													<small
+														className=" d-flex text-primary pointer"
+														//    onClick={() =>openEditModal(true)}
+														onClick={() => setShowModal(true)}
+													>
 														Add
 													</small>
 												</div>
@@ -509,8 +483,13 @@ const FacilityDisplayPage = () => {
 														<div className="col-xl-6 col-lg-6 col-md-5 ps-1">{facility.features.join(",")}</div>
 
 														<div className="col-xl-2 col-lg-3 col-md-2 ps-4">
-															<span className="d-inline-block" onClick={() => {openEditModal(true);dispatch(CourtGetAction(facility.id))}}>
-															
+															<span
+																className="d-inline-block"
+																onClick={() => {
+																	openEditModal(facility);
+																	dispatch(CourtGetAction(facility.id));
+																}}
+															>
 																<FaRegEdit className="editicons-fdp" />
 															</span>
 															<label className="vl">&nbsp;|</label>&nbsp;
@@ -538,417 +517,70 @@ const FacilityDisplayPage = () => {
 							</div>
 							{/* this is card closing div */}
 							{/* all 6 icon modal coding is down  */}
-{/* modal for sports pictures to pop up */}
+							{/* modal for sports pictures to pop up */}
 							<Modal show={showModal} onHide={() => setShowModal(false)}>
-				<div style={{ backgroundColor: "#edeef0" }}>
-					<Modal.Header closeButton>
-						<Modal.Title className="modelonetitle">Add {formik.values.facility?.title} </Modal.Title>
-					</Modal.Header>
-					<Modal.Body className="text-center">
-						<div className="row ">
-							{dataphoto?.data?.map((facility, index) => (
-								<div className="col-3  d-flex justify-content-between gap-3 mb-2 ">
-									<div
-										key={facility.id}
-										className="card  rounded pointer text-black border "
-										style={{ borderColor: "GrayText", cursor: "pointer" }}
-										onClick={() => handleAddFacility(facility?.sport?.id)}
-									>
-										<div
-											className="card-body"
-											style={{ backgroundColor: "white" }}
-											// onClick={() => {
-											// 	// setShowModal(false); // Close the first modal
-											// 	 setShowAddSportsModal(true); // Open the second modal
-											// }}
-										>
-											<div className="d-flex flex-column align-items-center">
-												{/* image style div is below */}
-												<div
-													style={{
-														width: "40px",
-														height: "40px",
-														borderRadius: "50%",
-														overflow: "hidden",
-														marginBottom: "2px",
-													}}
-												>
-													<img
-														src={facility.url}
-														alt={facility.title}
-														style={{ width: "100%", height: "100%", objectFit: "cover" }}
-													/>
-												</div>
-												<div className="text-center mt-0" style={{ fontSize: "10px", fontWeight: "bold", fontFamily: "sans-serif" }}>
-													{facility.title}
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							))}
-						</div>
-					</Modal.Body>
-					<Modal.Footer></Modal.Footer>
-				</div>
-			</Modal>
-
-			{/* modal for sports picture add form  */}
-
-			{/* add sports form modal is below  */}
-
-			<div className="modal-customwidth">
-				<Modal size="lg" show={showAddSportsModal} onHide={() => setShowAddSportsModal(false)} style={{ overflow: "auto" }}>
-					<div style={{ backgroundColor: "#edeef0" }}>
-						<form onSubmit={formik.handleSubmit}>
-							<Modal.Header closeButton>
-								<Modal.Title className="modeltwotitle"> Add{formik.values.facility?.title} </Modal.Title>
-							</Modal.Header>
-							<Modal.Body>
-								<div className="bg-lightgrey">
-									<div className="row">
-										<div className="col-sm-12">
-											<label className="text-muted-50 col-12  labelname fw-bold mb-0">Name</label>
-											<hr className="pt-0  mt-2" />
-										</div>
-									</div>
-
-									<div className="row">
-										<div className="col-6">
-											<input
-												maxLength={50}
-												className="form-control"
-												id="input_addfacilityname"
-												aria-describedby="name"
-												name="title"
-												type="text"
-												onChange={formik.handleChange}
-												value={formik.values?.title}
-											/>
-										</div>
-										{formik.touched.title && formik.errors?.title?.length && <p className="error-text">{formik.errors?.title}</p>}
-
-										<div className="col-6">
-											<input className="form-check-input " type="checkbox" value="checkbox" />
-											&nbsp;
-											<label className="form-check-label labelname ">Open to Athlitik users</label>
-										</div>
-									</div>
-
-									<div className="row mt-3">
-										<div className="col-sm-12">
-											<label className="text-muted-50 col-12 labelname  fw-bold mb-0">Timings</label>
-											<hr className="pt-0  mt-2" />
-										</div>
-									</div>
-
-									<div className="row d-flex flex-column  ">
-										<div className="col-sm-12  d-flex column-gap-3">
-											{daysOfWeek.map((day) => (
-												<div key={day.id} className="form-check form-check-inline  labelweek mt-2 me-2">
-													<input
-														className="form-check-input"
-														type="checkbox"
-														id={`day-${day.id}`}
-														value={day.fullName}
-														checked={chooseDays.includes(day.shortName)}
-														onChange={() => handleDayChange(day)}
-													/>
-													<label className="form-check-label" htmlFor={`day-${day.shortName}`}>
-														{day.shortName}
-													</label>
+								<div style={{ backgroundColor: "#edeef0" }}>
+									<Modal.Header closeButton>
+										<Modal.Title className="modelonetitle">Add {formik.values.facility?.title} </Modal.Title>
+									</Modal.Header>
+									<Modal.Body className="text-center">
+										<div className="row ">
+											{dataphoto?.data?.map((facility, index) => (
+												<div className="col-3  d-flex justify-content-between gap-3 mb-2 ">
+													<div
+														key={facility.id}
+														className="card  rounded pointer text-black border "
+														style={{ borderColor: "GrayText", cursor: "pointer" }}
+														onClick={() => handleAddFacility(facility?.sport?.id)}
+													>
+														<div
+															className="card-body"
+															style={{ backgroundColor: "white" }}
+															// onClick={() => {
+															// 	// setShowModal(false); // Close the first modal
+															// 	 setShowAddSportsModal(true); // Open the second modal
+															// }}
+														>
+															<div className="d-flex flex-column align-items-center">
+																{/* image style div is below */}
+																<div
+																	style={{
+																		width: "40px",
+																		height: "40px",
+																		borderRadius: "50%",
+																		overflow: "hidden",
+																		marginBottom: "2px",
+																	}}
+																>
+																	<img
+																		src={facility.url}
+																		alt={facility.title}
+																		style={{ width: "100%", height: "100%", objectFit: "cover" }}
+																	/>
+																</div>
+																<div
+																	className="text-center mt-0"
+																	style={{ fontSize: "10px", fontWeight: "bold", fontFamily: "sans-serif" }}
+																>
+																	{facility.title}
+																</div>
+															</div>
+														</div>
+													</div>
 												</div>
 											))}
-
-											<div className="">
-												<DatePicker
-													className="form-control ps-1 cursor-pointer datepicker-size"
-													popperPlacement="bottom"
-													selected={startTime}
-													onChange={(time) => setStartTime(time)}
-													showTimeSelect
-													showTimeSelectOnly
-													timeFormat="h:mm aa"
-													timeIntervals={30}
-													timeCaption="Time"
-													dateFormat="h:mm aa"
-													placeholderText="Start time"
-												/>
-											</div>
-
-											<div className="">
-												<DatePicker
-													className="form-control ps-1 cursor-pointer datepicker-size "
-													popperPlacement="bottom"
-													selected={endTime}
-													onChange={(time) => setEndTime(time)}
-													showTimeSelect
-													showTimeSelectOnly
-													timeFormat="h:mm aa"
-													timeIntervals={30}
-													timeCaption="Time"
-													dateFormat="h:mm aa"
-													placeholderText="End time"
-												/>
-											</div>
-											<div className="d-flex align-items-center gap-0">
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													width="13"
-													height="13"
-													fill="currentColor"
-													class="bi bi-plus-circle-fill"
-													viewBox="0 0 16 16"
-												>
-													<path
-														d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
-														style={{ backgroundColor: "#2d77d2", color: "#2d77d2" }}
-													/>
-												</svg>
-												<small className=" d-flex text-primary  modeltwoadd" onClick={handleAddButtonClick}>
-													Add
-												</small>
-											</div>
 										</div>
-									</div>
-
-									{/* selected time and days displaying code  */}
-
-									<div className="row d-flex flex-column">
-										<div className="col-sm-12 displaytimefacilityform">
-											{selectedDaysAndTimes.length > 0 && (
-												<div>
-													{/* <h5>Selected Days and Times:</h5> */}
-													<ul>
-														{selectedDaysAndTimes.map((selectedDayAndTime, index) => (
-															<li key={index}>
-																{`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime.toLocaleTimeString([], {
-																	hour: "2-digit",
-																	minute: "2-digit",
-																})} - ${selectedDayAndTime.endTime.toLocaleTimeString([], {
-																	hour: "2-digit",
-																	minute: "2-digit",
-																})}`}
-																{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime} - ${selectedDayAndTime.endTime}`} */}
-															</li>
-														))}
-													</ul>
-												</div>
-											)}
-										</div>
-									</div>
-
-									<div className="row mt-3">
-										<div className="col-sm-12">
-											<label className="text-muted-50 col-12 labelname  fw-bold mb-0">Reservation attributes</label>
-											<hr className="pt-0  mt-2" />
-										</div>
-									</div>
-
-									<div className="row">
-										<div className="col-sm-4 align-self-center">
-											<label className="text-muted reservationlabelname">Players allowed</label>
-										</div>
-										<div className="col-sm-3 mb-1">
-											<input
-												placeholder="Min"
-												maxLength={10}
-												name="playerAllowedMin"
-												className="form-control form-control"
-												type="number"
-												onChange={formik.handleChange}
-												value={formik.values?.playerAllowedMin}
-											/>
-											{formik.errors?.playerAllowedMin?.length && <p className="error-text">{formik.errors?.playerAllowedMin}</p>}
-										</div>
-
-										<div className="col-sm-3">
-											<input
-												placeholder="Max"
-												maxLength={10}
-												name="playerAllowedMax"
-												type="number"
-												className="form-control form-control"
-												onChange={formik.handleChange}
-												value={formik.values?.playerAllowedMax}
-											/>
-											{formik.errors?.playerAllowedMax?.length && <p className="error-text">{formik.errors?.playerAllowedMax}</p>}
-										</div>
-
-										<div className="col-sm-2"></div>
-									</div>
-
-									<div className="row">
-										<div className="col-sm-4 align-self-center">
-											<label className="text-muted reservationlabelname">Duration allowed(hours)</label>
-										</div>
-										<div className="col-sm-3 mb-1">
-											<input
-												placeholder="Min"
-												maxLength={10}
-												name="durationAllowedMin"
-												className="form-control form-control"
-												type="number"
-												onChange={formik.handleChange}
-												value={formik.values?.durationAllowedMin}
-											/>
-											{formik.errors?.durationAllowedMin?.length && <p className="error-text">{formik.errors?.durationAllowedMin}</p>}
-										</div>
-										<div className="col-sm-3">
-											<input
-												placeholder="Max"
-												maxLength={10}
-												name="durationAllowedMax"
-												type="number"
-												className="form-control form-control"
-												onChange={formik.handleChange}
-												value={formik.values?.durationAllowedMax}
-											/>
-
-											{formik.errors?.durationAllowedMax?.length && <p className="error-text">{formik.errors?.durationAllowedMax}</p>}
-										</div>
-										<div className="col-sm-2"></div>
-									</div>
-
-									<div className="row">
-										<div className="col-sm-4 align-self-center">
-											<label className="text-muted reservationlabelname">Advance booking window(hours)</label>
-										</div>
-										<div className="col-sm-3">
-											<input
-												placeholder="Min"
-												maxLength={10}
-												name="advanceBookingMin"
-												type="number"
-												className="form-control form-control"
-												onChange={formik.handleChange}
-												value={formik.values?.advanceBookingMin}
-											/>
-											{formik.errors?.advanceBookingMin?.length && <p className="error-text">{formik.errors?.advanceBookingMin}</p>}
-										</div>
-										<div className="col-sm-3">
-											<input
-												placeholder="Max"
-												maxLength={10}
-												name="advanceBookingMax"
-												type="number"
-												className="form-control form-control"
-												onChange={formik.handleChange}
-												value={formik.values?.advanceBookingMax}
-											/>
-											{formik.errors?.advanceBookingMax?.length && <p className="error-text">{formik.errors?.advanceBookingMax}</p>}
-										</div>
-										<div className="col-sm-2"></div>
-									</div>
-
-									<div className="row mt-3">
-										<div className="col-sm-12">
-											<label className="text-muted-50 col-12 labelname  fw-bold mb-0">Court highlights </label>
-											<hr className="pt-0  mt-2" />
-										</div>
-									</div>
-
-									<div className="row">
-										<div className="col-sm-12">
-											<label className="text-muted   reservationlabelname"> Features</label>
-										</div>
-									</div>
-									<div className="row">
-										<div className="col-6">
-											<input
-												maxLength={50}
-												type="text"
-												className="form-control"
-												value={facilityFeatures}
-												onChange={(e) => {
-													setFacilityFeatures(e.target.value);
-												}}
-											/>
-										</div>
-										<div className="col-sm-2" style={{ opacity: "0.5", cursor: "pointer" }}>
-											<div
-												className=" d-flex align-items-center gap-0"
-												onClick={() => {
-													setAddFeatures([...addFeatures, { value: facilityFeatures }]);
-													console.log("add clickkkk");
-												}}
-											>
-												<svg
-													xmlns="http://www.w3.org/2000/svg"
-													width="13"
-													height="13"
-													fill="currentColor"
-													class="bi bi-plus-circle-fill"
-													viewBox="0 0 16 16"
-												>
-													<path
-														d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
-														style={{ backgroundColor: "#2d77d2", color: "#2d77d2" }}
-													/>
-												</svg>
-												<small className=" d-flex text-primary" style={{ fontSize: "13px" }}>
-													Add
-												</small>
-											</div>
-										</div>
-									</div>
-
-									<div className="row">
-										<div className="col-sm-12">
-											<label className="text-muted  reservationlabelname">Images</label>
-										</div>
-									</div>
-									<div className="row">
-										<div className="w-100">
-											<img src={addimage} className="addimage p-3 mt-2" alt="addimage" />
-											<input type="file" accept="image/png, image/gif, image/jpeg" className="hide_file d-none" />
-										</div>
-									</div>
+									</Modal.Body>
+									<Modal.Footer></Modal.Footer>
 								</div>
-							</Modal.Body>
-							<Modal.Footer>
-								<div className="justify-content end" style={{ fontSize: "80%" }}>
-									<button
-										type="submit"
-										className=" btn-sm float-right me-3  align-self-center  btn btn-danger "
-										style={{ backgroundColor: "red", color: "white" }}
-									>
-										Save
-									</button>
+							</Modal>
 
-									<button type="button" className="btn btn-link modaltwocancelbutton " onClick={() => navigate("/dashboard")}>
-										Cancel
-									</button>
-									{/* <Link
-										type="button"
-										className="btn btn-link float-right  border-0 me-3  align-self-center btn btn-danger modaltwocancelbutton "
-										onClick={() => navigate("/facilities")}
-									>
-										Cancel
-										</Link>  */}
-								</div>
-							</Modal.Footer>
-						</form>
-					</div>
-				</Modal>
-			</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+							{/* modal for sports picture add form //  add sports form modal is below */}
+							{/* coming... form  */}
 
 							{/* 1st edit modal opening up here  */}
 							{/* Edit Facility Modal */}
-{/* ============================================================================================= */}
+							{/* ============================================================================================= */}
 							<Modal show={showEditModal} onHide={closeEditModal}>
 								<Modal.Header closeButton>
 									<Modal.Title className="fs-6">Court Detail</Modal.Title>
@@ -964,13 +596,10 @@ const FacilityDisplayPage = () => {
 													<hr className="mt-1"></hr>
 													<div className="row">
 														<div className="col-sm-5">
-
 															{courtget?.data?.sport?.title}
 
-
 															{/* {selectedFacility.name} {selectedFacility.id} */}
-															
-															</div>
+														</div>
 														<div className="col-sm-7">
 															<div classname="form-check">
 																<input className=" form-check-input" type="checkbox" id="flexCheckDefault" value />
@@ -989,20 +618,15 @@ const FacilityDisplayPage = () => {
 
 													<div className="row">
 														<div className="col-12">
-														{courtget?.data?.facilityHours?.map((hour, index) => (
-															<span  key={index} className="text-capitalize fw-bold">
-															{hour.weekday}: {moment(hour.startTime,'HH:mm').format('h:mm A')} - {moment(hour.endTime,'HH:mm').format('h:mm A')}
+															{courtget?.data?.facilityHours?.map((hour, index) => (
+																<span key={index} className="text-capitalize fw-bold">
+																	{hour.weekday}: {moment(hour.startTime, "HH:mm").format("h:mm A")} -{" "}
+																	{moment(hour.endTime, "HH:mm").format("h:mm A")}
 																</span>
-																))}
-															{/* {facilityHours && `${facilityHours.startTime} - ${facilityHours.endTime}`}
-															{courtget?.data?.facilityHours?.startTime}-{courtget?.data?.facilityHours?.endTime}
-                                                             */}
-
+															))}
+															
 														</div>
 													</div>
-
-
-
 												</div>
 											</div>
 											<div className="row mt-4">
@@ -1019,28 +643,24 @@ const FacilityDisplayPage = () => {
 														<div className="">
 															<div className="fontadjustmentstwo text-muted">Players allowed</div>
 															<p className="fontadjustments fw-bold">
-															{courtget?.data?.reservationAttribute?.playerAllowedMin}-
-															{courtget?.data?.reservationAttribute?.playerAllowedMax}
-
-																</p>
+																{courtget?.data?.reservationAttribute?.playerAllowedMin}-
+																{courtget?.data?.reservationAttribute?.playerAllowedMax}
+															</p>
 														</div>
 
 														<div className="">
 															<div className="fontadjustmentstwo text-muted">Duration allowed</div>
 															<p className="fontadjustments fw-bold">
-															{courtget?.data?.reservationAttribute?.durationAllowedMin}-
-															{courtget?.data?.reservationAttribute?.durationAllowedMax}
-
-																  </p>
+																{courtget?.data?.reservationAttribute?.durationAllowedMin}-
+																{courtget?.data?.reservationAttribute?.durationAllowedMax}
+															</p>
 														</div>
 														<div className="">
 															<div className="fontadjustmentstwo text-muted">Advanced booking window</div>
 															<p className="fontadjustments fw-bold">
-																
-															{courtget?.data?.reservationAttribute?.advanceBookingMin}-
-															{courtget?.data?.reservationAttribute?.advanceBookingMax}
-																
-																</p>
+																{courtget?.data?.reservationAttribute?.advanceBookingMin}-
+																{courtget?.data?.reservationAttribute?.advanceBookingMax}
+															</p>
 														</div>
 													</div>
 												</div>
@@ -1056,7 +676,8 @@ const FacilityDisplayPage = () => {
 										variant="danger"
 										onClick={() => {
 											setShowEditModal(false);
-										    setShowUpdateModal(true);
+											console.log("selectedFacility",selectedFacility);
+											setShowUpdateModal(true);
 											dispatch(FacitilityActionEditGetData(selectedFacility?.id));
 										}}
 									>
@@ -1064,11 +685,9 @@ const FacilityDisplayPage = () => {
 									</Button>
 								</Modal.Footer>
 							</Modal>
-{/* ======================================================================= */}
-
+							{/* ======================================================================= */}
 
 							{/* when the edit button is clicked  this edit modal opens up to update the data */}
-
 
 							<div className="modal-customwidth">
 								<Modal
@@ -1081,7 +700,7 @@ const FacilityDisplayPage = () => {
 									<div style={{ backgroundColor: "#edeef0" }}>
 										<form onSubmit={formik.handleSubmit}>
 											<Modal.Header closeButton>
-												<Modal.Title className="modeltwotitle">Edit  </Modal.Title>
+												<Modal.Title className="modeltwotitle">Edit </Modal.Title>
 											</Modal.Header>
 											<Modal.Body>
 												{selectedFacility && (
@@ -1104,7 +723,6 @@ const FacilityDisplayPage = () => {
 																	type="text"
 																	onChange={formik.handleChange}
 																	value={formik.values?.title}
-																	
 																/>
 															</div>
 															{formik.touched?.title && formik.errors?.title?.length && (
@@ -1224,9 +842,6 @@ const FacilityDisplayPage = () => {
 																)}
 															</div>
 														</div>
-
-
-														
 
 														<div className="row mt-3">
 															<div className="col-sm-12">
@@ -1357,12 +972,7 @@ const FacilityDisplayPage = () => {
 														</div>
 														<div className="row">
 															<div className="col-6">
-																<input
-																	maxLength={50}
-																	type="text"
-																	className="form-control"
-																	value={facilityFeatures}
-																/>
+																<input maxLength={50} type="text" className="form-control" value={facilityFeatures} />
 															</div>
 															<div className="col-sm-2" style={{ opacity: "0.5", cursor: "pointer" }}>
 																<div
@@ -1371,7 +981,6 @@ const FacilityDisplayPage = () => {
 																	// 	setAddFeatures([...addFeatures, { value: facilityFeatures }]);
 																	// 	console.log("add clickkkk");
 																	// }}
-
 																>
 																	<svg
 																		xmlns="http://www.w3.org/2000/svg"
@@ -1413,14 +1022,14 @@ const FacilityDisplayPage = () => {
 														type="submit"
 														className=" btn-sm float-right me-3  align-self-center  btn btn-danger "
 														style={{ backgroundColor: "red", color: "white" }}
-													  onClick={()=>dispatch(FacitilityActionPutData(dataupdateget.data?.id,formik?.values))}
-														>
-															Update
-													</button>				
+														onClick={() => dispatch(FacitilityActionPutData(dataupdateget.data?.id, formik?.values))}
+													>
+														Update
+													</button>
 
-													 {/* understand the changes done here in values,data why??? */}
-			
-{/* here we are sending this dispatch action data to  action  and telling what value should be sent remember here .....*/}
+													{/* understand the changes done here in values,data why??? */}
+
+													{/* here we are sending this dispatch action data to  action  and telling what value should be sent remember here .....*/}
 													<button
 														type="button"
 														className="btn btn-link modaltwocancelbutton "
@@ -1437,9 +1046,6 @@ const FacilityDisplayPage = () => {
 									</div>
 								</Modal>
 							</div>
-
-
-
 
 							{/* copy modal  */}
 							<Modal show={showCopyModal} onHide={closeCopyModal}>

@@ -57,7 +57,7 @@ export const FacitilityActionPutData = (values,data) => async (dispatch) => {
 		 data: data,
 		url: `${API_URL}/api/v1/facilities/${values}`,
 	};
-	console.log(data, "sports editvs update-data-pleasecome");
+	console.log(data, "sports edit vs update-data-pleasecome");
 
 	try {
 		const { data } = await axios(options);
