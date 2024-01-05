@@ -26,7 +26,7 @@ const Facilities = () => {
 
 	const [chooseDays, setChooseDays] = useState([]);
 
-	// to display the features in the ui 2 use states 
+	// to display the features in the ui 2 use states
 	const [facilityFeatures, setFacilityFeatures] = useState();
 	const [addFeatures, setAddFeatures] = useState([]);
 
@@ -50,13 +50,12 @@ const Facilities = () => {
 
 	const [selectedDaysAndTimes, setSelectedDaysAndTimes] = useState([]); // Add state for selected days and times
 
-	 // For post Api
-    const [selectedFacilityId, setSelectedFacilityId] = useState(null);
+	// For post Api
+	const [selectedFacilityId, setSelectedFacilityId] = useState(null);
 	const [selectedWeekdays, setSelectedWeekdays] = useState([]); // state for dding the weekdays dynamically in the initial values
 
 	const data = useSelector((state) => state.sportsPhotosGetData?.sportsphotos);
 	//sportsPhotosGetData is from the reducer== index.js// sportsphotos is the initial values set in reducer//
-
 
 	const datafacility = useSelector((state) => state.sportsFacilityData?.sportsfacilityputdata?.data);
 	// sportsFacilityData is from the reducer== index.js// sportsfacilityputdata is the initial values set in reducer
@@ -155,17 +154,17 @@ const Facilities = () => {
 
 	const submitForm = async (values) => {
 		values.sport.id = selectedFacilityId;
-			values.facilityHours[0].startTime = startTime;
-			values.facilityHours[0].endTime = endTime;
-			values.facilityHours[0].weekday = selectedWeekdays.join(",");
-			values.reservationAttribute.advanceBookingMin = values.advanceBookingMin;
-			values.reservationAttribute.advanceBookingMax = values.advanceBookingMax;
-			values.reservationAttribute.durationAllowedMin = values.durationAllowedMin;
-			values.reservationAttribute.durationAllowedMax = values.durationAllowedMax;
-			values.reservationAttribute.playerAllowedMin = values.playerAllowedMin;
-			values.reservationAttribute.playerAllowedMax = values.playerAllowedMax;
-			values.facilityMetas = addFeatures;
-		try {			
+		values.facilityHours[0].startTime = startTime;
+		values.facilityHours[0].endTime = endTime;
+		values.facilityHours[0].weekday = selectedWeekdays.join(",");
+		values.reservationAttribute.advanceBookingMin = values.advanceBookingMin;
+		values.reservationAttribute.advanceBookingMax = values.advanceBookingMax;
+		values.reservationAttribute.durationAllowedMin = values.durationAllowedMin;
+		values.reservationAttribute.durationAllowedMax = values.durationAllowedMax;
+		values.reservationAttribute.playerAllowedMin = values.playerAllowedMin;
+		values.reservationAttribute.playerAllowedMax = values.playerAllowedMax;
+		values.facilityMetas = addFeatures;
+		try {
 			console.log(values, "values");
 			console.log(addFeatures, "addFeatures");
 			dispatch(FacitilityActionPostData(values));
@@ -187,7 +186,6 @@ const Facilities = () => {
 		setShowAddSportsModal(true); // Show the second modal
 	};
 
-	
 	const handleDayChange = (day) => {
 		if (selectedWeekdays.includes(day.fullName)) {
 			setSelectedWeekdays(selectedWeekdays.filter((selectedDay) => selectedDay !== day.fullName));
@@ -215,6 +213,48 @@ const Facilities = () => {
 			alert("Please select at least one day, start time, and end time");
 		}
 	};
+
+	 // Function to handle the deletion of selected days and times
+	 const handleDeleteSelectedDayAndTime = (index) => {
+		const updatedSelectedDaysAndTimes = [...selectedDaysAndTimes];
+		updatedSelectedDaysAndTimes.splice(index, 1);
+		setSelectedDaysAndTimes(updatedSelectedDaysAndTimes);
+	  };
+
+	  const handleDeleteFeature = (index) => {
+		const updatedFeatures = [...addFeatures];
+		updatedFeatures.splice(index, 1);
+		setAddFeatures(updatedFeatures);
+	  };
+
+    //  function to display the range of weekdays ////////////////////////////////////
+
+	const getWeekdayRange = (selectedDays) => {
+		const daysInWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+		const selectedDayIndices = selectedDays.map((day) => daysInWeek.indexOf(day));
+		const sortedIndices = selectedDayIndices.sort((a, b) => a - b);
+		const consecutiveRanges = [];
+	
+		for (let i = 0; i < sortedIndices.length; i++) {
+			let start = sortedIndices[i];
+			while (i < sortedIndices.length - 1 && sortedIndices[i] + 1 === sortedIndices[i + 1]) {
+				i++;
+			}
+			let end = sortedIndices[i];
+			const range = end > start ? `${daysInWeek[start]} - ${daysInWeek[end]}` : daysInWeek[start];
+			consecutiveRanges.push(range);
+		}
+	
+		return consecutiveRanges.join(", ");
+	};
+	
+
+
+
+
+
+	// /////////////////////
+
 
 	useEffect(() => {
 		if (showModal) {
@@ -276,7 +316,7 @@ const Facilities = () => {
 					</Container>
 				</div>
 			</div>
-	{/* sports photo  modal pop up */}
+			{/* sports photo  modal pop up */}
 			<Modal show={showModal} onHide={() => setShowModal(false)}>
 				<div style={{ backgroundColor: "#edeef0" }}>
 					<Modal.Header closeButton>
@@ -458,7 +498,8 @@ const Facilities = () => {
 													<ul>
 														{selectedDaysAndTimes.map((selectedDayAndTime, index) => (
 															<li key={index}>
-																{`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime.toLocaleTimeString([], {
+															{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime.toLocaleTimeString([], { */}
+																 {`${getWeekdayRange(selectedDayAndTime.days)}: ${selectedDayAndTime.startTime.toLocaleTimeString([], {
 																	hour: "2-digit",
 																	minute: "2-digit",
 																})} - ${selectedDayAndTime.endTime.toLocaleTimeString([], {
@@ -466,6 +507,13 @@ const Facilities = () => {
 																	minute: "2-digit",
 																})}`}
 																{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime} - ${selectedDayAndTime.endTime}`} */}
+																<span
+																	className="delete-icon"
+																	style={{ color: "red", cursor: "pointer" }}
+																	onClick={() => handleDeleteSelectedDayAndTime(index)}
+																>
+																	&#10006;
+																</span>
 															</li>
 														))}
 													</ul>
@@ -607,6 +655,8 @@ const Facilities = () => {
 												onClick={() => {
 													setAddFeatures([...addFeatures, { value: facilityFeatures }]);
 													console.log("add clickkkk");
+
+													 setFacilityFeatures(""); // Clear the input field after adding a feature
 												}}
 											>
 												<svg
@@ -629,6 +679,40 @@ const Facilities = () => {
 										</div>
 									</div>
 
+{/* ============================== */}
+
+ {addFeatures.length > 0 && (
+            <div className="row mt-2">
+              <div className="col-sm-12">
+                <ul>
+                  {addFeatures.map((feature, index) => (
+                    <li key={index}>
+                      {feature.value}
+                      <span
+                        className="delete-icon"
+                        style={{ color: "red", cursor: "pointer", marginLeft: "5px" }}
+                        onClick={() => handleDeleteFeature(index)}
+                      >
+                        &#10006;
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+
+
+
+
+
+
+
+
+
+
+{/* ================================== */}
 									<div className="row">
 										<div className="col-sm-12">
 											<label className="text-muted  reservationlabelname">Images</label>

@@ -20,7 +20,8 @@ export const FacitilityActionEditGetData = (values) => async (dispatch) => {
 		method: "GET",
 		headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
 		data: values,
-		url: `${API_URL}/api/facilities/${values}`,
+		url: `${API_URL}/api/v1/facility/${values}`,
+		
 	};
 
 	try {

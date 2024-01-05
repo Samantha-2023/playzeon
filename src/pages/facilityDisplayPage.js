@@ -72,7 +72,6 @@ const FacilityDisplayPage = () => {
 	// state variables for modal 3 -copy
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-
 	const centerId = localStorage.getItem("centerIddd");
 
 	const data = useSelector((state) => state.facilityDisplayPageData.addfaciltydisplayPage?.data);
@@ -181,6 +180,13 @@ const FacilityDisplayPage = () => {
 		setSelectedFacility(null);
 		setShowUpdateModal(false);
 	};
+
+	const handleDeleteSelectedDayAndTime = (index) => {
+		const updatedSelectedDaysAndTimes = [...selectedDaysAndTimes];
+		updatedSelectedDaysAndTimes.splice(index, 1);
+		setSelectedDaysAndTimes(updatedSelectedDaysAndTimes);
+	};
+
 	//  formik for the update modal
 	const initialValues = {
 		reservationAttribute: {
@@ -287,6 +293,8 @@ const FacilityDisplayPage = () => {
 		try {
 			console.log(values, "values3");
 			console.log(addFeatures, "addFeatures");
+			// values.facilityMetas = values.addFeatures; //check only addFeatures before
+			console.log(values.facilityMetas, "facility features");
 
 			dispatch(FacitilityActionEditGetData(values));
 			// dispatch(FacitilityActionPutData(dataupdateget.data?.id,values))
@@ -338,7 +346,31 @@ const FacilityDisplayPage = () => {
 	};
 
 	// end
+	 //  function to display the range of weekdays ////////////////////////////////////
 
+	const getWeekdayRange = (selectedDays) => {
+		const daysInWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+		const selectedDayIndices = selectedDays.map((day) => daysInWeek.indexOf(day));
+		const sortedIndices = selectedDayIndices.sort((a, b) => a - b);
+		const consecutiveRanges = [];
+	
+		for (let i = 0; i < sortedIndices.length; i++) {
+			let start = sortedIndices[i];
+			while (i < sortedIndices.length - 1 && sortedIndices[i] + 1 === sortedIndices[i + 1]) {
+				i++;
+			}
+			let end = sortedIndices[i];
+			const range = end > start ? `${daysInWeek[start]} - ${daysInWeek[end]}` : daysInWeek[start];
+			consecutiveRanges.push(range);
+		}
+	
+		return consecutiveRanges.join(", ");
+	};
+// /////////////////////////////////////////////////////////////////////////////
+	
+
+
+// 
 	useEffect(() => {
 		dispatch(FacilityDisplayPageAction(centerId));
 	}, []);
@@ -371,7 +403,8 @@ const FacilityDisplayPage = () => {
 			durationAllowedMax: dataupdateget.data?.reservationAttribute?.durationAllowedMax,
 			advanceBookingMin: dataupdateget.data?.reservationAttribute?.advanceBookingMin,
 			advanceBookingMax: dataupdateget.data?.reservationAttribute?.advanceBookingMax,
-			facilityMetas: dataupdateget.data?.reservationAttribute?.facilityMetas,
+			facilityMetas: dataupdateget.data?.facilityMetas[0].value,
+
 			facilityHours: dataupdateget.data?.reservationAttribute?.facilityHours,
 			name: dataupdateget.data?.name,
 			features: dataupdateget.data?.features,
@@ -389,7 +422,7 @@ const FacilityDisplayPage = () => {
 
 	console.log(formik?.values, "formik  update modal  values");
 
-	console.log(selectedFacility, "================================");
+	console.log(dataupdateget, "==============dataupdateget==================");
 	console.log(formik.errors, "errorrssss");
 
 	useEffect(() => {
@@ -624,7 +657,6 @@ const FacilityDisplayPage = () => {
 																	{moment(hour.endTime, "HH:mm").format("h:mm A")}
 																</span>
 															))}
-															
 														</div>
 													</div>
 												</div>
@@ -676,7 +708,7 @@ const FacilityDisplayPage = () => {
 										variant="danger"
 										onClick={() => {
 											setShowEditModal(false);
-											console.log("selectedFacility",selectedFacility);
+											console.log("selectedFacility", selectedFacility);
 											setShowUpdateModal(true);
 											dispatch(FacitilityActionEditGetData(selectedFacility?.id));
 										}}
@@ -711,7 +743,7 @@ const FacilityDisplayPage = () => {
 																<hr className="pt-0  mt-2" />
 															</div>
 														</div>
-
+														{console.log("dataupdateget:::", dataupdateget)}
 														<div className="row">
 															<div className="col-6">
 																<input
@@ -825,9 +857,9 @@ const FacilityDisplayPage = () => {
 																		<ul>
 																			{selectedDaysAndTimes.map((selectedDayAndTime, index) => (
 																				<li key={index}>
-																					{`${selectedDayAndTime.days.join(
-																						", "
-																					)}: ${selectedDayAndTime.startTime.toLocaleTimeString([], {
+																					{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime.toLocaleTimeString([], { */}
+																					{`${getWeekdayRange(selectedDayAndTime.days)}: ${selectedDayAndTime.startTime.toLocaleTimeString([], {
+
 																						hour: "2-digit",
 																						minute: "2-digit",
 																					})} - ${selectedDayAndTime.endTime.toLocaleTimeString([], {
@@ -835,6 +867,13 @@ const FacilityDisplayPage = () => {
 																						minute: "2-digit",
 																					})}`}
 																					{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime} - ${selectedDayAndTime.endTime}`} */}
+
+																					<span
+																						className="delete-icon" style={{color:"red", cursor: "pointer"}}
+																						onClick={() => handleDeleteSelectedDayAndTime(index)}
+																					>
+																						&#10006;
+																					</span>
 																				</li>
 																			))}
 																		</ul>
@@ -972,9 +1011,13 @@ const FacilityDisplayPage = () => {
 														</div>
 														<div className="row">
 															<div className="col-6">
-																<input maxLength={50} type="text" className="form-control" 
-															   value={facilityFeatures} 
-																//value={formik.values?.addFeatures}
+																<input
+																	maxLength={50}
+																	type="text"
+																	className="form-control"
+																	onChange={formik.handleChange}
+																	//    value={facilityFeatures}
+																	value={formik.values?.facilityMetas}
 																/>
 															</div>
 															<div className="col-sm-2" style={{ opacity: "0.5", cursor: "pointer" }}>
