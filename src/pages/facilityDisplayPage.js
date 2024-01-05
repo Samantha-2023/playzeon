@@ -972,7 +972,10 @@ const FacilityDisplayPage = () => {
 														</div>
 														<div className="row">
 															<div className="col-6">
-																<input maxLength={50} type="text" className="form-control" value={facilityFeatures} />
+																<input maxLength={50} type="text" className="form-control" 
+															   value={facilityFeatures} 
+																//value={formik.values?.addFeatures}
+																/>
 															</div>
 															<div className="col-sm-2" style={{ opacity: "0.5", cursor: "pointer" }}>
 																<div
