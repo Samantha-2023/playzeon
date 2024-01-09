@@ -18,7 +18,7 @@ import { useFormik } from "formik";
 import addimage from "../images/addimage.svg";
 import { FacitilityActionPutData } from "../redux/action/actionSportsFacility";
 import { FacitilityActionPostData } from "../redux/action/actionSportsFacility";
-import moment from "moment";
+import moment, { weekdays } from "moment";
 import { Link } from "react-router-dom";
 
 const Facilities = () => {
@@ -151,12 +151,14 @@ const Facilities = () => {
 	//  	console.log("Data post facility :", datapostfacility);
 	// 	dispatch(FacitilityActionPostData());
 	//  }, []);
-
+	let formattedSelectedDays = selectedDaysAndTimes.map(({ days, ...rest }) => ({
+		...rest,
+		createdAt: moment().utc(),
+		updatedAt: moment().utc(),
+	}));
 	const submitForm = async (values) => {
 		values.sport.id = selectedFacilityId;
-		values.facilityHours[0].startTime = startTime;
-		values.facilityHours[0].endTime = endTime;
-		values.facilityHours[0].weekday = selectedWeekdays.join(",");
+		values.facilityHours = formattedSelectedDays;
 		values.reservationAttribute.advanceBookingMin = values.advanceBookingMin;
 		values.reservationAttribute.advanceBookingMax = values.advanceBookingMax;
 		values.reservationAttribute.durationAllowedMin = values.durationAllowedMin;
@@ -165,8 +167,6 @@ const Facilities = () => {
 		values.reservationAttribute.playerAllowedMax = values.playerAllowedMax;
 		values.facilityMetas = addFeatures;
 		try {
-			console.log(values, "values");
-			console.log(addFeatures, "addFeatures");
 			dispatch(FacitilityActionPostData(values));
 		} catch (error) {
 			console.error("Form submission failed", error);
@@ -185,7 +185,6 @@ const Facilities = () => {
 		setShowModal(false); // Close the modal after adding
 		setShowAddSportsModal(true); // Show the second modal
 	};
-
 	const handleDayChange = (day) => {
 		if (selectedWeekdays.includes(day.fullName)) {
 			setSelectedWeekdays(selectedWeekdays.filter((selectedDay) => selectedDay !== day.fullName));
@@ -204,37 +203,45 @@ const Facilities = () => {
 		if (chooseDays.length > 0 && startTime && endTime) {
 			const selectedDayAndTime = {
 				days: chooseDays,
-				startTime: startTime,
-				endTime: endTime,
+				weekday: selectedWeekdays.join(","),
+				startTime: startTime.toLocaleTimeString([], {
+					hour: "2-digit",
+					minute: "2-digit",
+				}),
+				endTime: endTime.toLocaleTimeString([], {
+					hour: "2-digit",
+					minute: "2-digit",
+				}),
 			};
 			setSelectedDaysAndTimes([...selectedDaysAndTimes, selectedDayAndTime]);
 			setChooseDays([]);
+			setSelectedWeekdays([]);
 		} else {
 			alert("Please select at least one day, start time, and end time");
 		}
 	};
 
-	 // Function to handle the deletion of selected days and times
-	 const handleDeleteSelectedDayAndTime = (index) => {
+	// Function to handle the deletion of selected days and times
+	const handleDeleteSelectedDayAndTime = (index) => {
 		const updatedSelectedDaysAndTimes = [...selectedDaysAndTimes];
 		updatedSelectedDaysAndTimes.splice(index, 1);
 		setSelectedDaysAndTimes(updatedSelectedDaysAndTimes);
-	  };
+	};
 
-	  const handleDeleteFeature = (index) => {
+	const handleDeleteFeature = (index) => {
 		const updatedFeatures = [...addFeatures];
 		updatedFeatures.splice(index, 1);
 		setAddFeatures(updatedFeatures);
-	  };
+	};
 
-    //  function to display the range of weekdays ////////////////////////////////////
+	//  function to display the range of weekdays ////////////////////////////////////
 
 	const getWeekdayRange = (selectedDays) => {
 		const daysInWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 		const selectedDayIndices = selectedDays.map((day) => daysInWeek.indexOf(day));
 		const sortedIndices = selectedDayIndices.sort((a, b) => a - b);
 		const consecutiveRanges = [];
-	
+
 		for (let i = 0; i < sortedIndices.length; i++) {
 			let start = sortedIndices[i];
 			while (i < sortedIndices.length - 1 && sortedIndices[i] + 1 === sortedIndices[i + 1]) {
@@ -244,17 +251,11 @@ const Facilities = () => {
 			const range = end > start ? `${daysInWeek[start]} - ${daysInWeek[end]}` : daysInWeek[start];
 			consecutiveRanges.push(range);
 		}
-	
+
 		return consecutiveRanges.join(", ");
 	};
-	
-
-
-
-
 
 	// /////////////////////
-
 
 	useEffect(() => {
 		if (showModal) {
@@ -498,21 +499,22 @@ const Facilities = () => {
 													<ul>
 														{selectedDaysAndTimes.map((selectedDayAndTime, index) => (
 															<li key={index}>
-															{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime.toLocaleTimeString([], { */}
-																 {`${getWeekdayRange(selectedDayAndTime.days)}: ${selectedDayAndTime.startTime.toLocaleTimeString([], {
-																	hour: "2-digit",
-																	minute: "2-digit",
-																})} - ${selectedDayAndTime.endTime.toLocaleTimeString([], {
-																	hour: "2-digit",
-																	minute: "2-digit",
-																})}`}
+																{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime.toLocaleTimeString([], { */}
+																{`${getWeekdayRange(selectedDayAndTime.days)}: ${selectedDayAndTime.startTime} - ${
+																	selectedDayAndTime.endTime
+																}`}
 																{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime} - ${selectedDayAndTime.endTime}`} */}
 																<span
 																	className="delete-icon"
 																	style={{ color: "red", cursor: "pointer" }}
 																	onClick={() => handleDeleteSelectedDayAndTime(index)}
 																>
-																	&#10006;
+																	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+																		<path
+																			fill="red"
+																			d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8L4.646 5.354a.5.5 0 0 1 0-.708"
+																		/>
+																	</svg>
 																</span>
 															</li>
 														))}
@@ -654,9 +656,8 @@ const Facilities = () => {
 												className=" d-flex align-items-center gap-0"
 												onClick={() => {
 													setAddFeatures([...addFeatures, { value: facilityFeatures }]);
-													console.log("add clickkkk");
 
-													 setFacilityFeatures(""); // Clear the input field after adding a feature
+													setFacilityFeatures(""); // Clear the input field after adding a feature
 												}}
 											>
 												<svg
@@ -679,40 +680,35 @@ const Facilities = () => {
 										</div>
 									</div>
 
-{/* ============================== */}
+									{/* ============================== */}
 
- {addFeatures.length > 0 && (
-            <div className="row mt-2">
-              <div className="col-sm-12">
-                <ul>
-                  {addFeatures.map((feature, index) => (
-                    <li key={index}>
-                      {feature.value}
-                      <span
-                        className="delete-icon"
-                        style={{ color: "red", cursor: "pointer", marginLeft: "5px" }}
-                        onClick={() => handleDeleteFeature(index)}
-                      >
-                        &#10006;
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          )}
+									{addFeatures.length > 0 && (
+										<div className="row mt-2">
+											<div className="col-sm-12">
+												<ul>
+													{addFeatures.map((feature, index) => (
+														<li key={index}>
+															{feature.value}
+															<span
+																className="delete-icon"
+																style={{ color: "red", cursor: "pointer", marginLeft: "5px" }}
+																onClick={() => handleDeleteFeature(index)}
+															>
+																<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+																	<path
+																		fill="red"
+																		d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8L4.646 5.354a.5.5 0 0 1 0-.708"
+																	/>
+																</svg>
+															</span>
+														</li>
+													))}
+												</ul>
+											</div>
+										</div>
+									)}
 
-
-
-
-
-
-
-
-
-
-
-{/* ================================== */}
+									{/* ================================== */}
 									<div className="row">
 										<div className="col-sm-12">
 											<label className="text-muted  reservationlabelname">Images</label>
