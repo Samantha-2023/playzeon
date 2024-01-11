@@ -288,7 +288,8 @@ const FacilityDisplayPage = () => {
 		values.reservationAttribute.durationAllowedMax = values.durationAllowedMax;
 		values.reservationAttribute.playerAllowedMin = values.playerAllowedMin;
 		values.reservationAttribute.playerAllowedMax = values.playerAllowedMax;
-		values.facilityMetas = values.facilityMetas; //check only addFeatures before
+		 values.facilityMetas = values.facilityMetas; //check only addFeatures before
+
 		values.defaultPlayDuration = values.defaultPlayDuration;
 		values.sku = values.sku;
 		values.workingPlans = initialValues.workingPlans;
@@ -425,7 +426,7 @@ const FacilityDisplayPage = () => {
 
 	const handleAddFacilityMeta = () => {
 		if (newFacilityMeta.trim() !== '') {
-		  const updatedFacilityMetas = [...facilityMetas, { value: newFacilityMeta }];
+		  const updatedFacilityMetas = [...formik.values.facilityMetas, { value: newFacilityMeta }];
 		  setFacilityMetas(updatedFacilityMetas);
 		  // Assuming formik is defined and has a setFieldValue method
 		  formik.setFieldValue('facilityMetas', updatedFacilityMetas);
