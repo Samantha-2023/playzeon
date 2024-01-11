@@ -684,13 +684,13 @@ const Facilities = () => {
 
 									{addFeatures.length > 0 && (
 										<div className="row mt-2">
-											<div className="col-sm-12">
+											<div className="col-sm-12 ">
 												<ul>
 													{addFeatures.map((feature, index) => (
 														<li key={index}>
 															{feature.value}
 															<span
-																className="delete-icon"
+																className="delete-icon d-flex"
 																style={{ color: "red", cursor: "pointer", marginLeft: "5px" }}
 																onClick={() => handleDeleteFeature(index)}
 															>

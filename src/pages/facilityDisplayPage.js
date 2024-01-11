@@ -73,6 +73,13 @@ const FacilityDisplayPage = () => {
 	// state variables for modal 3 -copy
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+
+	//facility metas adding
+	const [newFacilityMeta, setNewFacilityMeta] = useState('');
+	const [facilityMetas, setFacilityMetas] = useState([]);
+
+
+
 	const centerId = localStorage.getItem("centerIddd");
 
 	const data = useSelector((state) => state.facilityDisplayPageData.addfaciltydisplayPage?.data);
@@ -403,6 +410,38 @@ const FacilityDisplayPage = () => {
 
 		return consecutiveRanges.join(", ");
 	};
+
+
+
+	
+  
+	// const handleAddFacilityMeta = () => {
+	//   if (newFacilityMeta.trim() !== '') {
+	// 	setFacilityMetas([...facilityMetas, { value: newFacilityMeta }]);
+	// 	setNewFacilityMeta('');
+	//   }
+	// };
+
+
+	const handleAddFacilityMeta = () => {
+		if (newFacilityMeta.trim() !== '') {
+		  const updatedFacilityMetas = [...facilityMetas, { value: newFacilityMeta }];
+		  setFacilityMetas(updatedFacilityMetas);
+		  // Assuming formik is defined and has a setFieldValue method
+		  formik.setFieldValue('facilityMetas', updatedFacilityMetas);
+		  setNewFacilityMeta('');
+		}
+	  };
+
+
+
+
+
+
+
+
+
+
 	// /////////////////////////////////////////////////////////////////////////////
 
 	useEffect(() => {
@@ -574,6 +613,9 @@ const FacilityDisplayPage = () => {
 												</div>
 											))}
 									</div>
+
+
+
 									{/* this is card closing div */}
 									{/* all 6 icon modal coding is down  */}
 									{/* modal for sports pictures to pop up */}
@@ -1053,9 +1095,16 @@ const FacilityDisplayPage = () => {
 																			maxLength={50}
 																			type="text"
 																			className="form-control"
-																			onChange={formik.handleChange}
-																			value={formik.values?.facilityMetas}
-																		/>
+
+																			onChange={(e) => setNewFacilityMeta(e.target.value)}
+                                                                            value={newFacilityMeta}
+
+																			
+
+
+																			// onChange={formik.handleChange}
+																			// value={formik.values?.facilityMetas}
+																				/>
 																	</div>
 																	<div className="col-sm-2" style={{ opacity: "0.5", cursor: "pointer" }}>
 																		<div
@@ -1072,13 +1121,18 @@ const FacilityDisplayPage = () => {
 																				fill="currentColor"
 																				class="bi bi-plus-circle-fill"
 																				viewBox="0 0 16 16"
+																				onClick={handleAddFacilityMeta}
 																			>
 																				<path
 																					d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
 																					style={{ backgroundColor: "#2d77d2", color: "#2d77d2" }}
+																					
 																				/>
 																			</svg>
-																			<small className=" d-flex text-primary" style={{ fontSize: "13px" }}>
+																			<small className=" d-flex text-primary"  
+																			 onClick={handleAddFacilityMeta}
+																			
+																			style={{ fontSize: "13px" }}>
 																				Add
 																			</small>
 																		</div>
