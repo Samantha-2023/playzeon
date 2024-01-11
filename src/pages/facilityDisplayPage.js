@@ -284,7 +284,7 @@ const FacilityDisplayPage = () => {
 		values.facilityMetas = values.facilityMetas; //check only addFeatures before
 		values.defaultPlayDuration = values.defaultPlayDuration;
 		values.sku = values.sku;
-		values.workingPlans= initialValues.workingPlans;
+		values.workingPlans = initialValues.workingPlans;
 
 		values.description = values.description;
 		values.createdAt = values.createdAt;
@@ -292,18 +292,28 @@ const FacilityDisplayPage = () => {
 		values.updatedAt = values.updatedAt;
 		values.updatedBy = values.updatedBy;
 
+		const newFacilityHour = {
+			startTime: moment(startTime, "HH:mm").format("hh:mm A"), // Use the appropriate field from your form
+			endTime: moment(endTime, "HH:mm").format("hh:mm A"), // Use the appropriate field from your form
+			weekday: selectedWeekdays.join(","),
+			createdAt: moment().utc(),
+			updatedAt: moment().utc(),
+		};
+
+		// Append the new facility hour to the existing facility hours
+		values.facilityHours = [...values.facilityHours, newFacilityHour];
+
 		try {
 			// values.facilityMetas = values.addFeatures; //check only addFeatures before
-               console.log("values", values);
+			console.log("values", values);
 			// dispatch(FacitilityActionEditGetData(values));
-			 dispatch(FacitilityActionPutData(dataupdateget.data?.id,values));
-			// dispatch(FacitilityActionPutData(values));
+			dispatch(FacitilityActionPutData(dataupdateget.data?.id, values));
 		} catch (error) {
 			console.error("Form submission failed", error);
 		}
 	};
 
-	console.log(dataupdateget,"dataupdateget");
+	console.log(dataupdateget, "dataupdateget");
 
 	const formik = useFormik({
 		initialValues: initialValues,
@@ -318,18 +328,44 @@ const FacilityDisplayPage = () => {
 	// 	setShowAddSportsModal(true); // Show the second modal
 	// };
 
-	const handleDayChange = (day) => {
-		if (selectedWeekdays.includes(day.fullName)) {
-			setSelectedWeekdays(selectedWeekdays.filter((selectedDay) => selectedDay !== day.fullName));
-		} else {
-			setSelectedWeekdays([...selectedWeekdays, day.fullName]);
-		}
+	// const handleDayChange = (day) => {
+	// 	if (selectedWeekdays.includes(day.fullName)) {
+	// 		setSelectedWeekdays(selectedWeekdays.filter((selectedDay) => selectedDay !== day.fullName));
+	// 	} else {
+	// 		setSelectedWeekdays([...selectedWeekdays, day.fullName]);
 
-		if (chooseDays.includes(day.shortName)) {
-			setChooseDays(chooseDays.filter((chooseDays) => chooseDays !== day.shortName));
-		} else {
-			setChooseDays([...chooseDays, day.shortName]);
-		}
+	// 	}
+
+	// 	if (chooseDays.includes(day.shortName)) {
+	// 		setChooseDays(chooseDays.filter((chooseDays) => chooseDays !== day.shortName));
+	// 	} else {
+	// 		setChooseDays([...chooseDays, day.shortName]);
+	// 	}
+
+	// };
+
+	const handleDayChange = (day) => {
+		// Update selectedWeekdays array
+		setSelectedWeekdays((prevSelectedWeekdays) => {
+			if (prevSelectedWeekdays.includes(day.fullName)) {
+				// If the day is already selected, return the array as is.
+				return prevSelectedWeekdays;
+			} else {
+				// If the day is not selected, create a new array by adding the new day.
+				return [...prevSelectedWeekdays, day.fullName];
+			}
+		});
+
+		// Update chooseDays array
+		setChooseDays((prevChooseDays) => {
+			if (prevChooseDays.includes(day.shortName)) {
+				// If the day is already selected, return the array as is.
+				return prevChooseDays;
+			} else {
+				// If the day is not selected, create a new array by adding the new day.
+				return [...prevChooseDays, day.shortName];
+			}
+		});
 	};
 
 	const handleAddButtonClick = () => {
@@ -345,7 +381,6 @@ const FacilityDisplayPage = () => {
 			alert("Please select at least one day, start time, and end time");
 		}
 	};
-
 
 	// end
 	//  function to display the range of weekdays ////////////////////////////////////
@@ -370,7 +405,6 @@ const FacilityDisplayPage = () => {
 	};
 	// /////////////////////////////////////////////////////////////////////////////
 
-	//
 	useEffect(() => {
 		dispatch(FacilityDisplayPageAction(centerId));
 	}, []);
@@ -403,7 +437,6 @@ const FacilityDisplayPage = () => {
 			advanceBookingMin: dataupdateget.data?.reservationAttribute?.advanceBookingMin,
 			advanceBookingMax: dataupdateget.data?.reservationAttribute?.advanceBookingMax,
 			facilityMetas: dataupdateget.data?.facilityMetas,
-
 			facilityHours: dataupdateget.data?.facilityHours,
 			name: dataupdateget.data?.name,
 			features: dataupdateget.data?.features,
@@ -1021,7 +1054,6 @@ const FacilityDisplayPage = () => {
 																			type="text"
 																			className="form-control"
 																			onChange={formik.handleChange}
-																			//    value={facilityFeatures}
 																			value={formik.values?.facilityMetas}
 																		/>
 																	</div>
@@ -1052,6 +1084,40 @@ const FacilityDisplayPage = () => {
 																		</div>
 																	</div>
 																</div>
+
+																{/* facility metas display code  */}
+
+																{console.log("formik.values?.facilityMetas", formik.values?.facilityMetas)}
+
+																<div className="row">
+																	<div className="col-sm-12 d-flex">
+																		{formik.values?.facilityMetas &&
+																			formik.values.facilityMetas.map((facility, index) => (
+																				<div key={index} className="d-flex align-items-center mt-2">
+																					<span className="" style ={{fontSize:"8px"}}>{facility.value}</span>
+																							<svg
+																							xmlns="http://www.w3.org/2000/svg"
+																							width="16"
+																							height="16"
+																							viewBox="0 0 16 16"
+																							className="cursor-pointer"
+																							onClick={() => {
+																								const updatedFacilityMetas = [...formik.values.facilityMetas];
+																								updatedFacilityMetas.splice(index, 1);
+																								formik.setFieldValue("facilityMetas", updatedFacilityMetas);
+																							}}
+																						>
+																							<path
+																								fill="red"
+																								d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8L4.646 5.354a.5.5 0 0 1 0-.708"
+																							/>
+																						</svg>
+																				</div>
+																			))}
+																	</div>
+																</div>
+
+																{/*  =============*/}
 
 																<div className="row">
 																	<div className="col-sm-12">
@@ -1128,6 +1194,7 @@ const FacilityDisplayPage = () => {
 											{/* Add a Save changes button or any other actions you need */}
 										</Modal.Footer>
 									</Modal>
+
 									{/* delete modal  */}
 									<Modal show={showDeleteModal} onHide={closeDeleteModal}>
 										<Modal.Header closeButton>

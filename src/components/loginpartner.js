@@ -10,8 +10,13 @@ import "./playzeon.css";
 import { fetchOrganization } from "../redux/action/action";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+
 
 const Loginpartner = ({ showPartnerForm, setShowPartnerForm }) => {
+
+	const dispatch = useDispatch();
+
 	const [orgName, setOrgName] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
@@ -45,8 +50,7 @@ const Loginpartner = ({ showPartnerForm, setShowPartnerForm }) => {
 	const submitForm = async (values) => {
 		try {
 			dispatchEvent(fetchOrganization());
-			//    }
-			setShowPartnerForm(false);
+					setShowPartnerForm(false);
 		} catch (error) {
 			console.error("Form submission failed", error);
 		}
