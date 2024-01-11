@@ -271,34 +271,39 @@ const FacilityDisplayPage = () => {
 	});
 
 	const submitForm = async (values) => {
-		values.sport.id = selectedFacilityId;
-		values.facilityHours[0].startTime = startTime;
-		values.facilityHours[0].endTime = endTime;
-		values.facilityHours[0].weekday = selectedWeekdays.join(",");
+		// values.sport.id = selectedFacilityId;
+		// values.facilityHours[0].startTime = startTime;
+		// values.facilityHours[0].endTime = endTime;
+		// values.facilityHours[0].weekday = selectedWeekdays.join(",");
 		values.reservationAttribute.advanceBookingMin = values.advanceBookingMin;
 		values.reservationAttribute.advanceBookingMax = values.advanceBookingMax;
 		values.reservationAttribute.durationAllowedMin = values.durationAllowedMin;
 		values.reservationAttribute.durationAllowedMax = values.durationAllowedMax;
 		values.reservationAttribute.playerAllowedMin = values.playerAllowedMin;
 		values.reservationAttribute.playerAllowedMax = values.playerAllowedMax;
-		values.facilityMetas = values.addFeatures; //check only addFeatures before
+		values.facilityMetas = values.facilityMetas; //check only addFeatures before
 		values.defaultPlayDuration = values.defaultPlayDuration;
 		values.sku = values.sku;
+		values.workingPlans= initialValues.workingPlans;
+
 		values.description = values.description;
 		values.createdAt = values.createdAt;
 		values.createdBy = values.createdBy;
 		values.updatedAt = values.updatedAt;
 		values.updatedBy = values.updatedBy;
+
 		try {
 			// values.facilityMetas = values.addFeatures; //check only addFeatures before
-
-			dispatch(FacitilityActionEditGetData(values));
-			// dispatch(FacitilityActionPutData(dataupdateget.data?.id,values))
+               console.log("values", values);
+			// dispatch(FacitilityActionEditGetData(values));
+			 dispatch(FacitilityActionPutData(dataupdateget.data?.id,values));
 			// dispatch(FacitilityActionPutData(values));
 		} catch (error) {
 			console.error("Form submission failed", error);
 		}
 	};
+
+	console.log(dataupdateget,"dataupdateget");
 
 	const formik = useFormik({
 		initialValues: initialValues,
@@ -397,8 +402,9 @@ const FacilityDisplayPage = () => {
 			durationAllowedMax: dataupdateget.data?.reservationAttribute?.durationAllowedMax,
 			advanceBookingMin: dataupdateget.data?.reservationAttribute?.advanceBookingMin,
 			advanceBookingMax: dataupdateget.data?.reservationAttribute?.advanceBookingMax,
-			facilityMetas: dataupdateget.data?.facilityMetas[0].value,
-			facilityHours: dataupdateget.data?.reservationAttribute?.facilityHours,
+			facilityMetas: dataupdateget.data?.facilityMetas,
+
+			facilityHours: dataupdateget.data?.facilityHours,
 			name: dataupdateget.data?.name,
 			features: dataupdateget.data?.features,
 			defaultPlayDuration: dataupdateget.data?.defaultPlayDuration,
@@ -1071,7 +1077,7 @@ const FacilityDisplayPage = () => {
 																type="submit"
 																className=" btn-sm float-right me-3  align-self-center  btn btn-danger "
 																style={{ backgroundColor: "red", color: "white" }}
-																onClick={() => dispatch(FacitilityActionPutData(dataupdateget.data?.id, formik?.values))}
+																// onClick={() => dispatch(FacitilityActionPutData(dataupdateget.data?.id, formik?.values))}
 															>
 																Update
 															</button>
