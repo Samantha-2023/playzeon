@@ -41,7 +41,16 @@ const FacilityDisplayPage = () => {
 	const [addFeatures, setAddFeatures] = useState([]);
 
 	const [chooseDays, setChooseDays] = useState([]);
-	const [selectedDaysAndTimes, setSelectedDaysAndTimes] = useState([]); // Add state for selected days and times
+	
+	
+	
+	// Add state for selected days and times
+
+	
+	
+	
+
+	
 
 	const [selectedFacilityId, setSelectedFacilityId] = useState(null);
 	const [selectedWeekdays, setSelectedWeekdays] = useState([]); // state for adding the weekdays dynamically in the initial values
@@ -55,33 +64,30 @@ const FacilityDisplayPage = () => {
 		{ id: 6, shortName: "Fri", fullName: "Friday" },
 		{ id: 7, shortName: "Sat", fullName: "Saturday" },
 	];
-
+	
 	// sports picture modal  state variables
 	const [showModal, setShowModal] = useState(false);
 	const [showAddSportsModal, setShowAddSportsModal] = useState(false); // Adding another  state for the second modal to open
-
+	
 	// state variables for modal 1- edit
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [selectedFacility, setSelectedFacility] = useState(null);
 
 	// state variables for the edit modal to update the  sports facility data
 	const [showUpdateModal, setShowUpdateModal] = useState(false);
-
+	
 	// state variables for modal 2 -copy
 	const [showCopyModal, setShowCopyModal] = useState(false);
-
+	
 	// state variables for modal 3 -copy
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-
 	//facility metas adding
-	const [newFacilityMeta, setNewFacilityMeta] = useState('');
+	const [newFacilityMeta, setNewFacilityMeta] = useState("");
 	const [facilityMetas, setFacilityMetas] = useState([]);
-
-
-
+	
 	const centerId = localStorage.getItem("centerIddd");
-
+	
 	const data = useSelector((state) => state.facilityDisplayPageData.addfaciltydisplayPage?.data);
 	//get api data is here
 	//facilityDisplayPageData is from the reducer== index.js//  addfaciltydisplayPage  is the initial values set in reducer//
@@ -96,26 +102,27 @@ const FacilityDisplayPage = () => {
 
 	const datacopy = useSelector((state) => state.copyFacilityData?.copyfacility);
 	//post api data is here	//copyFacilityData is from the reducer== index.js//copyfacility  is the initial values set in reducer//
-
+	
 	const datagetcopy = useSelector((state) => state.copyGetFacilityData?.copygetfacility);
 	//get api data is here	//copyGetFacilityData is from the reducer== index.js//copygetfacility  is the initial values set in reducer//
-
+	
 	const datadelete = useSelector((state) => state.deleteFacilityData?.deletefacility);
 	//delete api data is here // state.deleteFacilityData is from the reducer==index.js//deletefacility is the initial values set in reducer
-
+	
 	const datagetdelete = useSelector((state) => state.deleteGetFacilityData?.deletegetfacility);
-
+	
 	// selector for put and get api for update modal
 	const dataupdateput = useSelector((state) => state.sportsFacilityData.sportsfacilityputdata);
 	//put update api is here // sportsFacilityData is from the reducer==index.js//sportsfacilityputdata  is the initial values set in reducer
-
+	
 	const dataupdateget = useSelector((state) => state.editGetFacilityData.editgetfacility);
 	//get update api is here // editGetFacilityData is from the reducer==index.js// editgetfacility is the initial values set in reducer
-
+	
 	// sports facility get the picture and post the data seselector
-
+	
 	const dataphoto = useSelector((state) => state.sportsPhotosGetData?.sportsphotos);
 	//sportsPhotosGetData is from the reducer== index.js// sportsphotos is the initial values set in reducer//
+	const [selectedDaysAndTimes, setSelectedDaysAndTimes] = useState([]);
 
 	const datafacility = useSelector((state) => state.sportsFacilityData?.sportsfacilityputdata?.data);
 	// sportsFacilityData is from the reducer== index.js// sportsfacilityputdata is the initial values set in reducer
@@ -132,6 +139,11 @@ const FacilityDisplayPage = () => {
 	const facilityid = localStorage.getItem("facilityid");
 
 	//  sports picture modal  functionality
+    
+	//facility hours prepopulate ? trying 
+
+
+
 
 	const handleAddFacility = (facilityId) => {
 		// Handle logic for adding a facility
@@ -288,7 +300,7 @@ const FacilityDisplayPage = () => {
 		values.reservationAttribute.durationAllowedMax = values.durationAllowedMax;
 		values.reservationAttribute.playerAllowedMin = values.playerAllowedMin;
 		values.reservationAttribute.playerAllowedMax = values.playerAllowedMax;
-		 values.facilityMetas = values.facilityMetas; //check only addFeatures before
+		values.facilityMetas = values.facilityMetas; //check only addFeatures before
 
 		values.defaultPlayDuration = values.defaultPlayDuration;
 		values.sku = values.sku;
@@ -300,18 +312,7 @@ const FacilityDisplayPage = () => {
 		values.updatedAt = values.updatedAt;
 		values.updatedBy = values.updatedBy;
 
-		const newFacilityHour = {
-			startTime: moment(startTime, "HH:mm").format("hh:mm A"), // Use the appropriate field from your form
-			endTime: moment(endTime, "HH:mm").format("hh:mm A"), // Use the appropriate field from your form
-			weekday: selectedWeekdays.join(","),
-			createdAt: moment().utc(),
-			updatedAt: moment().utc(),
-		};
-
-		// Append the new facility hour to the existing facility hours
-		values.facilityHours = [...values.facilityHours, newFacilityHour];
-
-		try {
+				try {
 			// values.facilityMetas = values.addFeatures; //check only addFeatures before
 			console.log("values", values);
 			// dispatch(FacitilityActionEditGetData(values));
@@ -328,29 +329,6 @@ const FacilityDisplayPage = () => {
 		validationSchema: validationSchema,
 		onSubmit: submitForm,
 	});
-
-	// const handleAddFacility = (facilityId) => {
-	// 	// Handle logic for adding a facility
-	// 	setSelectedFacilityId(facilityId); // to handle the sports id to pass to another modal for post api to work
-	// 	setShowModal(false); // Close the modal after adding
-	// 	setShowAddSportsModal(true); // Show the second modal
-	// };
-
-	// const handleDayChange = (day) => {
-	// 	if (selectedWeekdays.includes(day.fullName)) {
-	// 		setSelectedWeekdays(selectedWeekdays.filter((selectedDay) => selectedDay !== day.fullName));
-	// 	} else {
-	// 		setSelectedWeekdays([...selectedWeekdays, day.fullName]);
-
-	// 	}
-
-	// 	if (chooseDays.includes(day.shortName)) {
-	// 		setChooseDays(chooseDays.filter((chooseDays) => chooseDays !== day.shortName));
-	// 	} else {
-	// 		setChooseDays([...chooseDays, day.shortName]);
-	// 	}
-
-	// };
 
 	const handleDayChange = (day) => {
 		// Update selectedWeekdays array
@@ -411,11 +389,11 @@ const FacilityDisplayPage = () => {
 
 		return consecutiveRanges.join(", ");
 	};
+   
+	console.log("getWeekdayRange" , getWeekdayRange);
 
 
 
-	
-  
 	// const handleAddFacilityMeta = () => {
 	//   if (newFacilityMeta.trim() !== '') {
 	// 	setFacilityMetas([...facilityMetas, { value: newFacilityMeta }]);
@@ -423,27 +401,22 @@ const FacilityDisplayPage = () => {
 	//   }
 	// };
 
-
 	const handleAddFacilityMeta = () => {
-		if (newFacilityMeta.trim() !== '') {
-		  const updatedFacilityMetas = [...formik.values.facilityMetas, { value: newFacilityMeta }];
-		  setFacilityMetas(updatedFacilityMetas);
-		  // Assuming formik is defined and has a setFieldValue method
-		  formik.setFieldValue('facilityMetas', updatedFacilityMetas);
-		  setNewFacilityMeta('');
+		if (newFacilityMeta.trim() !== "") {
+			const updatedFacilityMetas = [...formik.values.facilityMetas, { value: newFacilityMeta }];
+			setFacilityMetas(updatedFacilityMetas);
+			// Assuming formik is defined and has a setFieldValue method
+			formik.setFieldValue("facilityMetas", updatedFacilityMetas);
+			setNewFacilityMeta("");
 		}
-	  };
-
-
-
-
-
-
-
-
-
+	};
 
 	// /////////////////////////////////////////////////////////////////////////////
+      
+	
+
+
+
 
 	useEffect(() => {
 		dispatch(FacilityDisplayPageAction(centerId));
@@ -477,7 +450,10 @@ const FacilityDisplayPage = () => {
 			advanceBookingMin: dataupdateget.data?.reservationAttribute?.advanceBookingMin,
 			advanceBookingMax: dataupdateget.data?.reservationAttribute?.advanceBookingMax,
 			facilityMetas: dataupdateget.data?.facilityMetas,
+			// facilityHours: dataupdateget.data?.facilityHours,
 			facilityHours: dataupdateget.data?.facilityHours,
+
+
 			name: dataupdateget.data?.name,
 			features: dataupdateget.data?.features,
 			defaultPlayDuration: dataupdateget.data?.defaultPlayDuration,
@@ -488,8 +464,15 @@ const FacilityDisplayPage = () => {
 			createdAt: dataupdateget.data?.createdAt,
 			workingPlans: dataupdateget.data?.workingPlans,
 		});
+		 //setSelectedDaysAndTimes(dataupdateget?.data?.facilityHours);
+
+		
 		// formik.setFieldValue("title",dataupdateget.data?.title)
 	}, [dataupdateget]);
+
+
+
+
 
 	useEffect(() => {
 		if (showModal) {
@@ -614,8 +597,6 @@ const FacilityDisplayPage = () => {
 												</div>
 											))}
 									</div>
-
-
 
 									{/* this is card closing div */}
 									{/* all 6 icon modal coding is down  */}
@@ -918,7 +899,6 @@ const FacilityDisplayPage = () => {
 																	<div className="col-sm-12 displaytimefacilityform">
 																		{selectedDaysAndTimes.length > 0 && (
 																			<div>
-																				{/* <h5>Selected Days and Times:</h5> */}
 																				<ul>
 																					{selectedDaysAndTimes.map((selectedDayAndTime, index) => (
 																						<li key={index}>
@@ -958,6 +938,11 @@ const FacilityDisplayPage = () => {
 																		)}
 																	</div>
 																</div>
+
+															{console.log("selectedDaysAndTimes",  selectedDaysAndTimes)	}
+															{console.log("selectedFacility",  selectedFacility)	}
+
+
 
 																<div className="row mt-3">
 																	<div className="col-sm-12">
@@ -1096,16 +1081,12 @@ const FacilityDisplayPage = () => {
 																			maxLength={50}
 																			type="text"
 																			className="form-control"
-
 																			onChange={(e) => setNewFacilityMeta(e.target.value)}
-                                                                            value={newFacilityMeta}
-
-																			
-
+																			value={newFacilityMeta}
 
 																			// onChange={formik.handleChange}
 																			// value={formik.values?.facilityMetas}
-																				/>
+																		/>
 																	</div>
 																	<div className="col-sm-2" style={{ opacity: "0.5", cursor: "pointer" }}>
 																		<div
@@ -1127,13 +1108,13 @@ const FacilityDisplayPage = () => {
 																				<path
 																					d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
 																					style={{ backgroundColor: "#2d77d2", color: "#2d77d2" }}
-																					
 																				/>
 																			</svg>
-																			<small className=" d-flex text-primary"  
-																			 onClick={handleAddFacilityMeta}
-																			
-																			style={{ fontSize: "13px" }}>
+																			<small
+																				className=" d-flex text-primary"
+																				onClick={handleAddFacilityMeta}
+																				style={{ fontSize: "13px" }}
+																			>
 																				Add
 																			</small>
 																		</div>
@@ -1149,24 +1130,26 @@ const FacilityDisplayPage = () => {
 																		{formik.values?.facilityMetas &&
 																			formik.values.facilityMetas.map((facility, index) => (
 																				<div key={index} className="d-flex align-items-center mt-2">
-																					<span className="" style ={{fontSize:"8px"}}>{facility.value}</span>
-																							<svg
-																							xmlns="http://www.w3.org/2000/svg"
-																							width="16"
-																							height="16"
-																							viewBox="0 0 16 16"
-																							className="cursor-pointer"
-																							onClick={() => {
-																								const updatedFacilityMetas = [...formik.values.facilityMetas];
-																								updatedFacilityMetas.splice(index, 1);
-																								formik.setFieldValue("facilityMetas", updatedFacilityMetas);
-																							}}
-																						>
-																							<path
-																								fill="red"
-																								d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8L4.646 5.354a.5.5 0 0 1 0-.708"
-																							/>
-																						</svg>
+																					<span className="" style={{ fontSize: "8px" }}>
+																						{facility.value}
+																					</span>
+																					<svg
+																						xmlns="http://www.w3.org/2000/svg"
+																						width="16"
+																						height="16"
+																						viewBox="0 0 16 16"
+																						className="cursor-pointer"
+																						onClick={() => {
+																							const updatedFacilityMetas = [...formik.values.facilityMetas];
+																							updatedFacilityMetas.splice(index, 1);
+																							formik.setFieldValue("facilityMetas", updatedFacilityMetas);
+																						}}
+																					>
+																						<path
+																							fill="red"
+																							d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8L4.646 5.354a.5.5 0 0 1 0-.708"
+																						/>
+																					</svg>
 																				</div>
 																			))}
 																	</div>
@@ -1216,6 +1199,7 @@ const FacilityDisplayPage = () => {
 															>
 																Cancel
 															</button>
+}
 														</div>
 													</Modal.Footer>
 												</form>
@@ -1298,3 +1282,26 @@ export default FacilityDisplayPage;
 // 		{/* ... (other fields) ... */}
 // 	</div>
 // )}
+
+// const handleAddFacility = (facilityId) => {
+// 	// Handle logic for adding a facility
+// 	setSelectedFacilityId(facilityId); // to handle the sports id to pass to another modal for post api to work
+// 	setShowModal(false); // Close the modal after adding
+// 	setShowAddSportsModal(true); // Show the second modal
+// };
+
+// const handleDayChange = (day) => {
+// 	if (selectedWeekdays.includes(day.fullName)) {
+// 		setSelectedWeekdays(selectedWeekdays.filter((selectedDay) => selectedDay !== day.fullName));
+// 	} else {
+// 		setSelectedWeekdays([...selectedWeekdays, day.fullName]);
+
+// 	}
+
+// 	if (chooseDays.includes(day.shortName)) {
+// 		setChooseDays(chooseDays.filter((chooseDays) => chooseDays !== day.shortName));
+// 	} else {
+// 		setChooseDays([...chooseDays, day.shortName]);
+// 	}
+
+// };
