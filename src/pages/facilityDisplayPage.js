@@ -369,7 +369,7 @@ const FacilityDisplayPage = () => {
 
 	const getWeekdayRange = (selectedDays) => {
 
-		const daysInWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+		const daysInWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 		const selectedDayIndices = selectedDays.map((day) => daysInWeek.indexOf(day));
 		const sortedIndices = selectedDayIndices.sort((a, b) => a - b);
 		const consecutiveRanges = [];
