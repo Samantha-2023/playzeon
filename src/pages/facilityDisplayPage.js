@@ -41,16 +41,8 @@ const FacilityDisplayPage = () => {
 	const [addFeatures, setAddFeatures] = useState([]);
 
 	const [chooseDays, setChooseDays] = useState([]);
-	
-	
-	
+
 	// Add state for selected days and times
-
-	
-	
-	
-
-	
 
 	const [selectedFacilityId, setSelectedFacilityId] = useState(null);
 	const [selectedWeekdays, setSelectedWeekdays] = useState([]); // state for adding the weekdays dynamically in the initial values
@@ -64,30 +56,30 @@ const FacilityDisplayPage = () => {
 		{ id: 6, shortName: "Fri", fullName: "Friday" },
 		{ id: 7, shortName: "Sat", fullName: "Saturday" },
 	];
-	
+
 	// sports picture modal  state variables
 	const [showModal, setShowModal] = useState(false);
 	const [showAddSportsModal, setShowAddSportsModal] = useState(false); // Adding another  state for the second modal to open
-	
+
 	// state variables for modal 1- edit
 	const [showEditModal, setShowEditModal] = useState(false);
 	const [selectedFacility, setSelectedFacility] = useState(null);
 
 	// state variables for the edit modal to update the  sports facility data
 	const [showUpdateModal, setShowUpdateModal] = useState(false);
-	
+
 	// state variables for modal 2 -copy
 	const [showCopyModal, setShowCopyModal] = useState(false);
-	
+
 	// state variables for modal 3 -copy
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	//facility metas adding
 	const [newFacilityMeta, setNewFacilityMeta] = useState("");
 	const [facilityMetas, setFacilityMetas] = useState([]);
-	
+
 	const centerId = localStorage.getItem("centerIddd");
-	
+
 	const data = useSelector((state) => state.facilityDisplayPageData.addfaciltydisplayPage?.data);
 	//get api data is here
 	//facilityDisplayPageData is from the reducer== index.js//  addfaciltydisplayPage  is the initial values set in reducer//
@@ -102,24 +94,24 @@ const FacilityDisplayPage = () => {
 
 	const datacopy = useSelector((state) => state.copyFacilityData?.copyfacility);
 	//post api data is here	//copyFacilityData is from the reducer== index.js//copyfacility  is the initial values set in reducer//
-	
+
 	const datagetcopy = useSelector((state) => state.copyGetFacilityData?.copygetfacility);
 	//get api data is here	//copyGetFacilityData is from the reducer== index.js//copygetfacility  is the initial values set in reducer//
-	
+
 	const datadelete = useSelector((state) => state.deleteFacilityData?.deletefacility);
 	//delete api data is here // state.deleteFacilityData is from the reducer==index.js//deletefacility is the initial values set in reducer
-	
+
 	const datagetdelete = useSelector((state) => state.deleteGetFacilityData?.deletegetfacility);
-	
+
 	// selector for put and get api for update modal
 	const dataupdateput = useSelector((state) => state.sportsFacilityData.sportsfacilityputdata);
 	//put update api is here // sportsFacilityData is from the reducer==index.js//sportsfacilityputdata  is the initial values set in reducer
-	
+
 	const dataupdateget = useSelector((state) => state.editGetFacilityData.editgetfacility);
 	//get update api is here // editGetFacilityData is from the reducer==index.js// editgetfacility is the initial values set in reducer
-	
+
 	// sports facility get the picture and post the data seselector
-	
+
 	const dataphoto = useSelector((state) => state.sportsPhotosGetData?.sportsphotos);
 	//sportsPhotosGetData is from the reducer== index.js// sportsphotos is the initial values set in reducer//
 	const [selectedDaysAndTimes, setSelectedDaysAndTimes] = useState([]);
@@ -139,11 +131,10 @@ const FacilityDisplayPage = () => {
 	const facilityid = localStorage.getItem("facilityid");
 
 	//  sports picture modal  functionality
-    
-	//facility hours prepopulate ? trying 
 
-
-
+	//facility hours prepopulate ? trying
+	console.log(dataupdateget, "dataupdateget");
+	console.log(setSelectedDaysAndTimes, "setSelectedDaysAndTimes");
 
 	const handleAddFacility = (facilityId) => {
 		// Handle logic for adding a facility
@@ -204,6 +195,9 @@ const FacilityDisplayPage = () => {
 		updatedSelectedDaysAndTimes.splice(index, 1);
 		setSelectedDaysAndTimes(updatedSelectedDaysAndTimes);
 	};
+
+	const existingFacilityHours = dataupdateget.data?.facilityHours[0];
+	console.log("existingFacilityHours", existingFacilityHours);
 
 	//  formik for the update modal
 	const initialValues = {
@@ -312,7 +306,7 @@ const FacilityDisplayPage = () => {
 		values.updatedAt = values.updatedAt;
 		values.updatedBy = values.updatedBy;
 
-				try {
+		try {
 			// values.facilityMetas = values.addFeatures; //check only addFeatures before
 			console.log("values", values);
 			// dispatch(FacitilityActionEditGetData(values));
@@ -358,8 +352,8 @@ const FacilityDisplayPage = () => {
 		if (chooseDays.length > 0 && startTime && endTime) {
 			const selectedDayAndTime = {
 				days: chooseDays,
-				startTime: startTime,
-				endTime: endTime,
+				startTime: moment(startTime).format("hh:mm"),
+				endTime: moment(endTime).format("hh:mm"),
 			};
 			setSelectedDaysAndTimes([...selectedDaysAndTimes, selectedDayAndTime]);
 			setChooseDays([]);
@@ -368,14 +362,19 @@ const FacilityDisplayPage = () => {
 		}
 	};
 
+	// handleaddbutton click  dataupdateget get agara value entha state la  set pananum
+
 	// end
 	//  function to display the range of weekdays ////////////////////////////////////
 
 	const getWeekdayRange = (selectedDays) => {
+
 		const daysInWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 		const selectedDayIndices = selectedDays.map((day) => daysInWeek.indexOf(day));
 		const sortedIndices = selectedDayIndices.sort((a, b) => a - b);
 		const consecutiveRanges = [];
+
+
 
 		for (let i = 0; i < sortedIndices.length; i++) {
 			let start = sortedIndices[i];
@@ -389,9 +388,6 @@ const FacilityDisplayPage = () => {
 
 		return consecutiveRanges.join(", ");
 	};
-   
-	console.log("getWeekdayRange" , getWeekdayRange);
-
 
 
 	// const handleAddFacilityMeta = () => {
@@ -412,11 +408,6 @@ const FacilityDisplayPage = () => {
 	};
 
 	// /////////////////////////////////////////////////////////////////////////////
-      
-	
-
-
-
 
 	useEffect(() => {
 		dispatch(FacilityDisplayPageAction(centerId));
@@ -450,7 +441,6 @@ const FacilityDisplayPage = () => {
 			advanceBookingMin: dataupdateget.data?.reservationAttribute?.advanceBookingMin,
 			advanceBookingMax: dataupdateget.data?.reservationAttribute?.advanceBookingMax,
 			facilityMetas: dataupdateget.data?.facilityMetas,
-			// facilityHours: dataupdateget.data?.facilityHours,
 			facilityHours: dataupdateget.data?.facilityHours,
 
 
@@ -463,16 +453,12 @@ const FacilityDisplayPage = () => {
 			description: dataupdateget.data?.description,
 			createdAt: dataupdateget.data?.createdAt,
 			workingPlans: dataupdateget.data?.workingPlans,
-		});
-		 //setSelectedDaysAndTimes(dataupdateget?.data?.facilityHours);
 
-		
+		});
+		setSelectedDaysAndTimes(dataupdateget?.data?.facilityHours);
+         console.log("dataupdateget?.data?.facilityHours", dataupdateget?.data?.facilityHours);
 		// formik.setFieldValue("title",dataupdateget.data?.title)
 	}, [dataupdateget]);
-
-
-
-
 
 	useEffect(() => {
 		if (showModal) {
@@ -895,27 +881,21 @@ const FacilityDisplayPage = () => {
 
 																{/* selected time and days displaying code  */}
 
-																<div className="row d-flex flex-column">
-																	<div className="col-sm-12 displaytimefacilityform">
-																		{selectedDaysAndTimes.length > 0 && (
+																<div className="row ">
+																	<div className="col-sm-12  displaytimefacilityform ">
+																		{selectedDaysAndTimes?.length > 0 && (
 																			<div>
 																				<ul>
-																					{selectedDaysAndTimes.map((selectedDayAndTime, index) => (
-																						<li key={index}>
+																					{selectedDaysAndTimes?.map((selectedDayAndTime, index) => (
+																						<li  className="d-flex " key={index}>
 																							{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime.toLocaleTimeString([], { */}
 																							{`${getWeekdayRange(
-																								selectedDayAndTime.days
-																							)}: ${selectedDayAndTime.startTime.toLocaleTimeString([], {
-																								hour: "2-digit",
-																								minute: "2-digit",
-																							})} - ${selectedDayAndTime.endTime.toLocaleTimeString([], {
-																								hour: "2-digit",
-																								minute: "2-digit",
-																							})}`}
+																								selectedDayAndTime.weekday.split(",") || selectedDayAndTime.days
+																							)}: ${selectedDayAndTime.startTime} - ${selectedDayAndTime.endTime}`}
 																							{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime} - ${selectedDayAndTime.endTime}`} */}
 
 																							<span
-																								className="delete-icon"
+																								className="d-flex flex-row delete-icon"
 																								style={{ color: "red", cursor: "pointer" }}
 																								onClick={() => handleDeleteSelectedDayAndTime(index)}
 																							>
@@ -936,13 +916,32 @@ const FacilityDisplayPage = () => {
 																				</ul>
 																			</div>
 																		)}
+																		{console.log("selectedDaysAndTimes", selectedDaysAndTimes)}
+
+																		 {/* Display existingFacilityHours */}
+																		{existingFacilityHours &&
+																			existingFacilityHours.startTime &&
+																			existingFacilityHours.startTime instanceof Date && (
+																				<div>
+																					<p>{`${getWeekdayRange([
+																						existingFacilityHours.weekday,
+																					])}: ${existingFacilityHours.startTime.toLocaleTimeString([], {
+																						hour: "2-digit",
+																						minute: "2-digit",
+																					})}
+																					- ${existingFacilityHours.endTime.toLocaleTimeString([], {
+																						hour: "2-digit",
+																						minute: "2-digit",
+																					})}`}</p>
+    
+      
+       
+																				</div>
+																			)}
 																	</div>
 																</div>
 
-															{console.log("selectedDaysAndTimes",  selectedDaysAndTimes)	}
-															{console.log("selectedFacility",  selectedFacility)	}
-
-
+																{/* --------------------- */}
 
 																<div className="row mt-3">
 																	<div className="col-sm-12">
@@ -1185,9 +1184,7 @@ const FacilityDisplayPage = () => {
 															>
 																Update
 															</button>
-
 															{/* understand the changes done here in values,data why??? */}
-
 															{/* here we are sending this dispatch action data to  action  and telling what value should be sent remember here .....*/}
 															<button
 																type="button"
@@ -1199,7 +1196,7 @@ const FacilityDisplayPage = () => {
 															>
 																Cancel
 															</button>
-}
+															
 														</div>
 													</Modal.Footer>
 												</form>
