@@ -336,7 +336,7 @@ const FacilityDisplayPage = () => {
 			}
 		});
 
-		// Update chooseDays array
+		////////////////////////// Update chooseDays array//////////////////////////////////
 		setChooseDays((prevChooseDays) => {
 			if (prevChooseDays.includes(day.shortName)) {
 				// If the day is already selected, return the array as is.
@@ -346,7 +346,20 @@ const FacilityDisplayPage = () => {
 				return [...prevChooseDays, day.shortName];
 			}
 		});
-	};
+
+
+		
+		  
+
+		
+
+
+
+
+
+		};
+
+	// ----------------------------------------------------------------------
 
 	const handleAddButtonClick = () => {
 		if (chooseDays.length > 0 && startTime && endTime) {
@@ -888,11 +901,19 @@ const FacilityDisplayPage = () => {
 																				<ul>
 																					{selectedDaysAndTimes?.map((selectedDayAndTime, index) => (
 																						<li  className="d-flex " key={index}>
-																							{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime.toLocaleTimeString([], { */}
 																							{`${getWeekdayRange(
-																								selectedDayAndTime.weekday.split(",") || selectedDayAndTime.days
+																								(selectedDayAndTime.weekday && selectedDayAndTime.weekday.split(",")) || selectedDayAndTime.days
 																							)}: ${selectedDayAndTime.startTime} - ${selectedDayAndTime.endTime}`}
-																							{/* {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime} - ${selectedDayAndTime.endTime}`} */}
+																							
+																							
+																							
+																							
+																							{/* 
+																																										
+																							{`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime} - ${selectedDayAndTime.endTime}`} 
+																						  {`${selectedDayAndTime.days.join(", ")}: ${selectedDayAndTime.startTime.toLocaleTimeString([], { 
+																																										
+																							*/}
 
 																							<span
 																								className="d-flex flex-row delete-icon"
@@ -1302,3 +1323,7 @@ export default FacilityDisplayPage;
 // 	}
 
 // };
+
+
+
+ 
