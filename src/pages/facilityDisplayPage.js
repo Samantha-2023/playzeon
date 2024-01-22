@@ -382,7 +382,9 @@ const FacilityDisplayPage = () => {
 
 	const getWeekdayRange = (selectedDays) => {
 
-		const daysInWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+		// const daysInWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+		const daysInWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 		const selectedDayIndices = selectedDays.map((day) => daysOfWeek.findIndex(item => item.fullName === day || item.shortName===day));
 		
 		console.log("selectedDayIndices",  selectedDayIndices);
