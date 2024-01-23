@@ -16,6 +16,9 @@ import Facilities from "./pages/facilities";
 import FacilityDisplayPage from "./pages/facilityDisplayPage";
 import Refunds from "./pages/refunds";
 import Past from "./pages/past";
+import Reservation from "./pages/reservation";
+import ReservationCalendar from "./pages/reservationCalendar";
+import ReservationFacility from "./pages/reservartionFacility";
 
 export default function App() {
   return (
@@ -44,6 +47,9 @@ export default function App() {
        </Route> 
 
        <Route path="/refunds_past"  element={<>    <NavBar/> <Past/> </> }  >
+       </Route> 
+
+       <Route path="/reservation"  element={<>    <NavBar/> <Reservation/> </> }  >
        </Route> 
 
         </Routes>

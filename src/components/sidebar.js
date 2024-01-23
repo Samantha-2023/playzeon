@@ -107,7 +107,7 @@ const SideBar = () => {
 							<div className="sidebarlink">
 								<p className="d-flex justify-content-start gap-1 " style={{ display: "inline-block", fontSize: "12px" }}>
 									<RiListCheck3 style={{ width: "15px", height: "15px" }} />
-									<span className="cursor-pointer">Reservation</span>
+									<span className="cursor-pointer"  onClick={() => navigate("/reservation")}>Reservation</span>
 								</p>
 							</div>
 							<svg

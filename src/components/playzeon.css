@@ -491,3 +491,46 @@ font-size: small;
   color: white;
   background-color: black;
 }
+/* ///////////////////////reservation//////////////////////// */
+.bg-lightgrey{
+  background-color: #EDEEF0;
+}
+
+.content{
+  flex-grow: 1;
+  height:100%;
+  overflow-y: auto;
+}
+
+.overflow-auto{
+  overflow: auto!important ;
+}
+.tablecard{
+  background-color: #fff;
+  border:none;
+  border-radius: 6px;
+}
+.line{
+  border-top: 1px solid gray;
+  border-right: none;
+  border-bottom: none;
+  border-left:none;
+  min-width: 7px;
+  margin-top: 0px;
+}
+
+.table-responsive{
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+}
+.calendars{
+  grid-row-gap: 10rem;
+  display: grid;
+  row-gap: 10 rem;
+}
+.line2{
+  border:0;
+  border-top: 1px solid;
+  margin:1rem;
+  opacity:.25;
+}
