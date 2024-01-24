@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import CustomInput from "../pages/customInput";
+import CustomTimeInput from "./custtomTimeInput";
 
 const ReservationForm = () => {
 	const [startDate, setStartDate] = useState(new Date());
@@ -68,14 +69,26 @@ const ReservationForm = () => {
 										<div className="row">
 											<div className="mb-0 me-2 position-relative">
 												<label className="me-2 bookingtext form-label">Start Date</label>
-												<DatePicker  toggleCalendarOnIconClick selected={startDate} onChange={(date) => setStartDate(date)}   showIcon    customInput={<CustomInput />}   />
+												<DatePicker
+													toggleCalendarOnIconClick
+													selected={startDate}
+													onChange={(date) => setStartDate(date)}
+													showIcon
+													customInput={<CustomInput />}
+												/>
 											</div>
 										</div>
 
 										<div className="row">
 											<div className="mb-0 me-2 position-relative">
 												<label className="me-2 bookingtext form-label">End Date</label>
-												<DatePicker  toggleCalendarOnIconClick selected={endDate} onChange={(date) => setEndDate(date)}    showIcon   customInput={<CustomInput />}       />
+												<DatePicker
+													toggleCalendarOnIconClick
+													selected={endDate}
+													onChange={(date) => setEndDate(date)}
+													showIcon
+													customInput={<CustomInput />}
+												/>
 											</div>
 										</div>
 
@@ -90,13 +103,12 @@ const ReservationForm = () => {
 													timeIntervals={15}
 													timeCaption="Time"
 													dateFormat="h:mm aa"
+													customInput={<CustomTimeInput />}
 												/>
 											</div>
 										</div>
 
-
-
-                                        <div className="row">
+										<div className="row">
 											<div className="mb-0 me-2 position-relative">
 												<label className="me-2 bookingtext form-label">End time</label>
 												<DatePicker
@@ -107,8 +119,71 @@ const ReservationForm = () => {
 													timeIntervals={15}
 													timeCaption="Time"
 													dateFormat="h:mm aa"
+													customInput={<CustomTimeInput />}
 												/>
 											</div>
+										</div>
+									</div>
+								</form>
+								<div className="mt-2 d-flex justify-content-end">
+									<label className="text-danger cursor-pointer text-decoration-none me-3 align-self-center">Clear</label>
+									<button type="submit"   className="btn btn-danger py-1 cursor-pointer"  >Apply</button>
+								</div>
+							</div>
+
+							<div className ="col-sm-9">
+								<div className="container px-0">
+									<div className="card tablecard mt-2">
+										<div className="card-body  pt-0" style={{overflowX:"auto"}}>
+                                         <table  className="table border-0 table-spacing text-nowrap">
+                                          <thead style={{position:"sticky",  top:"0px", zIndex:"1"}}>
+											<th className="text-muted  border-0"> Reservation no.</th>
+											<th className="text-muted  border-0"> First name</th>
+											<th className="text-muted  border-0"> Last name</th>
+											<th className="text-muted  border-0"> Reservation date&time</th>
+											<th className="text-muted  border-0"> Description</th>
+											<th className="text-muted  border-0"> Type of booking</th>
+											<th className="text-muted  border-0"> Booking date&time</th>
+											<th className="text-muted  border-0"> 
+											<div><input type="checkbox" className = "form-check-input" /></div>
+											</th>	
+											<th className="text-muted  border-0">Action</th>
+	                                        </thead>
+											<tbody>
+                                             <tr style={{background:"white"}}>
+											 <td className="border border-white" colspan="12"></td>
+
+											 </tr>
+
+
+
+											</tbody>
+
+											
+  
+
+
+
+
+
+										 
+
+
+
+
+
+
+
+
+
+
+										 </table>
+
+
+
+
+
+
 										</div>
 
 
@@ -121,8 +196,36 @@ const ReservationForm = () => {
 
 
 									</div>
-								</form>
+
+
+
+
+
+
+
+
+
+
+								</div>
+
+
+
+
+
+
+
+
+
+
+
+
 							</div>
+
+
+
+
+
+
 						</div>
 					</div>
 				</div>
