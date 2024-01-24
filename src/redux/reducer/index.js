@@ -12,6 +12,7 @@ import { deleteFacilityReducer, deleteGetFacilityReducer } from "./reducerDelete
 import { editFacilityReducer } from "./reducerEditFacility";
 import { courtGetDisplayReducer } from "./reducerCourtGet";
 import { RefundsFilterGetReducer } from "./reducerRefund";
+import { reservationFacilityTypeReducer } from "./reservationReducer";
 
 
 const reducers = combineReducers({
@@ -34,6 +35,7 @@ const reducers = combineReducers({
     photosData:photosAddCenterReducer,
     courtGetData:courtGetDisplayReducer,
     refundsFilterGetData:RefundsFilterGetReducer,
+    reservationfacilitytypeget:reservationFacilityTypeReducer,
 
 });
 

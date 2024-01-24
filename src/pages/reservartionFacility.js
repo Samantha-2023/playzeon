@@ -1,6 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { ReservationGetFacilityType } from "../redux/action/reservationAction";
+// import { useNavigate } from "react-router-dom";
 
 const ReservationFacility = () => {
+	const dispatch = useDispatch();
+
+	const [facilityValue, setFacilityValue] = useState([]);
+
+	const reservationfacilitytypeselector = useSelector((state) => state.reservationfacilitytypeget?.reservationfacilitytype);
+	//get api data is here	//reservationfacilitytypeget is from the reducer== index.js//reservationfacilitytype is the initial values set in reducer//
+
+	console.log("reservationfacilitytypeselector", reservationfacilitytypeselector);
+
+	const handleSelectChange = (event) => {
+		const selectedFacilityType = event.target.value;
+		setFacilityValue(selectedFacilityType);
+		dispatch(ReservationGetFacilityType(selectedFacilityType));
+	};
+	//   here changes of another api action remember to change
+
+	useEffect(() => {
+		dispatch(ReservationGetFacilityType());
+	}, []);
+
 	return (
 		<div>
 			<div className="table-responsive  calendars" style={{ padding: "15px" }}>
@@ -11,40 +36,14 @@ const ReservationFacility = () => {
 							<span className="text-danger">*</span>
 						</label>
 
-						<select aria-label="Facility Type" className="mb-3   form-select">
-							<option className="fw-semibold" value="1">
-								Tennis Court
-							</option>
-							<option className="fw-semibold" value="2">
-								Football field
-							</option>
-							<option className="fw-semibold" value="1">
-								Racquetball Court
-							</option>
-							<option className="fw-semibold" value="1">
-								Basketball Court
-							</option>
-							<option className="fw-semibold" value="1">
-								Baseball field
-							</option>
-							<option className="fw-semibold" value="1">
-								Soccer field
-							</option>
-							<option className="fw-semibold" value="1">
-								Ping pong table
-							</option>
-							<option className="fw-semibold" value="1">
-								Ice hockey rink
-							</option>
-							<option className="fw-semibold" value="1">
-								Swimming pool
-							</option>
-							<option className="fw-semibold" value="1">
-								Yoga room
-							</option>
-							<option className="fw-semibold" value="1">
-								Pickle ball court
-							</option>
+						<select aria-label="Facility Type" className="mb-3  form-select " value={facilityValue} onChange={handleSelectChange}>
+							{reservationfacilitytypeselector &&
+								reservationfacilitytypeselector?.data &&
+								reservationfacilitytypeselector?.data?.map((facility) => (
+									<option key={facility.id} value={facility.id} className="fw-semibold" style={{ fontSize: "10px" }}>
+										{facility.title}
+									</option>
+								))}
 						</select>
 					</div>
 
@@ -89,4 +88,38 @@ const ReservationFacility = () => {
 	);
 };
 
-export default  ReservationFacility;
+export default ReservationFacility;
+
+//   <option className="fw-semibold" value="1">
+// 		Tennis Court
+// 	</option>
+// 	<option className="fw-semibold" value="2">
+// 		Football field
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Racquetball Court
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Basketball Court
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Baseball field
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Soccer field
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Ping pong table
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Ice hockey rink
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Swimming pool
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Yoga room
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Pickle ball court
+// 	</option>
