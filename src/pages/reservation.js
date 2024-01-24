@@ -3,6 +3,7 @@ import "../components/playzeon.css";
 import SideBar from "../components/sidebar";
 import ReservationFacility from "../pages/reservartionFacility";
 import ReservationCalendar from "../pages/reservationCalendar";
+import ReservationForm from "../pages/reservationForm";
 // import { useNavigate } from "react-router-dom";
 
 
@@ -81,9 +82,19 @@ const Reservation = () => {
 								<ReservationCalendar />
 
 
+								<hr className="line2" />
+                                  <br  />
+								  <br  />
+                                  <br  />
 
 
 
+								<ReservationForm  />
+
+
+
+
+                                  
 
 
 
