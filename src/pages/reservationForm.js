@@ -124,108 +124,48 @@ const ReservationForm = () => {
 											</div>
 										</div>
 									</div>
-								</form>
+								
 								<div className="mt-2 d-flex justify-content-end">
 									<label className="text-danger cursor-pointer text-decoration-none me-3 align-self-center">Clear</label>
-									<button type="submit"   className="btn btn-danger py-1 cursor-pointer"  >Apply</button>
+									<button type="submit" className="btn btn-danger py-1 cursor-pointer">
+										Apply
+									</button>
 								</div>
+								</form>
 							</div>
 
-							<div className ="col-sm-9">
+							<div className="col-sm-9">
 								<div className="container px-0">
 									<div className="card tablecard mt-2">
-										<div className="card-body  pt-0" style={{overflowX:"auto"}}>
-                                         <table  className="table border-0 table-spacing text-nowrap">
-                                          <thead style={{position:"sticky",  top:"0px", zIndex:"1"}}>
-											<th className="text-muted  border-0"> Reservation no.</th>
-											<th className="text-muted  border-0"> First name</th>
-											<th className="text-muted  border-0"> Last name</th>
-											<th className="text-muted  border-0"> Reservation date&time</th>
-											<th className="text-muted  border-0"> Description</th>
-											<th className="text-muted  border-0"> Type of booking</th>
-											<th className="text-muted  border-0"> Booking date&time</th>
-											<th className="text-muted  border-0"> 
-											<div><input type="checkbox" className = "form-check-input" /></div>
-											</th>	
-											<th className="text-muted  border-0">Action</th>
-	                                        </thead>
-											<tbody>
-                                             <tr style={{background:"white"}}>
-											 <td className="border border-white" colspan="12"></td>
-
-											 </tr>
-
-
-
-											</tbody>
-
-											
-  
-
-
-
-
-
-										 
-
-
-
-
-
-
-
-
-
-
-										 </table>
-
-
-
-
-
-
+										<div className="card-body  pt-0" style={{ overflowX: "auto" }}>
+											<table className="table border-0 table-spacing text-nowrap">
+												<thead style={{ position: "sticky", top: "0px", zIndex: "1" }}>
+													<tr className="tableheadrow bg-white">
+														<th className="text-muted  border-0"> Reservation no.</th>
+														<th className="text-muted  border-0"> First name</th>
+														<th className="text-muted  border-0"> Last name</th>
+														<th className="text-muted  border-0"> Reservation date&time</th>
+														<th className="text-muted  border-0"> Description</th>
+														<th className="text-muted  border-0"> Type of booking</th>
+														<th className="text-muted  border-0"> Booking date&time</th>
+														<th className="text-muted  border-0">
+															<div>
+																<input type="checkbox" className="form-check-input" />
+															</div>
+														</th>
+														<th className="text-muted  border-0">Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr style={{ background: "white" }}>
+														<td className="border border-white" colspan="12"></td>
+													</tr>
+												</tbody>
+											</table>
 										</div>
-
-
-
-
-
-
-
-
-
-
 									</div>
-
-
-
-
-
-
-
-
-
-
 								</div>
-
-
-
-
-
-
-
-
-
-
-
-
 							</div>
-
-
-
-
-
-
 						</div>
 					</div>
 				</div>

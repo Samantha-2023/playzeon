@@ -546,3 +546,14 @@ font-size: small;
 .position-relative{
  position: relative !important;
 }
+.tableheadrow{
+  font-size: 9px;
+  height: 35px;
+  font-weight: 100px;
+  color:#7b7979;
+  font-family: sans-serif;
+}
+.text-muted{
+  --bs-text-opacity: 1;
+    color: #6c757d!important;
+}

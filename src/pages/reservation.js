@@ -66,7 +66,7 @@ const Reservation = () => {
 									</div>
 
 									<div className="col-sm-2 d-flex">
-										<label className="col-ms-2 fw-bold">Booking Schedules</label>
+										<label className="col-ms-2 fw-bold" style={{fontSize:"13px"}}>Booking Schedules</label>
 									</div>
 								</div>
 								{/* 1 st row above ended */}
