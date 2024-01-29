@@ -1,7 +1,6 @@
 import axios from "axios";
 import {FETCH_RESERVATION_FACILITY_TYPE_GET} from "../constants/constants";
-import {API_URL  } from "../../constantsUrl/constantsUrl.js";
-
+import {API_URL} from "../../constantsUrl/constantsUrl.js";
 // import {Constants }  from "../constants/constants.js";
 
 export const ReservationGetFacilityType = (values) => async (dispatch) => {
@@ -37,3 +36,4 @@ export const ReservationGetFacilityType = (values) => async (dispatch) => {
 		console.error("An error occured during login:", error);
 	}
 };
+

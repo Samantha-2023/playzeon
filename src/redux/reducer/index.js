@@ -13,6 +13,8 @@ import { editFacilityReducer } from "./reducerEditFacility";
 import { courtGetDisplayReducer } from "./reducerCourtGet";
 import { RefundsFilterGetReducer } from "./reducerRefund";
 import { reservationFacilityTypeReducer } from "./reservationReducer";
+import { reservationFacilitylistReducer } from "./reservationListFacilityReducer";
+import { listReservationReducer } from "./listReservationReducer";
 
 
 const reducers = combineReducers({
@@ -36,7 +38,8 @@ const reducers = combineReducers({
     courtGetData:courtGetDisplayReducer,
     refundsFilterGetData:RefundsFilterGetReducer,
     reservationfacilitytypeget:reservationFacilityTypeReducer,
-
+    reservationfacilitylist: reservationFacilitylistReducer,
+    getlistreservation:listReservationReducer,
 });
 
 export default reducers;
