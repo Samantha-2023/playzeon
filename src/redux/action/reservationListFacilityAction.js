@@ -16,7 +16,7 @@ export const ReservationGetListFacility = (values) => async (dispatch) => {
 		const options = {
 			method: "GET",
 			headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
-			url: `${API_URL}/api/v1/facilities?sportId.equals=1&centerId.equals=${CenterId}`,
+			url: `${API_URL}/api/v1/facilities?sportId.equals=${values}&centerId.equals=${CenterId}`,
 		};
 
 		const { data } = await axios(options);
