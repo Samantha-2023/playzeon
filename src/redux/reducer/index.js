@@ -15,6 +15,7 @@ import { RefundsFilterGetReducer } from "./reducerRefund";
 import { reservationFacilityTypeReducer } from "./reservationReducer";
 import { reservationFacilitylistReducer } from "./reservationListFacilityReducer";
 import { listReservationReducer } from "./listReservationReducer";
+import { allFacilitylistReducer } from "./allFacilitiesListReducer";
 
 
 const reducers = combineReducers({
@@ -40,6 +41,7 @@ const reducers = combineReducers({
     reservationfacilitytypeget:reservationFacilityTypeReducer,
     reservationfacilitylist: reservationFacilitylistReducer,
     getlistreservation:listReservationReducer,
+    AllListApiFacility:allFacilitylistReducer,
 });
 
 export default reducers;

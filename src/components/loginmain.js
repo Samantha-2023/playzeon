@@ -36,7 +36,10 @@ const LoginMain = ({ setShowPartnerForm }) => {
 		validationSchema: validationSchema,
 		onSubmit: submitForm,
 	});
+
 	console.log(formik.errors?.email);
+	console.log(formik);
+	// console.log(values);
 
 	return (
 		<div className="col-lg-7 col-md-10 col-sm-12 mt-0">

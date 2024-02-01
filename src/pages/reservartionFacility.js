@@ -5,12 +5,17 @@ import { useSelector } from "react-redux";
 import { ReservationGetFacilityType } from "../redux/action/reservationAction";
 import { ReservationGetListFacility } from "../redux/action/reservationListFacilityAction";
 import { GetListReservationAction } from "../redux/action/listReservationAction";
+import { AllFacilitiesList } from "../redux/action/allFacilitiesListAction";
 // import { useNavigate } from "react-router-dom";
 
 const ReservationFacility = () => {
 	const dispatch = useDispatch();
 
 	const [facilityValue, setFacilityValue] = useState([]);
+
+	const [allsports, setAllSports] = useState([]);
+	// const [allsports, setAllSports] = useState(allfacilityapi || []);
+	
 
 	const reservationfacilitytypeselector = useSelector((state) => state.reservationfacilitytypeget?.reservationfacilitytype);
 	//get api data is here	//reservationfacilitytypeget is from the reducer== index.js//reservationfacilitytype is the initial values set in reducer//
@@ -22,13 +27,21 @@ const ReservationFacility = () => {
 	const getlistreservation = useSelector((state) => state.getlistreservation?.listreservationinitial);
 	console.log("getlistreservation", getlistreservation);
 
+	const allfacilityapi= useSelector((state)=> state.AllListApiFacility?.allfacilitylistreservation);
+	console.log("allfacilityapi",allfacilityapi);
+
+
+	
 	const handleSelectChange = (event) => {
 		const selectedFacilityType = event.target.value;
 		setFacilityValue(selectedFacilityType);
 		dispatch(ReservationGetListFacility(selectedFacilityType));
+
+		dispatch(AllFacilitiesList(selectedFacilityType));
+		console.log(selectedFacilityType,"selectedFacilityType--------------");
 	};
-	//   here changes of another api action remember to change
-	//
+
+	
 
 	const handleSearchClick = () => {
 		const action = GetListReservationAction();
@@ -43,6 +56,16 @@ const ReservationFacility = () => {
 		if(reservationfacilitytypeselector?.data?.length)
 		dispatch(ReservationGetListFacility(reservationfacilitytypeselector?.data[0].sport.id));
 	}, [reservationfacilitytypeselector]);
+
+
+	useEffect(() => {
+		if (allfacilityapi) {
+		  setAllSports(allfacilityapi);
+		}
+	  }, [allfacilityapi]);
+
+
+
 
 	return (
 		<div>
@@ -71,7 +94,7 @@ const ReservationFacility = () => {
 						</label>
 
 						<select placeholder="Please select an option" className="mb-2 w-75 form-select ">
-							{/* <option value="All court" label="All court"></option> */}
+							<option value="All court" label="All court"></option> 
 
 							{reservationlistselector &&
 								typeof reservationlistselector?.data === "object" &&
