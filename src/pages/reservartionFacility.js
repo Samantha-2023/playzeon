@@ -15,7 +15,6 @@ const ReservationFacility = () => {
 
 	const [allsports, setAllSports] = useState([]);
 	// const [allsports, setAllSports] = useState(allfacilityapi || []);
-	
 
 	const reservationfacilitytypeselector = useSelector((state) => state.reservationfacilitytypeget?.reservationfacilitytype);
 	//get api data is here	//reservationfacilitytypeget is from the reducer== index.js//reservationfacilitytype is the initial values set in reducer//
@@ -27,25 +26,28 @@ const ReservationFacility = () => {
 	const getlistreservation = useSelector((state) => state.getlistreservation?.listreservationinitial);
 	console.log("getlistreservation", getlistreservation);
 
-	const allfacilityapi= useSelector((state)=> state.AllListApiFacility?.allfacilitylistreservation);
-	console.log("allfacilityapi",allfacilityapi);
+	const allfacilityapi = useSelector((state) => state.AllListApiFacility?.allfacilitylistreservation);
+	console.log("allfacilityapi", allfacilityapi);
 
-
-	
 	const handleSelectChange = (event) => {
 		const selectedFacilityType = event.target.value;
 		setFacilityValue(selectedFacilityType);
 		dispatch(ReservationGetListFacility(selectedFacilityType));
 
 		dispatch(AllFacilitiesList(selectedFacilityType));
-		console.log(selectedFacilityType,"selectedFacilityType--------------");
+		console.log(selectedFacilityType, "selectedFacilityType--------------");
 	};
 
-	
-
 	const handleSearchClick = () => {
-		const action = GetListReservationAction();
+		const action = GetListReservationAction(allsports);
 		dispatch(action);
+	};
+
+	const handleChange = (event) => {
+		const allSportsId =event
+		setAllSports(event.target.value);
+
+		console.log("event.target.value@@@@@@", event.target.value);
 	};
 
 	useEffect(() => {
@@ -53,18 +55,26 @@ const ReservationFacility = () => {
 	}, []);
 
 	useEffect(() => {
-		if(reservationfacilitytypeselector?.data?.length)
+		if (reservationfacilitytypeselector?.data?.length) 
 		dispatch(ReservationGetListFacility(reservationfacilitytypeselector?.data[0].sport.id));
 	}, [reservationfacilitytypeselector]);
 
+	
 
 	useEffect(() => {
-		if (allfacilityapi) {
-		  setAllSports(allfacilityapi);
+		if (allfacilityapi && allfacilityapi?.data) {
+			 const valuesArray = Object.values(allfacilityapi.data);
+			 const joinedString = valuesArray.join(", ");
+			 setAllSports(joinedString);
+			setAllSports()
 		}
-	  }, [allfacilityapi]);
+	}, [allfacilityapi]);
 
 
+	
+	
+
+	console.log("allsports", allsports);
 
 
 	return (
@@ -93,8 +103,10 @@ const ReservationFacility = () => {
 							Facilities<span className="text-danger">*</span>
 						</label>
 
-						<select placeholder="Please select an option" className="mb-2 w-75 form-select ">
-							<option value="All court" label="All court"></option> 
+						<select  aria-label="Facilities" placeholder="Please select an option" className="mb-2 w-75 form-select " value={allsports} onChange={handleChange}>
+							<option value={allsports} label="All court">
+								All court
+							</option>
 
 							{reservationlistselector &&
 								typeof reservationlistselector?.data === "object" &&
@@ -176,3 +188,43 @@ export default ReservationFacility;
 // 	<option className="fw-semibold" value="1">
 // 		Pickle ball court
 // 	</option>
+
+{
+	/* {allfacilityapi &&
+								allfacilityapi.map((facility) => (
+									<option className="fw-semibold" key={facility.id} value={facility.id}>
+										All court {facility.name}
+									</option>
+								))} */
+}
+
+// useEffect(() => {
+// 	if (allfacilityapi && allfacilityapi?.data) {
+// 	  // Get an array of values from the data object
+// 	  const valuesArray = Object.values(allfacilityapi.data);
+
+// 	  // Join the values into a single string
+// 	  const joinedString = valuesArray.join(', ');
+
+// 	  // Set the state with the joined string
+// 	  setAllSports(joinedString);
+// 	}
+//   }, [allfacilityapi]);
+
+
+
+
+// useEffect(() => {
+	// 	if (allfacilityapi) {
+	// 		setAllSports((allfacilityapi?.data));
+	// 	}
+	// }, [allfacilityapi]);
+
+
+
+
+	// useEffect(() => {
+	// 	if (allfacilityapi && allfacilityapi?.data) {
+	// 	   setAllSports((allfacilityapi.data));
+	//    }
+	// }, [allfacilityapi]);
