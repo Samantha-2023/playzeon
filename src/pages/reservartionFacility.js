@@ -44,10 +44,12 @@ const ReservationFacility = () => {
 	};
 
 	const handleChange = (event) => {
-		const allSportsId =event
-		setAllSports(event.target.value);
+		const allSportsId = event.target.value;
+		setAllSports(allSportsId);
+		dispatch(allfacilityapi(allSportsId));
 
 		console.log("event.target.value@@@@@@", event.target.value);
+		console.log("allSportsId???????", allSportsId);
 	};
 
 	useEffect(() => {
@@ -55,27 +57,20 @@ const ReservationFacility = () => {
 	}, []);
 
 	useEffect(() => {
-		if (reservationfacilitytypeselector?.data?.length) 
-		dispatch(ReservationGetListFacility(reservationfacilitytypeselector?.data[0].sport.id));
+		if (reservationfacilitytypeselector?.data?.length)
+		 dispatch(ReservationGetListFacility(reservationfacilitytypeselector?.data[0].sport.id));
 	}, [reservationfacilitytypeselector]);
-
-	
 
 	useEffect(() => {
 		if (allfacilityapi && allfacilityapi?.data) {
-			 const valuesArray = Object.values(allfacilityapi.data);
-			 const joinedString = valuesArray.join(", ");
-			 setAllSports(joinedString);
-			setAllSports()
+			const valuesArray = Object.values(allfacilityapi.data);
+			const joinedString = valuesArray.join(", ");
+			setAllSports(joinedString);
+			setAllSports();
 		}
 	}, [allfacilityapi]);
 
-
-	
-	
-
 	console.log("allsports", allsports);
-
 
 	return (
 		<div>
@@ -91,8 +86,11 @@ const ReservationFacility = () => {
 							{reservationfacilitytypeselector &&
 								reservationfacilitytypeselector?.data &&
 								reservationfacilitytypeselector?.data?.map((facility) => (
+
 									<option key={facility.id} value={facility.sport.id} className="fw-semibold" style={{ fontSize: "10px" }}>
+										
 										{facility.title}
+
 									</option>
 								))}
 						</select>
@@ -103,7 +101,13 @@ const ReservationFacility = () => {
 							Facilities<span className="text-danger">*</span>
 						</label>
 
-						<select  aria-label="Facilities" placeholder="Please select an option" className="mb-2 w-75 form-select " value={allsports} onChange={handleChange}>
+						<select
+							aria-label="Facilities"
+							placeholder="Please select an option"
+							className="mb-2 w-75 form-select "
+							value={allsports}
+							onChange={handleChange}
+						>
 							<option value={allsports} label="All court">
 								All court
 							</option>
@@ -114,6 +118,7 @@ const ReservationFacility = () => {
 									console.log("facilityDetails", facilityDetails);
 
 									return facilityDetails.map((facilityList) => (
+										
 										<option key={facilityList.id} className="fw-semibold" value={facilityList.id}>
 											{facilityList.name}
 										</option>
@@ -211,20 +216,14 @@ export default ReservationFacility;
 // 	}
 //   }, [allfacilityapi]);
 
-
-
+// useEffect(() => {
+// 	if (allfacilityapi) {
+// 		setAllSports((allfacilityapi?.data));
+// 	}
+// }, [allfacilityapi]);
 
 // useEffect(() => {
-	// 	if (allfacilityapi) {
-	// 		setAllSports((allfacilityapi?.data));
-	// 	}
-	// }, [allfacilityapi]);
-
-
-
-
-	// useEffect(() => {
-	// 	if (allfacilityapi && allfacilityapi?.data) {
-	// 	   setAllSports((allfacilityapi.data));
-	//    }
-	// }, [allfacilityapi]);
+// 	if (allfacilityapi && allfacilityapi?.data) {
+// 	   setAllSports((allfacilityapi.data));
+//    }
+// }, [allfacilityapi]);
