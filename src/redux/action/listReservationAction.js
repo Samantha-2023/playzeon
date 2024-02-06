@@ -23,7 +23,7 @@ export const GetListReservationAction = (values) => async (dispatch) => {
 		const options = {
 			method: "GET",
 			headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
-			url: `${API_URL}/api/v1/reservations?centerId.equals=${CenterId}&start.greaterThanOrEqual=2024-01-23T07:00:00Z&end.lessThanOrEqual=2024-01-24T06:59:59Z&Id.in=113251,113252,65551 `,
+			url: `${API_URL}/api/v1/reservations?centerId.equals=${CenterId}&start.greaterThanOrEqual=2024-01-23T07:00:00Z&end.lessThanOrEqual=2024-01-24T06:59:59Z&Id.in=${values} `,
           
 		};
 
