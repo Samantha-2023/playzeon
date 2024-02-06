@@ -3,6 +3,8 @@ import { FETCH_GET_LIST_RESERVATION} from "../constants/constants";
 import {API_URL} from "../../constantsUrl/constantsUrl.js";
 // import {Constants }  from "../constants/constants.js";
 
+
+//GetListReservationAction is used for search api 
 export const GetListReservationAction = (values) => async (dispatch) => {
 	console.log(values, "action");
 

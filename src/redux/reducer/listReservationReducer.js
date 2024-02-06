@@ -5,6 +5,7 @@ const initialValues={
 
 };//api response data is stored in the initial value , reservationfacilitytype  is used to store data from the api 
 
+// this reducer is  used for search api reducer
 export const listReservationReducer = (value = initialValues, action) => {
         switch (action?.type) {
                 case FETCH_GET_LIST_RESERVATION.REQUEST:

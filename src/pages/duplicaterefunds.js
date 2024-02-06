@@ -417,3 +417,94 @@ const Refunds = () => {
 };
 
 export default Refunds;
+
+// reservationFacility.js  code 
+
+//   <option className="fw-semibold" value="1">
+// 		Tennis Court
+// 	</option>
+// 	<option className="fw-semibold" value="2">
+// 		Football field
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Racquetball Court
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Basketball Court
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Baseball field
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Soccer field
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Ping pong table
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Ice hockey rink
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Swimming pool
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Yoga room
+// 	</option>
+// 	<option className="fw-semibold" value="1">
+// 		Pickle ball court
+// 	</option>
+
+{
+	/* {allfacilityapi &&
+								allfacilityapi.map((facility) => (
+									<option className="fw-semibold" key={facility.id} value={facility.id}>
+										All court {facility.name}
+									</option>
+								))} */
+}
+
+// useEffect(() => {
+// 	if (allfacilityapi && allfacilityapi?.data) {
+// 	  // Get an array of values from the data object
+// 	  const valuesArray = Object.values(allfacilityapi.data);
+
+// 	  // Join the values into a single string
+// 	  const joinedString = valuesArray.join(', ');
+
+// 	  // Set the state with the joined string
+// 	  setAllSports(joinedString);
+// 	}
+//   }, [allfacilityapi]);
+
+// useEffect(() => {
+// 	if (allfacilityapi) {
+// 		setAllSports((allfacilityapi?.data));
+// 	}
+// }, [allfacilityapi]);
+
+// useEffect(() => {
+// 	if (allfacilityapi && allfacilityapi?.data) {
+// 	   setAllSports((allfacilityapi.data));
+//    }
+// }, [allfacilityapi]);
+
+
+//// this AllFacilitiesList is for all sports api
+
+	// const handleChange = (event) => {
+	// 	const allSportsId = event.target.value;
+	// 	setAllSports(allSportsId);
+	// 	dispatch(AllFacilitiesList(allSportsId));
+
+
+	// 	const onefacilitylist = event.target.value;
+	// 	setSportsFacilityList(onefacilitylist);
+	// 	dispatch(ReservationGetListFacility(onefacilitylist));
+        
+		
+         
+    //     console.log("onefacilitylist",onefacilitylist);
+	// 	console.log("event.target.value@@@@@@", event.target.value);
+	// 	console.log("allSportsId???????", allSportsId);
+	// };
+

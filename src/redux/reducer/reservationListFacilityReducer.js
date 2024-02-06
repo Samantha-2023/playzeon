@@ -1,5 +1,6 @@
 import { FETCH_RESERVATION_GET_LIST_FACILITY } from "../constants/constants";
 
+//this reducer is  for facilities list  for the choosen sports .
 const initialValues={
       reservationlistfacility : [],
 

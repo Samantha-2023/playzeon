@@ -14,20 +14,27 @@ const ReservationFacility = () => {
 	const [facilityValue, setFacilityValue] = useState([]);
 
 	const [allsports, setAllSports] = useState([]);
-	// const [allsports, setAllSports] = useState(allfacilityapi || []);
 
+	const [sportsfacilitylist, setSportsFacilityList] = useState([]);
+
+	// This selector is for sports photos
 	const reservationfacilitytypeselector = useSelector((state) => state.reservationfacilitytypeget?.reservationfacilitytype);
 	//get api data is here	//reservationfacilitytypeget is from the reducer== index.js//reservationfacilitytype is the initial values set in reducer//
 	console.log("reservationfacilitytypeselector", reservationfacilitytypeselector);
 
+	//this selector  is  for facilities list  for the choosen sports .
 	const reservationlistselector = useSelector((state) => state.reservationfacilitylist?.reservationlistfacility);
 	console.log("reservationlistselector", reservationlistselector);
 
+	// this selector is used for search api
 	const getlistreservation = useSelector((state) => state.getlistreservation?.listreservationinitial);
 	console.log("getlistreservation", getlistreservation);
 
+	// this allfacilityapi selector is used for allsports api
 	const allfacilityapi = useSelector((state) => state.AllListApiFacility?.allfacilitylistreservation);
 	console.log("allfacilityapi", allfacilityapi);
+
+	// This ReservationGetListFacility is for facility  list , // this AllFacilitiesList is for all sports api
 
 	const handleSelectChange = (event) => {
 		const selectedFacilityType = event.target.value;
@@ -35,7 +42,6 @@ const ReservationFacility = () => {
 		dispatch(ReservationGetListFacility(selectedFacilityType));
 
 		dispatch(AllFacilitiesList(selectedFacilityType));
-		console.log(selectedFacilityType, "selectedFacilityType--------------");
 	};
 
 	const handleSearchClick = () => {
@@ -43,23 +49,32 @@ const ReservationFacility = () => {
 		dispatch(action);
 	};
 
+	//// this AllFacilitiesList is for all sports api,
 	const handleChange = (event) => {
-		const allSportsId = event.target.value;
-		setAllSports(allSportsId);
-		dispatch(allfacilityapi(allSportsId));
+		const choosenValue = event.nativeEvent.target.name;
+		const selectedIndex = event.target.selectedIndex;
+		const choosenName = event.target.options[selectedIndex].getAttribute("name");
+		setSportsFacilityList(event.target.value);
+		dispatch(AllFacilitiesList(choosenValue));
 
-		console.log("event.target.value@@@@@@", event.target.value);
-		console.log("allSportsId???????", allSportsId);
+		if (choosenName === "") {
+			console.log("");
+		} else {
+			const secondChoosenValue = event.target.value;
+			setAllSports(choosenValue);
+			// dispatch(ReservationGetListFacility(secondChoosenValue));  unnecessarily i have written api here 
+		}
 	};
-
+	// this  dispatch is for playzeon  sports photos
 	useEffect(() => {
 		dispatch(ReservationGetFacilityType());
 	}, []);
 
 	useEffect(() => {
-		if (reservationfacilitytypeselector?.data?.length)
-		 dispatch(ReservationGetListFacility(reservationfacilitytypeselector?.data[0].sport.id));
+		if (reservationfacilitytypeselector?.data?.length) dispatch(ReservationGetListFacility(reservationfacilitytypeselector?.data[0].sport.id));
 	}, [reservationfacilitytypeselector]);
+
+	// 	// this allfacilityapi is used for allsports api
 
 	useEffect(() => {
 		if (allfacilityapi && allfacilityapi?.data) {
@@ -70,7 +85,7 @@ const ReservationFacility = () => {
 		}
 	}, [allfacilityapi]);
 
-	console.log("allsports", allsports);
+	console.log(facilityValue, "facilityValue");
 
 	return (
 		<div>
@@ -86,11 +101,8 @@ const ReservationFacility = () => {
 							{reservationfacilitytypeselector &&
 								reservationfacilitytypeselector?.data &&
 								reservationfacilitytypeselector?.data?.map((facility) => (
-
 									<option key={facility.id} value={facility.sport.id} className="fw-semibold" style={{ fontSize: "10px" }}>
-										
 										{facility.title}
-
 									</option>
 								))}
 						</select>
@@ -105,10 +117,10 @@ const ReservationFacility = () => {
 							aria-label="Facilities"
 							placeholder="Please select an option"
 							className="mb-2 w-75 form-select "
-							value={allsports}
+							value={sportsfacilitylist}
 							onChange={handleChange}
 						>
-							<option value={allsports} label="All court">
+							<option value="" label="All court" name="All Sports">
 								All court
 							</option>
 
@@ -118,8 +130,7 @@ const ReservationFacility = () => {
 									console.log("facilityDetails", facilityDetails);
 
 									return facilityDetails.map((facilityList) => (
-										
-										<option key={facilityList.id} className="fw-semibold" value={facilityList.id}>
+										<option key={facilityList.id} className="fw-semibold" value={facilityList.id} name={facilityList?.name}>
 											{facilityList.name}
 										</option>
 									));
@@ -159,71 +170,3 @@ const ReservationFacility = () => {
 };
 
 export default ReservationFacility;
-
-//   <option className="fw-semibold" value="1">
-// 		Tennis Court
-// 	</option>
-// 	<option className="fw-semibold" value="2">
-// 		Football field
-// 	</option>
-// 	<option className="fw-semibold" value="1">
-// 		Racquetball Court
-// 	</option>
-// 	<option className="fw-semibold" value="1">
-// 		Basketball Court
-// 	</option>
-// 	<option className="fw-semibold" value="1">
-// 		Baseball field
-// 	</option>
-// 	<option className="fw-semibold" value="1">
-// 		Soccer field
-// 	</option>
-// 	<option className="fw-semibold" value="1">
-// 		Ping pong table
-// 	</option>
-// 	<option className="fw-semibold" value="1">
-// 		Ice hockey rink
-// 	</option>
-// 	<option className="fw-semibold" value="1">
-// 		Swimming pool
-// 	</option>
-// 	<option className="fw-semibold" value="1">
-// 		Yoga room
-// 	</option>
-// 	<option className="fw-semibold" value="1">
-// 		Pickle ball court
-// 	</option>
-
-{
-	/* {allfacilityapi &&
-								allfacilityapi.map((facility) => (
-									<option className="fw-semibold" key={facility.id} value={facility.id}>
-										All court {facility.name}
-									</option>
-								))} */
-}
-
-// useEffect(() => {
-// 	if (allfacilityapi && allfacilityapi?.data) {
-// 	  // Get an array of values from the data object
-// 	  const valuesArray = Object.values(allfacilityapi.data);
-
-// 	  // Join the values into a single string
-// 	  const joinedString = valuesArray.join(', ');
-
-// 	  // Set the state with the joined string
-// 	  setAllSports(joinedString);
-// 	}
-//   }, [allfacilityapi]);
-
-// useEffect(() => {
-// 	if (allfacilityapi) {
-// 		setAllSports((allfacilityapi?.data));
-// 	}
-// }, [allfacilityapi]);
-
-// useEffect(() => {
-// 	if (allfacilityapi && allfacilityapi?.data) {
-// 	   setAllSports((allfacilityapi.data));
-//    }
-// }, [allfacilityapi]);

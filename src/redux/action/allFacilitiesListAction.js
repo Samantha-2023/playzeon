@@ -3,6 +3,8 @@ import { FETCH_ALL_FACILITIES_LIST_RESERVATION} from "../constants/constants";
 import {API_URL} from "../../constantsUrl/constantsUrl.js";
 // import {Constants }  from "../constants/constants.js";
 
+// this AllFacilitiesList is for all sports api
+
 export const AllFacilitiesList = (values) => async (dispatch) => {
 	console.log(values, "action-all-api");
 
@@ -20,6 +22,7 @@ export const AllFacilitiesList = (values) => async (dispatch) => {
 			headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
 			url: `${API_URL}/api/v1/facilityList?sportId.equals=${values}&centerId.equals=${CenterId}`,
 		};
+
 
         //https://dev-api.playzeon.com/api/v1/facilityList?sportId.equals=1&centerId.equals=1753
 

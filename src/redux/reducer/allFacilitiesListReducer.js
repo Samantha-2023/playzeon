@@ -4,6 +4,7 @@ const initialValues={
       allfacilitylistreservation : [],
 
 };//api response data is stored in the initial value , allfacilitylistreservation  is used to store data from the api 
+// allfacilitylistreservation is used for all sports api 
 
 export const allFacilitylistReducer = (value = initialValues, action) => {
         switch (action?.type) {
