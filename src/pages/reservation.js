@@ -2,9 +2,12 @@ import React from "react";
 import "../components/playzeon.css";
 import SideBar from "../components/sidebar";
 import ReservationFacility from "../pages/reservartionFacility";
-import ReservationCalendar from "../pages/reservationCalendar";
+// import ReservationCalendar from "../pages/reservationCalendar";
 import ReservationForm from "../pages/reservationForm";
+import Dnd from "./Dnd";
 // import { useNavigate } from "react-router-dom";
+// import { render } from "react-dom";
+// import { Dnd } from "../pages/Dnd";
 
 
 const Reservation = () => {
@@ -79,7 +82,8 @@ const Reservation = () => {
 								<hr className="line2" />
 
 
-								<ReservationCalendar />
+								{/* <ReservationCalendar /> */}
+								<Dnd />
 
 
 								<hr className="line2" />
