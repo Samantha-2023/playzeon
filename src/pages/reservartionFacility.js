@@ -8,7 +8,7 @@ import { GetListReservationAction } from "../redux/action/listReservationAction"
 import { AllFacilitiesList } from "../redux/action/allFacilitiesListAction";
 // import { useNavigate } from "react-router-dom";
 
-const ReservationFacility = () => {
+const ReservationFacility = (props) => {
 	const dispatch = useDispatch();
 
 	const [facilityValue, setFacilityValue] = useState([]);
@@ -16,6 +16,8 @@ const ReservationFacility = () => {
 	const [allsports, setAllSports] = useState([]);
 
 	const [sportsfacilitylist, setSportsFacilityList] = useState([]);
+
+	const [facilityNames, setFacilityNames] = useState([]);
 
 	// This selector is for sports photos
 	const reservationfacilitytypeselector = useSelector((state) => state.reservationfacilitytypeget?.reservationfacilitytype);
@@ -48,30 +50,62 @@ const ReservationFacility = () => {
 		console.log(allsports, "all sports", sportsfacilitylist, "sportsfacilitylist");
 		dispatch(GetListReservationAction(allsports));
 	};
+	//just to show only the names
+	useEffect(() => {
+		if (reservationlistselector && reservationlistselector?.data) {
+			console.log("test name", reservationlistselector);
+			const names = Object.values(reservationlistselector?.data).map((item) =>
+					item?.map((val)=>{
+						return { id: val.id, title: val.name }
+					})
+			  );
 
-	//// this AllFacilitiesList is for all sports api,
+			console.log(names[0], "names[0]");
+			props.setDndAllSports(names)
+		}
+	}, [reservationlistselector]);
+
+	console.log(facilityNames, "facilityNames");
+
+	// this AllFacilitiesList is for all sports api,
+
 	const handleChange = (event) => {
 		const choosenValue = event.nativeEvent.target.name;
 		const selectedIndex = event.target.selectedIndex;
 		const choosenName = event.target.options[selectedIndex].getAttribute("name");
 		console.log(choosenName, "choosenNM");
+		// -------------------------------------------------------
+		const selectedId = event.target.value;
+		const selectedTitle = choosenName;
+		console.log(" selectedId", selectedId);
+		console.log(selectedTitle, " selectedTitle");
+
+		props.setDndFacilityList([{ id: selectedId, title: selectedTitle }]);
+
+		console.log(props.dndfacilitylist, "dndfacilitylist");
+
 		setSportsFacilityList(event.target.value);
+
 		dispatch(AllFacilitiesList(choosenValue));
 		if (choosenName === "All Sports") {
-			const joinedString = allfacilityapi?.data.join(", ");
+			console.log("allfacilityapi:::", allfacilityapi);
+			const joinedString = allfacilityapi?.data.join(",");
 			setAllSports(joinedString);
+
+			console.log("joinedString", joinedString);
+
+
+			//  props.setDndAllSports(facilityNames);
+
 		} else {
 			setAllSports(event.target.value);
 		}
 		if (choosenName === "") {
 			console.log("");
-		} 
-		// else {
-		// 	const secondChoosenValue = event.target.value;
-		// 	setAllSports(choosenValue);
-		// 	// dispatch(ReservationGetListFacility(secondChoosenValue));  unnecessarily i have written api here
-		// }
+		}
 	};
+	console.log("allsports", allsports);
+
 	// this  dispatch is for playzeon  sports photos
 	useEffect(() => {
 		dispatch(ReservationGetFacilityType());
@@ -81,7 +115,7 @@ const ReservationFacility = () => {
 		if (reservationfacilitytypeselector?.data?.length) dispatch(ReservationGetListFacility(reservationfacilitytypeselector?.data[0].sport.id));
 	}, [reservationfacilitytypeselector]);
 
-	// 	// this allfacilityapi is used for allsports api
+	// this allfacilityapi is used for allsports api
 
 	// useEffect(() => {
 	// 	if (allfacilityapi && allfacilityapi?.data) {
@@ -124,7 +158,7 @@ const ReservationFacility = () => {
 							onChange={handleChange}
 						>
 							<option value="" label="All court" name="All Sports">
-								All court
+								All Sports
 							</option>
 
 							{reservationlistselector &&
@@ -177,3 +211,15 @@ const ReservationFacility = () => {
 };
 
 export default ReservationFacility;
+
+//just to show only the names  how to map and place console inside the map function
+//  useEffect(() => {
+// 	if (reservationlistselector && reservationlistselector?.data) {
+// 		console.log("test name",reservationlistselector);
+// 	  const names = Object.values(reservationlistselector?.data).map(item => console.log("item",item));
+// 	  console.log(names,"names");
+// 	  setFacilityNames(names);
+// 	}
+//   }, [reservationlistselector]);
+
+// console.log(facilityNames,"facilityNames");

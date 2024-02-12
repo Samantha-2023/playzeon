@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../components/playzeon.css";
 import SideBar from "../components/sidebar";
 import ReservationFacility from "../pages/reservartionFacility";
@@ -9,10 +9,10 @@ import Dnd from "./Dnd";
 // import { render } from "react-dom";
 // import { Dnd } from "../pages/Dnd";
 
-
 const Reservation = () => {
-   // const navigate = useNavigate();
-
+	// const navigate = useNavigate();
+	const [dndfacilitylist, setDndFacilityList] = useState([]);
+	const [dndallsports, setDndAllSports] = useState([]);
 
 	return (
 		<div>
@@ -69,45 +69,33 @@ const Reservation = () => {
 									</div>
 
 									<div className="col-sm-2 d-flex">
-										<label className="col-ms-2 fw-bold" style={{fontSize:"13px"}}>Booking Schedules</label>
+										<label className="col-ms-2 fw-bold" style={{ fontSize: "13px" }}>
+											Booking Schedules
+										</label>
 									</div>
 								</div>
 								{/* 1 st row above ended */}
 
 								<hr className="line" />
 
-                        <ReservationFacility />
-
+								<ReservationFacility setDndFacilityList={setDndFacilityList} dndfacilitylist={dndfacilitylist} dndallsports={dndallsports} setDndAllSports={setDndAllSports}/>
 
 								<hr className="line2" />
-
 
 								{/* <ReservationCalendar /> */}
-								<Dnd />
-
+								<Dnd
+									setDndFacilityList={setDndFacilityList}
+									dndfacilitylist={dndfacilitylist}
+									setDndAllSports={setDndAllSports}
+									dndallsports={dndallsports}
+								/>
 
 								<hr className="line2" />
-                                  <br  />
-								  <br  />
-                                  <br  />
+								<br />
+								<br />
+								<br />
 
-
-
-								<ReservationForm  />
-
-
-
-
-                                  
-
-
-
-
-
-
-
-
-
+								<ReservationForm />
 							</div>
 						</div>
 					</div>

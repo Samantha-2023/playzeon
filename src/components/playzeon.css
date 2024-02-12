@@ -557,3 +557,15 @@ font-size: small;
   --bs-text-opacity: 1;
     color: #6c757d!important;
 }
+.rbc-time-header-content>.rbc-row.rbc-row-resource{
+  background-color: red;
+  color: white;
+}
+
+.rbc-toolbar button.rbc-active, .rbc-toolbar button:active:hover {
+  background-color: #de342f!important;
+  background-image: none;
+  border-color: #adadad;
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+  color: #fff!important;
+}
