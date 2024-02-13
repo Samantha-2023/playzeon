@@ -42,7 +42,7 @@ const Dnd = (props) => {
 				localizer={localizer}
 				defaultView="day"
 				// resources={props.dndfacilitylist}
-				 resources={props&&props.dndfacilitylist[0]?.title === "All Sports" ? props.dndallsports[0] : props.dndfacilitylist}
+				 resources={props&&props.dndfacilitylist[0]?.title === "All Sports"?props.dndallsports[0]:props.dndfacilitylist}
 				//  eventStyleGetter={eventStyleGetter}
 			/>
 		</>

@@ -569,3 +569,11 @@ font-size: small;
   box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
   color: #fff!important;
 }
+
+/* offcanvas  */
+.custom-offcanvas {
+    width:75% !important
+}
+.custom-btn-close{
+  color: red !important;
+}

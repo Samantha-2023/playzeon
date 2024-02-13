@@ -6,6 +6,8 @@ import { ReservationGetFacilityType } from "../redux/action/reservationAction";
 import { ReservationGetListFacility } from "../redux/action/reservationListFacilityAction";
 import { GetListReservationAction } from "../redux/action/listReservationAction";
 import { AllFacilitiesList } from "../redux/action/allFacilitiesListAction";
+import "../components/playzeon.css";
+
 // import { useNavigate } from "react-router-dom";
 
 const ReservationFacility = (props) => {
@@ -55,13 +57,13 @@ const ReservationFacility = (props) => {
 		if (reservationlistselector && reservationlistselector?.data) {
 			console.log("test name", reservationlistselector);
 			const names = Object.values(reservationlistselector?.data).map((item) =>
-					item?.map((val)=>{
-						return { id: val.id, title: val.name }
-					})
-			  );
+				item?.map((val) => {
+					return { id: val.id, title: val.name };
+				})
+			);
 
 			console.log(names[0], "names[0]");
-			props.setDndAllSports(names)
+			props.setDndAllSports(names);
 		}
 	}, [reservationlistselector]);
 
@@ -94,9 +96,7 @@ const ReservationFacility = (props) => {
 
 			console.log("joinedString", joinedString);
 
-
 			//  props.setDndAllSports(facilityNames);
-
 		} else {
 			setAllSports(event.target.value);
 		}
@@ -199,10 +199,71 @@ const ReservationFacility = (props) => {
 									<span style={{ cursor: "pointer" }}>Search</span>
 								</div>
 							</button>
-							<button type="button" className="me-3 text-white btn btn-danger" style={{ marginTop: "32px" }}>
+							<button
+								type="button"
+								className="me-3 text-white btn btn-danger"
+								data-bs-toggle="offcanvas"
+								data-bs-target="#offcanvasRight"
+								aria-controls="offcanvasRight"
+								style={{ marginTop: "32px" }}
+							>
 								Add a booking
 							</button>
 						</div>
+					</div>
+				</div>
+			</div>
+
+			<div className="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+				<div className="offcanvas-header">
+					<p className="offcanvas-title fw-bold " id="offcanvasRightLabel" style={{ fontSize: "13px" }}>
+						Booking
+					</p>
+					<button
+						type="button button-danger"
+						className="btn-close custom-btn-close  text-danger"
+						data-bs-dismiss="offcanvas"
+						aria-label="Close"
+						style={{ color: "red" }}
+					></button>
+				</div>
+				<div class="offcanvas-body">
+					<div className="row">
+						<div className=" col-sm-8 d-flex justify-content-between gap-3">
+							<div className="flex-grow-1">
+								<label className="bookingtext  form-label">
+									Facility Type
+									<span className="text-danger">*</span>
+								</label>
+
+								<select aria-label="Facility Type" className="mb-3  form-select " value>
+									<option value className="fw-semibold" style={{ fontSize: "10px" }}></option>
+								</select>
+							</div>
+
+							<div className=" flex-grow-1">
+								<label className="bookingtext  form-label">
+									Booking Type
+									<span className="text-danger">*</span>
+								</label>
+
+								<select aria-label="Booking Type" className="mb-3  form-select " value>
+									<option value className="fw-semibold" style={{ fontSize: "10px" }}></option>
+								</select>
+							</div>
+						</div>
+
+						<div className="col-sm-4  border border-gray border-2">
+							<label className="fw-normal" style={{ fontSize: "13px" }}>
+								Booking Type
+							</label>
+							<br />
+							<p className="fw-bold" style={{ fontSize: "12px" }}>
+								Player Booking
+							</p>
+						</div>
+
+						{/* this is a row div  down */}
 					</div>
 				</div>
 			</div>
