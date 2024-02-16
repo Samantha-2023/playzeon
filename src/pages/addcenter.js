@@ -129,7 +129,8 @@ const AddCenter = () => {
 
 	console.log(orgIdd, "orgIdd  from account local storage");
 
-	const centerId = localStorage.getItem("centerId");
+	const centerIddd = localStorage.getItem("centerIddd");
+
 
 	const initialValues = {
 		displayName: false,

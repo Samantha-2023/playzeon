@@ -14,7 +14,7 @@ export const AllFacilitiesList = (values) => async (dispatch) => {
 	});
 
    // Retrieve the value from local storage
-	const CenterId = localStorage.getItem("centerId");
+	const CenterId = localStorage.getItem("centerIddd");
 
 	try {
 		const options = {

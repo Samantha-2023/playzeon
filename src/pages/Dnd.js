@@ -20,6 +20,14 @@ const Dnd = (props) => {
 
 	
 
+	// Event {
+	// 	title: string,
+	// 	start: Date,
+	// 	end: Date,
+	// 	allDay?: boolean
+	// 	resource?: any,
+	//   }
+
 	useEffect(() => {
 		dispatch(GetListReservationAction());
 	}, [dispatch]);
@@ -42,7 +50,8 @@ const Dnd = (props) => {
 				localizer={localizer}
 				defaultView="day"
 				// resources={props.dndfacilitylist}
-				 resources={props&&props.dndfacilitylist[0]?.title === "All Sports"?props.dndallsports[0]:props.dndfacilitylist}
+				// events={myEventsList}
+				resources={props&&props.dndfacilitylist[0]?.title === "All Sports"?props.dndallsports[0]:props.dndfacilitylist}
 				//  eventStyleGetter={eventStyleGetter}
 			/>
 		</>

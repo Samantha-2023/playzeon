@@ -12,13 +12,15 @@ export const ReservationGetListFacility = (values) => async (dispatch) => {
 	});
 
 	// Retrieve the value from local storage
-	const CenterId = localStorage.getItem("centerId");
+	// const CenterId = localStorage.getItem("centerId");
+	const centerIddd = localStorage.getItem("centerIddd");
+
 
 	try {
 		const options = {
 			method: "GET",
 			headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
-			url: `${API_URL}/api/v1/facilities?sportId.equals=${values}&centerId.equals=${CenterId}`,
+			url: `${API_URL}/api/v1/facilities?sportId.equals=${values}&centerId.equals=${centerIddd}`,
 		};
 
 		const { data } = await axios(options);
