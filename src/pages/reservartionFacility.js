@@ -7,6 +7,9 @@ import { ReservationGetListFacility } from "../redux/action/reservationListFacil
 import { GetListReservationAction } from "../redux/action/listReservationAction";
 import { AllFacilitiesList } from "../redux/action/allFacilitiesListAction";
 import "../components/playzeon.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Offcanvas } from "react-bootstrap";
 
 // import { useNavigate } from "react-router-dom";
 
@@ -20,6 +23,13 @@ const ReservationFacility = (props) => {
 	const [sportsfacilitylist, setSportsFacilityList] = useState([]);
 
 	const [facilityNames, setFacilityNames] = useState([]);
+	const [startDate, setStartDate] = useState(new Date());
+	const [endDate, setEndDate] = useState(new Date());
+
+	const [show, setShow] = useState(false);
+
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
 
 	// This selector is for sports photos
 	const reservationfacilitytypeselector = useSelector((state) => state.reservationfacilitytypeget?.reservationfacilitytype);
@@ -52,6 +62,7 @@ const ReservationFacility = (props) => {
 		console.log(allsports, "all sports", sportsfacilitylist, "sportsfacilitylist");
 		dispatch(GetListReservationAction(allsports));
 	};
+
 	//just to show only the names
 	useEffect(() => {
 		if (reservationlistselector && reservationlistselector?.data) {
@@ -215,8 +226,8 @@ const ReservationFacility = (props) => {
 			</div>
 
 			<div className="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-				<div className="offcanvas-header">
-					<p className="offcanvas-title fw-bold " id="offcanvasRightLabel" style={{ fontSize: "13px" }}>
+				<div className="offcanvas-header bg-lightgray" style={{ background: "lightgray" }}>
+					<p className="offcanvas-title bg-lightgray fw-bold " id="offcanvasRightLabel" style={{ fontSize: "13px" }}>
 						Booking
 					</p>
 					<button
@@ -229,27 +240,255 @@ const ReservationFacility = (props) => {
 				</div>
 				<div class="offcanvas-body">
 					<div className="row">
-						<div className=" col-sm-8 d-flex justify-content-between gap-3">
-							<div className="flex-grow-1">
-								<label className="bookingtext  form-label">
-									Facility Type
-									<span className="text-danger">*</span>
-								</label>
+						<div className="col-sm-8">
+							<div className="d-flex justify-content-between gap-2">
+								<div className="flex-grow-1">
+									<label className="bookingtext  form-label">
+										Booking Type
+										<span className="text-danger">*</span>
+									</label>
 
-								<select aria-label="Facility Type" className="mb-3  form-select " value>
-									<option value className="fw-semibold" style={{ fontSize: "10px" }}></option>
-								</select>
+									<select aria-label="Facility Type" className="mb-3  form-select " value>
+										<option value className="fw-semibold" style={{ fontSize: "10px" }}></option>
+									</select>
+								</div>
+
+								<div className=" flex-grow-1">
+									<label className="bookingtext  form-label">
+										Facility Type
+										<span className="text-danger">*</span>
+									</label>
+
+									<select aria-label="Booking Type" className="mb-3  form-select " value>
+										<option value className="fw-semibold" style={{ fontSize: "10px" }}></option>
+									</select>
+								</div>
+								{/* </div> */}
+
+								{/* this is a row div  down */}
+							</div>
+							<div className="row">
+								<div className="col">
+									<label className=" fw-bold form-label" style={{ fontSize: "13px" }}>
+										Booking Occurence
+									</label>
+								</div>
+							</div>
+							<div className="row">
+								<div className="col">
+									<div class="form-check d-flex flex-row mb-2 gap-5">
+										<div>
+											<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="option1" />
+											<label class="form-check-label" for="flexRadioDefault1">
+												Single Booking
+											</label>
+										</div>
+										<div>
+											<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="option1" />
+											<label class="form-check-label" for="flexRadioDefault1">
+												Multiple Booking
+											</label>
+										</div>
+									</div>
+								</div>
 							</div>
 
-							<div className=" flex-grow-1">
-								<label className="bookingtext  form-label">
-									Booking Type
-									<span className="text-danger">*</span>
-								</label>
+							<div className=" col mt-2 d-flex justify-content-between gap-1">
+								<div className="flex-grow-1">
+									<label className="bookingtext  form-label">
+										Start Date
+										<span className="text-danger">*</span>
+									</label>
 
-								<select aria-label="Booking Type" className="mb-3  form-select " value>
-									<option value className="fw-semibold" style={{ fontSize: "10px" }}></option>
-								</select>
+									<DatePicker showIcon selected={startDate} onChange={(date) => setStartDate(date)} className="react-datepicker-wrapper" />
+								</div>
+
+								<div className=" flex-grow-1">
+									<label className="bookingtext  form-label">
+										End Date
+										<span className="text-danger">*</span>
+									</label>
+
+									<DatePicker showIcon selected={endDate} onChange={(date) => setEndDate(date)} />
+								</div>
+								<div className=" flex-grow-1">
+									<label className="bookingtext  form-label">
+										Start Time
+										<span className="text-danger">*</span>
+									</label>
+
+									<DatePicker
+										selected={startDate}
+										onChange={(date) => setStartDate(date)}
+										showTimeSelect
+										showTimeSelectOnly
+										timeIntervals={15}
+										timeCaption="Time"
+										dateFormat="h:mm aa"
+									/>
+								</div>
+
+								<div className=" flex-grow-1">
+									<label className="bookingtext  form-label">
+										End Time
+										<span className="text-danger">*</span>
+									</label>
+
+									<DatePicker
+										selected={endDate}
+										onChange={(date) => setEndDate(date)}
+										showTimeSelect
+										showTimeSelectOnly
+										timeIntervals={15}
+										timeCaption="Time"
+										dateFormat="h:mm aa"
+									/>
+								</div>
+							</div>
+							<div className=" row mt-3">
+								<div className="col">
+
+									<button type="submit" className="btn btn-danger">
+										check availability
+									</button>
+
+									
+								</div>
+							</div>
+
+							<div className="row mt-3">
+								<div className="col">
+									<b style={{ fontSize: "13px" }}>Available Facility</b>
+									<br />
+									<button type="button" className="btn btn-success mt-1" style={{ fontSize: "12px" }}>
+										Tennis Court
+									</button>
+								</div>
+							</div>
+
+							<div className="row mt-2">
+								<div className="col">
+									<b style={{ fontSize: "13px" }}>Player Details</b>
+									<br />
+									<form class="row g-2">
+										<div class="col-md-6">
+											<label for="inputPassword4" className="form-label fw-semibold" style={{ fontSize: "11px" }}>
+												First name
+											</label>
+
+											<input type="text" class="form-control" aria-label="First name" />
+										</div>
+										<div class="col-md-6">
+											<label for="inputPassword4" className="form-label fw-semibold " style={{ fontSize: "11px" }}>
+												Last name
+											</label>
+
+											<input type="text" class="form-control" aria-label="Last name" />
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputPassword4" className="form-label  fw-semibold " style={{ fontSize: "11px" }}>
+												Phone number
+											</label>
+											<input type="text" class="form-control" id="inputPassword4" />
+										</div>
+
+										<div class="col-md-6">
+											<label for="inputEmail4" className="form-label fw-semibold " style={{ fontSize: "11px" }}>
+												Email address
+											</label>
+											<input type="email" class="form-control" id="inputEmail4" />
+										</div>
+									</form>
+								</div>
+							</div>
+
+							<div className="row mt-2">
+								<div className="col-sm-6">
+									<label className="booking-text form-label fw-semibold" style={{ fontSize: "10px" }}>
+										Facility<span className="text-danger">*</span>
+									</label>
+								</div>
+
+								<div className="col-sm-6">
+									<label className="booking-text form-label fw-semibold" style={{ fontSize: "10px" }}>
+										Pricing rule<span className="text-danger">*</span>
+									</label>
+								</div>
+							</div>
+
+							<div className=" row mt-3">
+								<div className="col">
+									{/* <button
+										type="button"
+										className="text-white btn btn-danger"
+										data-bs-toggle="offcanvas"
+										data-bs-target="#offcanvasRight"
+										aria-controls="offcanvasRight"
+									>
+										Add player
+									</button> */}
+
+									<button className="btn btn-danger" type="button" onClick={handleShow}>
+										Add player
+									</button>
+								</div>
+							</div>
+
+							<div className=" row mt-3">
+								<div className="col">
+									<label className="fw-semibold" style={{ fontSize: "12px" }}>
+										Added player's
+									</label>
+									<table className="table table-striped table-secondary" style={{ fontSize: "9px" }}>
+										<thead>
+											<tr className="">
+												<th scope="col">S.no</th>
+												<th scope="col">First name</th>
+												<th scope="col">Last name</th>
+												<th scope="col">Facility name</th>
+												<th scope="col">Pricing rule name</th>
+												<th scope="col">Price</th>
+
+												<th scope="col">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th scope="row">1</th>
+												<td>Mark</td>
+												<td>Otto</td>
+												<td>@mdo</td>
+											</tr>
+											<tr>
+												<th scope="row">2</th>
+												<td>Jacob</td>
+												<td>Thornton</td>
+												<td>@fat</td>
+											</tr>
+											<tr>
+												<th scope="row">3</th>
+												<td colspan="2">Larry the Bird</td>
+												<td>@twitter</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+							<div className="row">
+								<div className="col-sm-12 mt-3">
+									<label className="fw-bold form-label">Notes</label>
+									<textarea placeholder="Leave a comment here" className="form-control" style={{ height: "100px" }}></textarea>
+								</div>
+							</div>
+
+							<div className="row mt-4">
+								<div className="col-sm-12 d-flex justify-content-end align-items-center">
+									<button type="button" className="btn btn-primary">
+										Proceed to book
+									</button>
+								</div>
 							</div>
 						</div>
 
@@ -261,12 +500,40 @@ const ReservationFacility = (props) => {
 							<p className="fw-bold" style={{ fontSize: "12px" }}>
 								Player Booking
 							</p>
+							<hr />
+							<div>
+								<p style={{ fontSize: "13px" }}>Start date and time</p>
+								<p className="semi-bold"></p>
+							</div>
+							<div>
+								<p style={{ fontSize: "13px" }}>End date and time</p>
+								<p className="semi-bold"></p>
+							</div>
+							<div>
+								<p style={{ fontSize: "13px" }}>Facility type</p>
+								<p className="semi-bold">Tennis court</p>
+								<hr />
+							</div>
+							<div className="mb-3">
+								<h6>
+									<b>Players Facility and Pricing Details</b>
+								</h6>
+							</div>
 						</div>
-
-						{/* this is a row div  down */}
 					</div>
 				</div>
 			</div>
+
+			{/* 2nd off canvas for add a player  */}
+
+			<Offcanvas show={show} onHide={handleClose} placement="end">
+				<Offcanvas.Header closeButton>
+					<Offcanvas.Title>Add Player</Offcanvas.Title>
+				</Offcanvas.Header>
+				<Offcanvas.Body>
+					Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+				</Offcanvas.Body>
+			</Offcanvas>
 		</div>
 	);
 };

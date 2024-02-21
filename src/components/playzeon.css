@@ -577,3 +577,80 @@ font-size: small;
 .custom-btn-close{
   color: red !important;
 }
+/* ==============================off canvas resrevation date styling===================================== */
+.react-datepicker-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+.react-datepicker-wrapper .react-datepicker__input-container {
+  position: relative;
+}
+
+.react-datepicker-wrapper .react-datepicker__input-container input {
+  padding-right: 30px; /* Adjust padding to make space for the icon */
+}
+
+.react-datepicker__input-container .react-datepicker__close-icon {
+  position: absolute;
+  right: 10px; /* Adjust this value to adjust the position of the icon */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.btn.disabled, .btn:disabled, fieldset:disabled .btn {
+  background-color: var(--bs-btn-disabled-bg);
+  border-color: var(--bs-btn-disabled-border-color);
+  color: var(--bs-btn-disabled-color);
+  opacity: var(--bs-btn-disabled-opacity);
+  pointer-events: none;
+}
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #de342f;
+  --bs-btn-border-color: #de342f;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #bd2c28;
+  --bs-btn-hover-border-color: #b22a26;
+  --bs-btn-focus-shadow-rgb: 227,82,78;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #b22a26;
+  --bs-btn-active-border-color: #a72723;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #de342f;
+  --bs-btn-disabled-border-color: #de342f;
+}
+/* .btn {
+  --bs-btn-padding-x: 0.75rem;
+  --bs-btn-padding-y: 0.375rem;
+  --bs-btn-font-family: ;
+  --bs-btn-font-size: 1rem;
+  --bs-btn-font-weight: 400;
+  --bs-btn-line-height: 1.5;
+  --bs-btn-color: #212529;
+  --bs-btn-bg: #0000;
+  --bs-btn-border-width: 1px;
+  --bs-btn-border-color: #0000;
+  --bs-btn-border-radius: 0.375rem;
+  --bs-btn-hover-border-color: #0000;
+  --bs-btn-box-shadow: inset 0 1px 0 #ffffff26,0 1px 1px rgba(0,0,0,.075);
+  --bs-btn-disabled-opacity: 0.65;
+  --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb),.5);
+  background-color: var(--bs-btn-bg);
+  border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
+  border-radius: var(--bs-btn-border-radius);
+  color: var(--bs-btn-color);
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--bs-btn-font-family);
+  font-size: var(--bs-btn-font-size);
+  font-weight: var(--bs-btn-font-weight);
+  line-height: var(--bs-btn-line-height);
+  padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+  text-align: center;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  -webkit-user-select: none;
+  user-select: none;
+  vertical-align: middle;
+} */

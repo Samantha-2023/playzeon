@@ -18,20 +18,17 @@ const Dnd = (props) => {
 	const getlistreservation = useSelector((state) => state.getlistreservation?.listreservationinitial);
 	console.log("getlistreservation", getlistreservation?.data?.myresources?.title);
 
-	
-
-	// Event {
-	// 	title: string,
-	// 	start: Date,
-	// 	end: Date,
-	// 	allDay?: boolean
-	// 	resource?: any,
-	//   }
+	//  const events = [{
+	//  	title: string,
+	// 	 start: moment(event.start).toDate(), 
+	// 	 end: moment(event.end).toDate(),
+	//  	allDay: boolean,
+	//  	resource: any
+	//    }]
 
 	useEffect(() => {
 		dispatch(GetListReservationAction());
 	}, [dispatch]);
-	
 
 	useEffect(() => {
 		if (getlistreservation) {
@@ -43,36 +40,44 @@ const Dnd = (props) => {
 		}
 	}, [getlistreservation]);
 
-	console.log("props::",props.dndallsports[0]);
+	console.log("props::", props.dndallsports[0]);
+
+	useEffect(() => {
+		if (getlistreservation && getlistreservation.data && getlistreservation?.data?.events) {
+			const formattedEvents = getlistreservation?.events.map((event) => ({
+				id: event.reservation?.id,
+				bgColor:event.bgColor,
+				start: new Date(event.start),
+				end: new Date(event.end),
+				title: event.title,
+				resourceId: event.resourceId
+			}));
+			setEvents(formattedEvents);
+		}
+	}, [getlistreservation]);
+
 	return (
 		<>
 			<DnDCalendar
 				localizer={localizer}
 				defaultView="day"
-				// resources={props.dndfacilitylist}
-				// events={myEventsList}
-				resources={props&&props.dndfacilitylist[0]?.title === "All Sports"?props.dndallsports[0]:props.dndfacilitylist}
+				resources={props && props.dndfacilitylist[0]?.title === "All Sports" ? props.dndallsports[0] : props.dndfacilitylist}
+				// events={events}
 				//  eventStyleGetter={eventStyleGetter}
+				// resources={props.dndfacilitylist}
 			/>
 		</>
 	);
 };
 export default Dnd;
 
-
-
-
-
-
-
-
 // const eventStyleGetter = (event, start, end, isSelected) => {
-	// 	return {
-	// 		style: {
-	// 			backgroundColor: "red",
-	// 			color: "white",
-	// 			borderRadius: "5px",
-	// 			boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
-	// 		},
-	// 	};
-	// };
+// 	return {
+// 		style: {
+// 			backgroundColor: "red",
+// 			color: "white",
+// 			borderRadius: "5px",
+// 			boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
+// 		},
+// 	};
+// };
