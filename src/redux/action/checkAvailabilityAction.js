@@ -20,7 +20,7 @@ export const checkAvailabilityAction = (values,startTime,endTime,datesInRange) =
 		const options = {
 			method: "GET",
 			headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
-			url: `${API_URL}/api/v1/facility/getAvailability?centerId.equals==${centerIddd}&sportId.equals=${values}&startTime=${startTime}&endTime=${endTime}&isMultiple=false&days=${datesInRange}`,
+			url: `${API_URL}/api/v1/facility/getAvailability?centerId.equals=${centerIddd}&sportId.equals=${values}&startTime=${startTime}&endTime=${endTime}&isMultiple=false&days=${datesInRange}`,
 		};
 
 		const { data } = await axios(options);
