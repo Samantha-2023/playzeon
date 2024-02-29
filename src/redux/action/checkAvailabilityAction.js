@@ -2,8 +2,8 @@ import axios from "axios";
 import {API_URL} from "../../constantsUrl/constantsUrl.js";
 import {Constants,FETCH_CHECK_AVAILABILITY_ACTION }  from "../constants/constants.js";
 
-export const ReservationGetListFacility = (values) => async (dispatch) => {
-	console.log(values, "action");
+export const checkAvailabilityAction = (values,startTime,endTime,datesInRange) => async (dispatch) => {
+	console.log(values,"valuessssss");
 	// this action is for facility type label list 
 	
 		await dispatch({
@@ -20,7 +20,7 @@ export const ReservationGetListFacility = (values) => async (dispatch) => {
 		const options = {
 			method: "GET",
 			headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
-			url: `${API_URL}/api/v1/facility/getAvailability?centerId.equals==${centerIddd}&sportId.equals=10&startTime=2024-10-01T10:00:00Z&endTime=2024-10-31T11:00:00Z&isMultiple=true&days=sunday,monday`,
+			url: `${API_URL}/api/v1/facility/getAvailability?centerId.equals==${centerIddd}&sportId.equals=${values}&startTime=${startTime}&endTime=${endTime}&isMultiple=false&days=${datesInRange}`,
 		};
 
 		const { data } = await axios(options);

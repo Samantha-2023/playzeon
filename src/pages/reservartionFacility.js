@@ -12,7 +12,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Offcanvas } from "react-bootstrap";
 import { checkAvailabilityAction } from "../redux/action/checkAvailabilityAction";
-import {pricingRuleAction} from "../redux/action/pricingRuleAction";
+import { pricingRuleAction } from "../redux/action/pricingRuleAction";
 
 // import { useNavigate } from "react-router-dom";
 
@@ -24,13 +24,14 @@ const ReservationFacility = (props) => {
 	const [allsports, setAllSports] = useState([]);
 
 	const [sportsfacilitylist, setSportsFacilityList] = useState([]);
+	const [isEditMode, setIsEditMode] = useState(false);
 
 	const [facilityNames, setFacilityNames] = useState([]);
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 	const [sportId, setSportId] = useState([]);
 	const [selectedDays, setSelectedDays] = useState([]);
-	const[facilityId, setFacilityId] = useState([]);
+	const [facilityId, setFacilityId] = useState([]);
 
 	const [show, setShow] = useState(false);
 	// const [startTime, setStartTime] = useState([]);
@@ -48,11 +49,10 @@ const ReservationFacility = (props) => {
 	//get api data is here	//reservationfacilitytypeget is from the reducer== index.js//reservationfacilitytype is the initial values set in reducer//
 	console.log("reservationfacilitytypeselector", reservationfacilitytypeselector);
 
-	console.log(" reservationfacilitytypeselector=====sportid", reservationfacilitytypeselector?.data?.map(item=>item.sport?.id));
-
-
-
-
+	console.log(
+		" reservationfacilitytypeselector=====sportid",
+		reservationfacilitytypeselector?.data?.map((item) => item.sport?.id)
+	);
 
 	//this selector  is  for facilities list  for the choosen sports .
 	const reservationlistselector = useSelector((state) => state.reservationfacilitylist?.reservationlistfacility);
@@ -71,14 +71,10 @@ const ReservationFacility = (props) => {
 	const getCheckAvailability = useSelector((state) => state.CheckAvailabilty?.checkavailabilityinitial);
 	console.log("getCheckAvailability?????", getCheckAvailability);
 
-
-	// This selector is for the pricing rule list 
-	const pricingRule= useSelector((state)=>state.PricingRule?.pricingRuleInitial);
-	console.log("pricingRule",pricingRule );
+	// This selector is for the pricing rule list
+	const pricingRule = useSelector((state) => state.PricingRule?.pricingRuleInitial);
+	console.log("pricingRule", pricingRule);
 	// console.log(" pricingRule", pricingRule?.data?.map(item =>item.facilityId));
-
-
-
 
 	const handleSelectChange = (event) => {
 		const selectedFacilityType = event.target.value;
@@ -92,8 +88,10 @@ const ReservationFacility = (props) => {
 		dispatch(AllFacilitiesList(selectedFacilityType));
 	};
 
-	const handleBookingType = (event) => {
+	const handleBookingType = (event) => {};
 
+	const handleSaveClick = () => {
+		setIsEditMode(true);
 	};
 
 	const handleCheckAvailability = () => {
@@ -107,7 +105,6 @@ const ReservationFacility = (props) => {
 		console.log(allsports, "all sports", sportsfacilitylist, "sportsfacilitylist");
 		dispatch(GetListReservationAction(allsports));
 	};
-
 
 	// Function to generate an array of dates between start date and end date
 
@@ -132,34 +129,26 @@ const ReservationFacility = (props) => {
 
 	const handleCheckboxChange = (index) => {
 		setSelectedDays((prevSelectedDays) => {
-		  const isSelected = prevSelectedDays.includes(index);
-		  if (isSelected) {
-			return prevSelectedDays.filter((day) => day !== index);
-		  } else {
-			return [...prevSelectedDays, index];
-		  }
+			const isSelected = prevSelectedDays.includes(index);
+			if (isSelected) {
+				return prevSelectedDays.filter((day) => day !== index);
+			} else {
+				return [...prevSelectedDays, index];
+			}
 		});
 	};
-	const extractFacilityIds = pricingRule?.data?.map(item => item.facilityId) || [];
-	  const handlePricingChange =(id)=>{
-		console.log(id,"facid")
-        setFacilityId(id);
+	const extractFacilityIds = pricingRule?.data?.map((item) => item.facilityId) || [];
+	const handlePricingChange = (id) => {
+		console.log(id, "facid");
+		setFacilityId(id);
 		dispatch(pricingRuleAction(id));
-	  }
- 
-
-
-
-
-
+	};
 
 	const datesInRange = startDate && endDate ? getDatesBetweenDates(startDate, endDate) : [];
 
-
-
 	useEffect(() => {
 		setFacilityId(extractFacilityIds);
-	  }, []);
+	}, []);
 
 	//just to show only the names
 	useEffect(() => {
@@ -513,9 +502,10 @@ const ReservationFacility = (props) => {
 								<div className="col">
 									<b style={{ fontSize: "13px" }}>Available Facility</b>
 									<br />
-									{console.log("getCheckAvailability",getCheckAvailability)}
+									{console.log("getCheckAvailability", getCheckAvailability)}
 
-									{getCheckAvailability?.data && Object.keys(getCheckAvailability?.data).length>0 &&
+									{getCheckAvailability?.data &&
+										Object.keys(getCheckAvailability?.data).length > 0 &&
 										getCheckAvailability?.data?.map((item, index) => {
 											console.log(item, "itemitemitem");
 											return (
@@ -530,6 +520,19 @@ const ReservationFacility = (props) => {
 												</button>
 											);
 										})}
+
+									{/* // 		or    tricky way   */}
+									{/* {reservationlistselector && 
+								 typeof reservationlistselector?.data === "object" &&
+								 Object.values(reservationlistselector?.data).map((facilityDetails) => {
+							 	console.log("facilityDetails", facilityDetails);
+
+								 	return facilityDetails.map((facilityList) => (
+										<option key={facilityList.id} className="fw-semibold" value={facilityList.id} name={facilityList?.name}>
+											{facilityList.name}
+										</option>
+								 	));
+								 })} */}
 								</div>
 							</div>
 
@@ -576,7 +579,8 @@ const ReservationFacility = (props) => {
 										Facility<span className="text-danger">*</span>
 									</label>
 									<div className="border">
-										{getCheckAvailability?.data &&Object.keys(getCheckAvailability?.data).length>0 &&
+										{getCheckAvailability?.data &&
+											Object.keys(getCheckAvailability?.data).length > 0 &&
 											getCheckAvailability?.data?.map((item, index) => {
 												console.log(item, "itemitemitem");
 												return (
@@ -588,7 +592,7 @@ const ReservationFacility = (props) => {
 															type="radio"
 															name="flexRadioDefault"
 															id="flexRadioDefault1"
-															onClick ={handlePricingChange(item.id)}
+															onClick={handlePricingChange(item.id)}
 														/>
 														<label className="form-check-label" for="flexRadioDefault1">
 															{item.title}
@@ -604,8 +608,9 @@ const ReservationFacility = (props) => {
 										Pricing rule<span className="text-danger">*</span>
 									</label>
 									<div className="border">
-                                      {console.log("pricingRule",  pricingRule)};
-									{pricingRule?.data &&Object.keys(pricingRule?.data).length>0 &&
+										{console.log("pricingRule", pricingRule)};
+										{pricingRule?.data &&
+											Object.keys(pricingRule?.data).length > 0 &&
 											pricingRule?.data?.map((item, index) => {
 												console.log(item, "item");
 												return (
@@ -619,15 +624,25 @@ const ReservationFacility = (props) => {
 															id="flexRadioDefault1"
 														/>
 														<label className="form-check-label" for="flexRadioDefault1">
-														{item.pricingRule.ruleName}
+															{item.pricingRule.ruleName}
 														</label>
 													</div>
 												);
-										})}
-										
-									
-									
+											})}
 									</div>
+								</div>
+							</div>
+
+							<div className=" row mt-3">
+								<div className="col  d-flex justify-content-end">
+									<button
+									 className={`btn ${isEditMode ? "btn-warning" : "btn-success"}`}
+									  type="button" 
+									 onClick={handleSaveClick}
+									 >
+										{isEditMode ? "Edit" : "Save"}
+										
+									</button>
 								</div>
 							</div>
 

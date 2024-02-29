@@ -16,6 +16,7 @@ import { reservationFacilityTypeReducer } from "./reservationReducer";
 import { reservationFacilitylistReducer } from "./reservationListFacilityReducer";
 import { listReservationReducer } from "./listReservationReducer";
 import { allFacilitylistReducer } from "./allFacilitiesListReducer";
+import { pricingRuleReducer } from "./pricingRuleReducer";
 
 
 const reducers = combineReducers({
@@ -42,6 +43,7 @@ const reducers = combineReducers({
     reservationfacilitylist: reservationFacilitylistReducer,
     getlistreservation:listReservationReducer,
     AllListApiFacility:allFacilitylistReducer,
+    PricingRule:pricingRuleReducer,
 });
 
 export default reducers;
