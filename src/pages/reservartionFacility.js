@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import moment from "moment";
 import { ReservationGetFacilityType } from "../redux/action/reservationAction";
 import { ReservationGetListFacility } from "../redux/action/reservationListFacilityAction";
 import { GetListReservationAction } from "../redux/action/listReservationAction";
@@ -10,6 +11,8 @@ import "../components/playzeon.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Offcanvas } from "react-bootstrap";
+import { checkAvailabilityAction } from "../redux/action/checkAvailabilityAction";
+import {pricingRuleAction} from "../redux/action/pricingRuleAction";
 
 // import { useNavigate } from "react-router-dom";
 
@@ -25,16 +28,31 @@ const ReservationFacility = (props) => {
 	const [facilityNames, setFacilityNames] = useState([]);
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
+	const [sportId, setSportId] = useState([]);
+	const [selectedDays, setSelectedDays] = useState([]);
+	const[facilityId, setFacilityId] = useState([]);
 
 	const [show, setShow] = useState(false);
+	// const [startTime, setStartTime] = useState([]);
+	// const [endTime, setEndTime] = useState([]);
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
+
+	const utcDate = new Date();
+
+	// const utcTime = utcDate.toISOString( `${startDate}`).slice(11, 16);
 
 	// This selector is for sports photos
 	const reservationfacilitytypeselector = useSelector((state) => state.reservationfacilitytypeget?.reservationfacilitytype);
 	//get api data is here	//reservationfacilitytypeget is from the reducer== index.js//reservationfacilitytype is the initial values set in reducer//
 	console.log("reservationfacilitytypeselector", reservationfacilitytypeselector);
+
+	console.log(" reservationfacilitytypeselector=====sportid", reservationfacilitytypeselector?.data?.map(item=>item.sport?.id));
+
+
+
+
 
 	//this selector  is  for facilities list  for the choosen sports .
 	const reservationlistselector = useSelector((state) => state.reservationfacilitylist?.reservationlistfacility);
@@ -50,18 +68,98 @@ const ReservationFacility = (props) => {
 
 	// This ReservationGetListFacility is for facility  list , // this AllFacilitiesList is for all sports api
 
+	const getCheckAvailability = useSelector((state) => state.CheckAvailabilty?.checkavailabilityinitial);
+	console.log("getCheckAvailability?????", getCheckAvailability);
+
+
+	// This selector is for the pricing rule list 
+	const pricingRule= useSelector((state)=>state.PricingRule?.pricingRuleInitial);
+	console.log("pricingRule",pricingRule );
+	// console.log(" pricingRule", pricingRule?.data?.map(item =>item.facilityId));
+
+
+
+
 	const handleSelectChange = (event) => {
 		const selectedFacilityType = event.target.value;
+		const selectedSportId = event.target.value;
+
 		setFacilityValue(selectedFacilityType);
+
+		setSportId(selectedSportId);
 		dispatch(ReservationGetListFacility(selectedFacilityType));
 
 		dispatch(AllFacilitiesList(selectedFacilityType));
+	};
+
+	const handleBookingType = (event) => {
+
+	};
+
+	const handleCheckAvailability = () => {
+		const utcStartTime = moment.utc(`${startDate}`).format();
+
+		const utcEndTime = moment.utc(`${endDate}`).format();
+		dispatch(checkAvailabilityAction(sportId, utcStartTime, utcEndTime, datesInRange));
 	};
 
 	const handleSearchClick = () => {
 		console.log(allsports, "all sports", sportsfacilitylist, "sportsfacilitylist");
 		dispatch(GetListReservationAction(allsports));
 	};
+
+
+	// Function to generate an array of dates between start date and end date
+
+	const getDatesBetweenDates = (startDate, endDate) => {
+		const dates = [];
+		let currentDate = new Date(startDate);
+		const end = new Date(endDate);
+		while (currentDate <= end) {
+			dates.push(new Date(currentDate));
+			currentDate.setDate(currentDate.getDate() + 1);
+		}
+		return dates;
+	};
+
+	const handleStartDateChange = (date) => {
+		setStartDate(date);
+	};
+
+	const handleEndDateChange = (date) => {
+		setEndDate(date);
+	};
+
+	const handleCheckboxChange = (index) => {
+		setSelectedDays((prevSelectedDays) => {
+		  const isSelected = prevSelectedDays.includes(index);
+		  if (isSelected) {
+			return prevSelectedDays.filter((day) => day !== index);
+		  } else {
+			return [...prevSelectedDays, index];
+		  }
+		});
+	};
+	const extractFacilityIds = pricingRule?.data?.map(item => item.facilityId) || [];
+	  const handlePricingChange =(id)=>{
+		console.log(id,"facid")
+        setFacilityId(id);
+		dispatch(pricingRuleAction(id));
+	  }
+ 
+
+
+
+
+
+
+	const datesInRange = startDate && endDate ? getDatesBetweenDates(startDate, endDate) : [];
+
+
+
+	useEffect(() => {
+		setFacilityId(extractFacilityIds);
+	  }, []);
 
 	//just to show only the names
 	useEffect(() => {
@@ -238,6 +336,7 @@ const ReservationFacility = (props) => {
 						style={{ color: "red" }}
 					></button>
 				</div>
+				{/* ---------------------------------------------- */}
 				<div class="offcanvas-body">
 					<div className="row">
 						<div className="col-sm-8">
@@ -248,8 +347,22 @@ const ReservationFacility = (props) => {
 										<span className="text-danger">*</span>
 									</label>
 
-									<select aria-label="Facility Type" className="mb-3  form-select " value>
-										<option value className="fw-semibold" style={{ fontSize: "10px" }}></option>
+									<select aria-label="Facility Type" className="mb-3  form-select " onChange={handleBookingType}>
+										<option value="Player" style={{ fontSize: "8px" }}>
+											Player
+										</option>
+										<option value="Tournament" style={{ fontSize: "8px" }}>
+											Tournament
+										</option>
+										<option value="Maintenance" style={{ fontSize: "8px" }}>
+											Maintenance
+										</option>
+										<option value="Coach" style={{ fontSize: "8px" }}>
+											Coach
+										</option>
+										<option value="Admin" style={{ fontSize: "8px" }}>
+											Admin
+										</option>
 									</select>
 								</div>
 
@@ -259,11 +372,16 @@ const ReservationFacility = (props) => {
 										<span className="text-danger">*</span>
 									</label>
 
-									<select aria-label="Booking Type" className="mb-3  form-select " value>
-										<option value className="fw-semibold" style={{ fontSize: "10px" }}></option>
+									<select aria-label="Facility Type" className="mb-3  form-select " value={facilityValue} onChange={handleSelectChange}>
+										{reservationfacilitytypeselector &&
+											reservationfacilitytypeselector?.data &&
+											reservationfacilitytypeselector?.data?.map((facility) => (
+												<option key={facility.id} value={facility.sport.id} style={{ fontSize: "8px" }}>
+													{facility.title}
+												</option>
+											))}
 									</select>
 								</div>
-								{/* </div> */}
 
 								{/* this is a row div  down */}
 							</div>
@@ -300,7 +418,13 @@ const ReservationFacility = (props) => {
 										<span className="text-danger">*</span>
 									</label>
 
-									<DatePicker showIcon selected={startDate} onChange={(date) => setStartDate(date)} className="react-datepicker-wrapper" />
+									<DatePicker
+										showIcon
+										selected={startDate}
+										//  onChange={(date) => setStartDate(date)}
+										className="react-datepicker-wrapper"
+										onChange={handleStartDateChange}
+									/>
 								</div>
 
 								<div className=" flex-grow-1">
@@ -309,7 +433,13 @@ const ReservationFacility = (props) => {
 										<span className="text-danger">*</span>
 									</label>
 
-									<DatePicker showIcon selected={endDate} onChange={(date) => setEndDate(date)} />
+									<DatePicker
+										showIcon
+										selected={endDate}
+										//    onChange={(date) => setEndDate(date)}
+										className="react-datepicker-wrapper"
+										onChange={handleEndDateChange}
+									/>
 								</div>
 								<div className=" flex-grow-1">
 									<label className="bookingtext  form-label">
@@ -319,6 +449,7 @@ const ReservationFacility = (props) => {
 
 									<DatePicker
 										selected={startDate}
+										// selected={utcDate}
 										onChange={(date) => setStartDate(date)}
 										showTimeSelect
 										showTimeSelectOnly
@@ -336,6 +467,7 @@ const ReservationFacility = (props) => {
 
 									<DatePicker
 										selected={endDate}
+										// selected={utcDate}
 										onChange={(date) => setEndDate(date)}
 										showTimeSelect
 										showTimeSelectOnly
@@ -345,14 +477,35 @@ const ReservationFacility = (props) => {
 									/>
 								</div>
 							</div>
+							{/* the choosen days in the calendar will be displayed down  */}
+							<div className="row mt-2">
+								{datesInRange.length > 0 && (
+									<div>
+										<label className="fw-semibold form-label" style={{ fontSize: "12px" }}>
+											Select Days
+										</label>
+										<div className="d-flex" style={{ fontSize: "11px" }}>
+											{datesInRange.map((date, index) => (
+												<div key={index} className="d-flex align-items-center mr-3 mb-2	">
+													<input
+														type="checkbox"
+														id={`day-${index}`}
+														checked={selectedDays.includes(index)}
+														onChange={() => handleCheckboxChange(index)}
+													/>
+													<label htmlFor={`day-${index}`}>{date.toLocaleDateString("en-US", { weekday: "short" })}</label>
+												</div>
+											))}
+										</div>
+									</div>
+								)}
+							</div>
+
 							<div className=" row mt-3">
 								<div className="col">
-
-									<button type="submit" className="btn btn-danger">
+									<button type="submit" className="btn btn-danger" onClick={handleCheckAvailability}>
 										check availability
 									</button>
-
-									
 								</div>
 							</div>
 
@@ -360,9 +513,23 @@ const ReservationFacility = (props) => {
 								<div className="col">
 									<b style={{ fontSize: "13px" }}>Available Facility</b>
 									<br />
-									<button type="button" className="btn btn-success mt-1" style={{ fontSize: "12px" }}>
-										Tennis Court
-									</button>
+									{console.log("getCheckAvailability",getCheckAvailability)}
+
+									{getCheckAvailability?.data && Object.keys(getCheckAvailability?.data).length>0 &&
+										getCheckAvailability?.data?.map((item, index) => {
+											console.log(item, "itemitemitem");
+											return (
+												<button
+													key={item.id}
+													value={item.title}
+													type="button"
+													className="btn btn-success mt-1"
+													style={{ fontSize: "12px" }}
+												>
+													{item.title}
+												</button>
+											);
+										})}
 								</div>
 							</div>
 
@@ -408,27 +575,64 @@ const ReservationFacility = (props) => {
 									<label className="booking-text form-label fw-semibold" style={{ fontSize: "10px" }}>
 										Facility<span className="text-danger">*</span>
 									</label>
+									<div className="border">
+										{getCheckAvailability?.data &&Object.keys(getCheckAvailability?.data).length>0 &&
+											getCheckAvailability?.data?.map((item, index) => {
+												console.log(item, "itemitemitem");
+												return (
+													<div className="form-check">
+														<input
+															className="form-check-input"
+															key={item.id}
+															value={item.title}
+															type="radio"
+															name="flexRadioDefault"
+															id="flexRadioDefault1"
+															onClick ={handlePricingChange(item.id)}
+														/>
+														<label className="form-check-label" for="flexRadioDefault1">
+															{item.title}
+														</label>
+													</div>
+												);
+											})}
+									</div>
 								</div>
 
 								<div className="col-sm-6">
 									<label className="booking-text form-label fw-semibold" style={{ fontSize: "10px" }}>
 										Pricing rule<span className="text-danger">*</span>
 									</label>
+									<div className="border">
+                                      {console.log("pricingRule",  pricingRule)};
+									{pricingRule?.data &&Object.keys(pricingRule?.data).length>0 &&
+											pricingRule?.data?.map((item, index) => {
+												console.log(item, "item");
+												return (
+													<div className="form-check">
+														<input
+															className="form-check-input"
+															key={item.id}
+															value={item.pricingRule.ruleName}
+															type="radio"
+															name="flexRadioDefault"
+															id="flexRadioDefault1"
+														/>
+														<label className="form-check-label" for="flexRadioDefault1">
+														{item.pricingRule.ruleName}
+														</label>
+													</div>
+												);
+										})}
+										
+									
+									
+									</div>
 								</div>
 							</div>
 
 							<div className=" row mt-3">
 								<div className="col">
-									{/* <button
-										type="button"
-										className="text-white btn btn-danger"
-										data-bs-toggle="offcanvas"
-										data-bs-target="#offcanvasRight"
-										aria-controls="offcanvasRight"
-									>
-										Add player
-									</button> */}
-
 									<button className="btn btn-danger" type="button" onClick={handleShow}>
 										Add player
 									</button>
