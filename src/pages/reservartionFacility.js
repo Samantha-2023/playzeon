@@ -33,6 +33,8 @@ const ReservationFacility = (props) => {
 	const [selectedDays, setSelectedDays] = useState([]);
 	const [facilityId, setFacilityId] = useState([]);
 
+	const [selectedFacilityTitle, setSelectedFacilityTitle] = useState('');
+
 	const [show, setShow] = useState(false);
 	// const [startTime, setStartTime] = useState([]);
 	// const [endTime, setEndTime] = useState([]);
@@ -78,9 +80,14 @@ const ReservationFacility = (props) => {
 
 	const handleSelectChange = (event) => {
 		const selectedFacilityType = event.target.value;
+		console.log(selectedFacilityType,"cvb")
+		const selectedFacilityTitle = event.target.options[event.target.selectedIndex].text;
+
+
 		const selectedSportId = event.target.value;
 
 		setFacilityValue(selectedFacilityType);
+		setSelectedFacilityTitle(selectedFacilityTitle);
 
 		setSportId(selectedSportId);
 		dispatch(ReservationGetListFacility(selectedFacilityType));
@@ -98,6 +105,7 @@ const ReservationFacility = (props) => {
 		const utcStartTime = moment.utc(`${startDate}`).format();
 
 		const utcEndTime = moment.utc(`${endDate}`).format();
+
 		dispatch(checkAvailabilityAction(sportId, utcStartTime, utcEndTime, datesInRange));
 	};
 
@@ -137,18 +145,8 @@ const ReservationFacility = (props) => {
 			}
 		});
 	};
-	const extractFacilityIds = pricingRule?.data?.map((item) => item.facilityId) || [];
-	const handlePricingChange = (id) => {
-		console.log(id, "facid");
-		setFacilityId(id);
-		dispatch(pricingRuleAction(id));
-	};
 
 	const datesInRange = startDate && endDate ? getDatesBetweenDates(startDate, endDate) : [];
-
-	useEffect(() => {
-		setFacilityId(extractFacilityIds);
-	}, []);
 
 	//just to show only the names
 	useEffect(() => {
@@ -203,6 +201,13 @@ const ReservationFacility = (props) => {
 		}
 	};
 	console.log("allsports", allsports);
+
+	//const extractFacilityIds = pricingRule?.data?.map((item) => item.facilityId) || [];
+	const handlePricingChange = (id) => {
+		console.log(id, "facid");
+		setFacilityId(id);
+		dispatch(pricingRuleAction(id));
+	};
 
 	// this  dispatch is for playzeon  sports photos
 	useEffect(() => {
@@ -354,7 +359,7 @@ const ReservationFacility = (props) => {
 										</option>
 									</select>
 								</div>
-
+{/* /////////////////////////////////////////////////////////////// */}
 								<div className=" flex-grow-1">
 									<label className="bookingtext  form-label">
 										Facility Type
@@ -466,6 +471,7 @@ const ReservationFacility = (props) => {
 									/>
 								</div>
 							</div>
+
 							{/* the choosen days in the calendar will be displayed down  */}
 							<div className="row mt-2">
 								{datesInRange.length > 0 && (
@@ -504,7 +510,7 @@ const ReservationFacility = (props) => {
 									<br />
 									{console.log("getCheckAvailability", getCheckAvailability)}
 
-									{getCheckAvailability?.data &&
+									{/* {getCheckAvailability?.data &&
 										Object.keys(getCheckAvailability?.data).length > 0 &&
 										getCheckAvailability?.data?.map((item, index) => {
 											console.log(item, "itemitemitem");
@@ -519,20 +525,25 @@ const ReservationFacility = (props) => {
 													{item.title}
 												</button>
 											);
-										})}
+										})} */}
 
 									{/* // 		or    tricky way   */}
-									{/* {reservationlistselector && 
-								 typeof reservationlistselector?.data === "object" &&
-								 Object.values(reservationlistselector?.data).map((facilityDetails) => {
-							 	console.log("facilityDetails", facilityDetails);
+									{reservationlistselector &&
+										typeof reservationlistselector?.data === "object" &&
+										Object.values(reservationlistselector?.data).map((facilityDetails) => {
+											console.log("facilityDetails", facilityDetails);
 
-								 	return facilityDetails.map((facilityList) => (
-										<option key={facilityList.id} className="fw-semibold" value={facilityList.id} name={facilityList?.name}>
-											{facilityList.name}
-										</option>
-								 	));
-								 })} */}
+											return facilityDetails.map((facilityList) => (
+												<button
+													key={facilityList.id}
+													className="btn btn-success mt-1"
+													value={facilityList.id}
+													name={facilityList?.name}
+												>
+													{facilityList.name}
+												</button>
+											));
+										})}
 								</div>
 							</div>
 
@@ -578,8 +589,8 @@ const ReservationFacility = (props) => {
 									<label className="booking-text form-label fw-semibold" style={{ fontSize: "10px" }}>
 										Facility<span className="text-danger">*</span>
 									</label>
-									<div className="border">
-										{getCheckAvailability?.data &&
+									{/* <div className="border">
+										 {getCheckAvailability?.data &&
 											Object.keys(getCheckAvailability?.data).length > 0 &&
 											getCheckAvailability?.data?.map((item, index) => {
 												console.log(item, "itemitemitem");
@@ -599,8 +610,31 @@ const ReservationFacility = (props) => {
 														</label>
 													</div>
 												);
+											})} 
+											</div> */}
+									{/* trick way 2 same mapping */}
+									<div className="border">
+										{reservationlistselector &&
+											typeof reservationlistselector.data === "object" &&
+											Object.values(reservationlistselector.data).map((facilityDetails) => {
+												console.log("facilityDetails", facilityDetails);
+												return facilityDetails.map((facilityList) => (
+													<div key={facilityList.id}>
+														<input
+															className="btn btn-success mt-1"
+															value={facilityList.id}
+															name={facilityList?.name}
+															type="radio"
+															id={`flexRadioDefault_${facilityList.id}`}
+															onClick={() => handlePricingChange(facilityList.id)}
+														/>
+														<label htmlFor={`flexRadioDefault_${facilityList.id}`}>{facilityList.name}</label>
+													</div>
+												));
 											})}
 									</div>
+
+									{/* col div down */}
 								</div>
 
 								<div className="col-sm-6">
@@ -635,13 +669,8 @@ const ReservationFacility = (props) => {
 
 							<div className=" row mt-3">
 								<div className="col  d-flex justify-content-end">
-									<button
-									 className={`btn ${isEditMode ? "btn-warning" : "btn-success"}`}
-									  type="button" 
-									 onClick={handleSaveClick}
-									 >
+									<button className={`btn ${isEditMode ? "btn-warning" : "btn-success"}`} type="button" onClick={handleSaveClick}>
 										{isEditMode ? "Edit" : "Save"}
-										
 									</button>
 								</div>
 							</div>
@@ -653,8 +682,8 @@ const ReservationFacility = (props) => {
 									</button>
 								</div>
 							</div>
-
-							<div className=" row mt-3">
+							{/* table */}
+							{/* <div className=" row mt-3">
 								<div className="col">
 									<label className="fw-semibold" style={{ fontSize: "12px" }}>
 										Added player's
@@ -693,20 +722,12 @@ const ReservationFacility = (props) => {
 										</tbody>
 									</table>
 								</div>
-							</div>
+							</div> */}
 
 							<div className="row">
 								<div className="col-sm-12 mt-3">
 									<label className="fw-bold form-label">Notes</label>
 									<textarea placeholder="Leave a comment here" className="form-control" style={{ height: "100px" }}></textarea>
-								</div>
-							</div>
-
-							<div className="row mt-4">
-								<div className="col-sm-12 d-flex justify-content-end align-items-center">
-									<button type="button" className="btn btn-primary">
-										Proceed to book
-									</button>
 								</div>
 							</div>
 						</div>
@@ -721,24 +742,84 @@ const ReservationFacility = (props) => {
 							</p>
 							<hr />
 							<div>
-								<p style={{ fontSize: "13px" }}>Start date and time</p>
-								<p className="semi-bold"></p>
+								<p style={{ fontSize: "12px" }}>Start date and time</p>
+								<p className="semi-bold" style={{ fontSize: "11px" }}>
+									{console.log(startDate, "startDate")}
+									{startDate.toLocaleString()}
+								</p>
 							</div>
 							<div>
-								<p style={{ fontSize: "13px" }}>End date and time</p>
-								<p className="semi-bold"></p>
+								<p style={{ fontSize: "12px" }}>End date and time</p>
+								<p className="semi-bold" style={{ fontSize: "11px" }}>
+									{console.log(endDate, "endDate")}
+									{endDate.toLocaleString()}
+								</p>
 							</div>
+
+
 							<div>
 								<p style={{ fontSize: "13px" }}>Facility type</p>
-								<p className="semi-bold">Tennis court</p>
+								<p className="semi-bold">
+								{selectedFacilityTitle}								
+								
+														</p>
 								<hr />
 							</div>
+
+
 							<div className="mb-3">
-								<h6>
-									<b>Players Facility and Pricing Details</b>
+								<h6 style={{fontSize:"13px", fontWeight:"bold"}}>
+								Players Facility and Pricing Details
 								</h6>
+
+								<div className=" row mt-3">
+								<div className="col">
+									<label className="fw-semibold" style={{ fontSize: "12px" }}>
+										Added player's
+									</label>
+									<table className="table table-striped table-secondary" style={{ fontSize: "9px" }}>
+										<thead>
+											<tr className="">
+												<th scope="col">Name</th>
+												<th scope="col">Facility</th>
+												<th scope="col">Pricing rule</th>
+												<th scope="col">Per hour ($)</th>
+												
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<th scope="row">1</th>
+												<td>Mark</td>
+												<td>Otto</td>
+												<td>@mdo</td>
+											</tr>
+											<tr>
+												<th scope="row">2</th>
+												<td>Jacob</td>
+												<td>Thornton</td>
+												<td>@fat</td>
+											</tr>
+											<tr>
+												<th scope="row">3</th>
+												<td colspan="2">Larry the Bird</td>
+												<td>@twitter</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div> 
+
 							</div>
 						</div>
+					</div>
+				</div>
+
+				<div className="row mt-4">
+					<div className="col-sm-12 d-flex justify-content-end align-items-center">
+						<button type="button" className="btn btn-primary">
+							Proceed to book
+						</button>
 					</div>
 				</div>
 			</div>

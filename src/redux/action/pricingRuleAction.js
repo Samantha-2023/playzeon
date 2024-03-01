@@ -2,9 +2,7 @@ import axios from "axios";
 import {API_URL} from "../../constantsUrl/constantsUrl.js";
 import {Constants,FETCH_PRICING_RULE_ACTION }  from "../constants/constants.js";
 
-export const pricingRuleAction = (values,id)=>async(dispatch) => {
-	//console.log(values, "valuessssss id");
-	console.log(id,"facidred")
+export const pricingRuleAction = (id)=>async(dispatch) => {
 	// this action is for facility type label list 
 	
 		await dispatch({
@@ -21,7 +19,7 @@ export const pricingRuleAction = (values,id)=>async(dispatch) => {
 		const options = {
 			method: "GET",
 			headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
-			url: `${API_URL}api/v1/pricing-rules?centerId=${centerIddd}&facilityIds=${id}`,
+			url: `${API_URL}/api/v1/pricing-rules?centerId=${centerIddd}&facilityIds=${id}`,
             
 		};
 
