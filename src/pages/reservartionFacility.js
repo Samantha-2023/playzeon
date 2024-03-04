@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { useFormik } from "formik";
 import { ReservationGetFacilityType } from "../redux/action/reservationAction";
 import { ReservationGetListFacility } from "../redux/action/reservationListFacilityAction";
 import { GetListReservationAction } from "../redux/action/listReservationAction";
@@ -28,12 +31,15 @@ const ReservationFacility = (props) => {
 
 	const [facilityNames, setFacilityNames] = useState([]);
 	const [startDate, setStartDate] = useState(new Date());
-	const [endDate, setEndDate] = useState(new Date());
+	// const [endDate, setEndDate] = useState(new Date());
 	const [sportId, setSportId] = useState([]);
 	const [selectedDays, setSelectedDays] = useState([]);
 	const [facilityId, setFacilityId] = useState([]);
 
-	const [selectedFacilityTitle, setSelectedFacilityTitle] = useState('');
+	const [selectedFacilityTitle, setSelectedFacilityTitle] = useState("");
+
+	const [bookingType, setBookingType] = useState("single");
+	const [endDate, setEndDate] = useState();
 
 	const [show, setShow] = useState(false);
 	// const [startTime, setStartTime] = useState([]);
@@ -78,11 +84,65 @@ const ReservationFacility = (props) => {
 	console.log("pricingRule", pricingRule);
 	// console.log(" pricingRule", pricingRule?.data?.map(item =>item.facilityId));
 
+	const initialValues = {
+		phoneNumber: " ",
+		email: " ",
+		firstName: "",
+		lastName: "",
+		facility: "",
+	};
+
+	const validationSchema = Yup.object().shape({
+		phoneNumber: Yup.string()
+			.matches(/^[0-9]{10}$/, "Phone number must be a 10-digit number")
+			.required("please enter a phon number"),
+
+		email: Yup.string()
+			.matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}/, "Enter a valid email")
+			.required("please enter a valid mail id"),
+
+		firstName: Yup.string().min(2, "Name is required !").max(50, "Too Long!").required("please enter a first name"),
+
+		lastName: Yup.string().min(2, " lastName is required!").max(50, "Too Long!").required("please enter a last name"),
+		facility: Yup.string().min(2, " Street is required!").max(50, "Too Long!").required("please select anyone facility"),
+	});
+
+	const submitForm = (values) => {
+		console.log("values:::", values);
+		// try {
+		// 	dispatch(pricingCostAction());
+		// } catch (error) {
+		// 	console.error("Form submission failed", error);
+		// }
+	};
+
+	const formik = useFormik({
+		initialValues: initialValues,
+		validationSchema: validationSchema,
+		onSubmit: submitForm,
+	});
+
+	console.log(formik.errors?.email);
+	console.log(formik.errors?.name);
+	console.log(formik.errors?.phonenumber);
+
+	console.log(formik);
+
+	const handleBookingTypeChange = (event) => {
+		setBookingType(event.target.value);
+		if (event.target.value === "single") {
+			setEndDate(null);
+		}
+	};
+
+	const handleEndDateChange = (date) => {
+		setEndDate(date);
+	};
+
 	const handleSelectChange = (event) => {
 		const selectedFacilityType = event.target.value;
-		console.log(selectedFacilityType,"cvb")
+		console.log(selectedFacilityType, "cvb");
 		const selectedFacilityTitle = event.target.options[event.target.selectedIndex].text;
-
 
 		const selectedSportId = event.target.value;
 
@@ -99,6 +159,7 @@ const ReservationFacility = (props) => {
 
 	const handleSaveClick = () => {
 		setIsEditMode(true);
+		// dispatch(())
 	};
 
 	const handleCheckAvailability = () => {
@@ -129,10 +190,6 @@ const ReservationFacility = (props) => {
 
 	const handleStartDateChange = (date) => {
 		setStartDate(date);
-	};
-
-	const handleEndDateChange = (date) => {
-		setEndDate(date);
 	};
 
 	const handleCheckboxChange = (index) => {
@@ -359,7 +416,7 @@ const ReservationFacility = (props) => {
 										</option>
 									</select>
 								</div>
-{/* /////////////////////////////////////////////////////////////// */}
+								{/* /////////////////////////////////////////////////////////////// */}
 								<div className=" flex-grow-1">
 									<label className="bookingtext  form-label">
 										Facility Type
@@ -390,13 +447,31 @@ const ReservationFacility = (props) => {
 								<div className="col">
 									<div class="form-check d-flex flex-row mb-2 gap-5">
 										<div>
-											<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="option1" />
+											<input
+												class="form-check-input"
+												type="radio"
+												name="flexRadioDefault"
+												id="flexRadioDefault1"
+												value="single"
+												checked={bookingType === "single"}
+												onChange={handleBookingTypeChange}
+											/>
+
 											<label class="form-check-label" for="flexRadioDefault1">
 												Single Booking
 											</label>
 										</div>
 										<div>
-											<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="option1" />
+											<input
+												class="form-check-input"
+												type="radio"
+												name="flexRadioDefault"
+												id="flexRadioDefault1"
+												value="multiple"
+												checked={bookingType === "multiple"}
+												onChange={handleBookingTypeChange}
+												disabled={bookingType === "multiple"}
+											/>
 											<label class="form-check-label" for="flexRadioDefault1">
 												Multiple Booking
 											</label>
@@ -420,21 +495,22 @@ const ReservationFacility = (props) => {
 										onChange={handleStartDateChange}
 									/>
 								</div>
+								{bookingType === "multiple" && (
+									<div className=" flex-grow-1">
+										<label className="bookingtext  form-label">
+											End Date
+											<span className="text-danger">*</span>
+										</label>
 
-								<div className=" flex-grow-1">
-									<label className="bookingtext  form-label">
-										End Date
-										<span className="text-danger">*</span>
-									</label>
-
-									<DatePicker
-										showIcon
-										selected={endDate}
-										//    onChange={(date) => setEndDate(date)}
-										className="react-datepicker-wrapper"
-										onChange={handleEndDateChange}
-									/>
-								</div>
+										<DatePicker
+											showIcon
+											selected={endDate}
+											//    onChange={(date) => setEndDate(date)}
+											className="react-datepicker-wrapper"
+											onChange={handleEndDateChange}
+										/>
+									</div>
+								)}
 								<div className=" flex-grow-1">
 									<label className="bookingtext  form-label">
 										Start Time
@@ -548,48 +624,89 @@ const ReservationFacility = (props) => {
 							</div>
 
 							<div className="row mt-2">
-								<div className="col">
-									<b style={{ fontSize: "13px" }}>Player Details</b>
-									<br />
-									<form class="row g-2">
+								<form class="row g-2" onSubmit={formik.handleSubmit}>
+									<div className="col">
+										<b style={{ fontSize: "13px" }}>Player Details</b>
+										<br />
+
 										<div class="col-md-6">
 											<label for="inputPassword4" className="form-label fw-semibold" style={{ fontSize: "11px" }}>
 												First name
 											</label>
 
-											<input type="text" class="form-control" aria-label="First name" />
+											<input
+												className="form-control"
+												aria-label="First name"
+												name="firstName"
+												type="text"
+												onChange={formik.handleChange}
+												value={formik.values.firstName}
+											/>
+
+											{formik.touched.firstName && formik.errors?.firstName?.length && (
+												<p className="error-text">{formik.errors?.firstName}</p>
+											)}
 										</div>
 										<div class="col-md-6">
 											<label for="inputPassword4" className="form-label fw-semibold " style={{ fontSize: "11px" }}>
 												Last name
 											</label>
 
-											<input type="text" class="form-control" aria-label="Last name" />
-										</div>
+											<input
+												className="form-control"
+												aria-label="Last name"
+												name="lastName"
+												type="text"
+												onChange={formik.handleChange}
+												value={formik.values.lastName}
+											/>
 
+											{formik.touched.lastName && formik.errors?.lastName?.length && (
+												<p className="error-text">{formik.errors?.lastName}</p>
+											)}
+										</div>
+                                            {console.log(formik.values,"values123")}
 										<div class="col-md-6">
 											<label for="inputPassword4" className="form-label  fw-semibold " style={{ fontSize: "11px" }}>
 												Phone number
 											</label>
-											<input type="text" class="form-control" id="inputPassword4" />
+											<input
+												className="form-control"
+												id="inputPassword4"
+												name="phoneNumber"
+												type="number"
+												onChange={formik.handleChange}
+												value={formik.values.phoneNumber}
+											/>
+
+											{formik.touched.phoneNumber && formik.errors?.phoneNumber?.length && (
+												<p className="error-text">{formik.errors?.phoneNumber}</p>
+											)}
 										</div>
 
 										<div class="col-md-6">
 											<label for="inputEmail4" className="form-label fw-semibold " style={{ fontSize: "11px" }}>
 												Email address
 											</label>
-											<input type="email" class="form-control" id="inputEmail4" />
+											<input
+												className="form-control"
+												id="inputEmail4"
+												name="email"
+												type="email"
+												onChange={formik.handleChange}
+												value={formik.values.email}
+											/>
+											{formik.touched.email && formik.errors?.email?.length && <p className="error-text">{formik.errors?.email}</p>}
 										</div>
-									</form>
-								</div>
-							</div>
+									</div>
+									{/* </div> */}
 
-							<div className="row mt-2">
-								<div className="col-sm-6">
-									<label className="booking-text form-label fw-semibold" style={{ fontSize: "10px" }}>
-										Facility<span className="text-danger">*</span>
-									</label>
-									{/* <div className="border">
+									<div className="row mt-2">
+										<div className="col-sm-6">
+											<label className="booking-text form-label fw-semibold" style={{ fontSize: "10px" }}>
+												Facility<span className="text-danger">*</span>
+											</label>
+											{/* <div className="border">
 										 {getCheckAvailability?.data &&
 											Object.keys(getCheckAvailability?.data).length > 0 &&
 											getCheckAvailability?.data?.map((item, index) => {
@@ -612,67 +729,75 @@ const ReservationFacility = (props) => {
 												);
 											})} 
 											</div> */}
-									{/* trick way 2 same mapping */}
-									<div className="border">
-										{reservationlistselector &&
-											typeof reservationlistselector.data === "object" &&
-											Object.values(reservationlistselector.data).map((facilityDetails) => {
-												console.log("facilityDetails", facilityDetails);
-												return facilityDetails.map((facilityList) => (
-													<div key={facilityList.id}>
-														<input
-															className="btn btn-success mt-1"
-															value={facilityList.id}
-															name={facilityList?.name}
-															type="radio"
-															id={`flexRadioDefault_${facilityList.id}`}
-															onClick={() => handlePricingChange(facilityList.id)}
-														/>
-														<label htmlFor={`flexRadioDefault_${facilityList.id}`}>{facilityList.name}</label>
-													</div>
-												));
-											})}
+											{/* trick way 2 same mapping */}
+											<div className="border">
+												{reservationlistselector &&
+													typeof reservationlistselector.data === "object" &&
+													Object.values(reservationlistselector.data).map((facilityDetails) => {
+														console.log("facilityDetails", facilityDetails);
+														return facilityDetails.map((facilityList) => (
+															<div key={facilityList.id}>
+																<input
+																	className="btn btn-success mt-1"
+																	// value={facilityList.id}
+																	value={formik.values.facilityList?.id}
+
+																	name={facilityList?.name}
+																	type="radio"
+																	id={`flexRadioDefault_${facilityList.id}`}
+																	checked={formik.values.facility === facilityList.id}
+																	onClick={() => handlePricingChange(facilityList.id)}
+																	onChange={formik.handleChange}
+																/>
+																<label htmlFor={`flexRadioDefault_${facilityList.id}`}>{facilityList.name}</label>
+															</div>
+														));
+													})}
+											</div>
+
+											{formik.touched.facility && formik.errors?.facility?.length && (
+												<p className="error-text">{formik.errors?.facility}</p>
+											)}
+
+											{/* col div down */}
+										</div>
+
+										<div className="col-sm-6">
+											<label className="booking-text form-label fw-semibold" style={{ fontSize: "10px" }}>
+												Pricing rule<span className="text-danger">*</span>
+											</label>
+											<div className="border">
+												{pricingRule?.data &&
+													Object.keys(pricingRule?.data).length > 0 &&
+													pricingRule?.data?.map((item, index) => {
+														return (
+															<div className="form-check">
+																<input
+																	className="form-check-input"
+																	key={item.id}
+																	value={item.pricingRule.ruleName}
+																	type="radio"
+																	name="flexRadioDefault"
+																	id="flexRadioDefault1"
+																/>
+																<label className="form-check-label" for="flexRadioDefault1">
+																	{item.pricingRule.ruleName}
+																</label>
+															</div>
+														);
+													})}
+											</div>
+										</div>
 									</div>
 
-									{/* col div down */}
-								</div>
-
-								<div className="col-sm-6">
-									<label className="booking-text form-label fw-semibold" style={{ fontSize: "10px" }}>
-										Pricing rule<span className="text-danger">*</span>
-									</label>
-									<div className="border">
-										{console.log("pricingRule", pricingRule)};
-										{pricingRule?.data &&
-											Object.keys(pricingRule?.data).length > 0 &&
-											pricingRule?.data?.map((item, index) => {
-												console.log(item, "item");
-												return (
-													<div className="form-check">
-														<input
-															className="form-check-input"
-															key={item.id}
-															value={item.pricingRule.ruleName}
-															type="radio"
-															name="flexRadioDefault"
-															id="flexRadioDefault1"
-														/>
-														<label className="form-check-label" for="flexRadioDefault1">
-															{item.pricingRule.ruleName}
-														</label>
-													</div>
-												);
-											})}
+									<div className=" row mt-3">
+										<div className="col  d-flex justify-content-end">
+											<button className={`btn ${isEditMode ? "btn-warning" : "btn-success"}`} type="submit" onClick={handleSaveClick}>
+												{isEditMode ? "Edit" : "Save"}
+											</button>
+										</div>
 									</div>
-								</div>
-							</div>
-
-							<div className=" row mt-3">
-								<div className="col  d-flex justify-content-end">
-									<button className={`btn ${isEditMode ? "btn-warning" : "btn-success"}`} type="button" onClick={handleSaveClick}>
-										{isEditMode ? "Edit" : "Save"}
-									</button>
-								</div>
+								</form>
 							</div>
 
 							<div className=" row mt-3">
@@ -744,72 +869,71 @@ const ReservationFacility = (props) => {
 							<div>
 								<p style={{ fontSize: "12px" }}>Start date and time</p>
 								<p className="semi-bold" style={{ fontSize: "11px" }}>
-									{console.log(startDate, "startDate")}
-									{startDate.toLocaleString()}
+									{startDate && (
+										<>
+											{console.log(startDate, "startDate")}
+											{startDate.toLocaleString()}
+										</>
+									)}
 								</p>
 							</div>
 							<div>
 								<p style={{ fontSize: "12px" }}>End date and time</p>
 								<p className="semi-bold" style={{ fontSize: "11px" }}>
-									{console.log(endDate, "endDate")}
-									{endDate.toLocaleString()}
+									{endDate && (
+										<>
+											{console.log(endDate, "endDate")}
+											{endDate.toLocaleString()}
+										</>
+									)}
 								</p>
 							</div>
 
-
 							<div>
 								<p style={{ fontSize: "13px" }}>Facility type</p>
-								<p className="semi-bold">
-								{selectedFacilityTitle}								
-								
-														</p>
+								<p className="semi-bold">{selectedFacilityTitle}</p>
 								<hr />
 							</div>
 
-
 							<div className="mb-3">
-								<h6 style={{fontSize:"13px", fontWeight:"bold"}}>
-								Players Facility and Pricing Details
-								</h6>
+								<h6 style={{ fontSize: "13px", fontWeight: "bold" }}>Players Facility and Pricing Details</h6>
 
 								<div className=" row mt-3">
-								<div className="col">
-									<label className="fw-semibold" style={{ fontSize: "12px" }}>
-										Added player's
-									</label>
-									<table className="table table-striped table-secondary" style={{ fontSize: "9px" }}>
-										<thead>
-											<tr className="">
-												<th scope="col">Name</th>
-												<th scope="col">Facility</th>
-												<th scope="col">Pricing rule</th>
-												<th scope="col">Per hour ($)</th>
-												
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<th scope="row">1</th>
-												<td>Mark</td>
-												<td>Otto</td>
-												<td>@mdo</td>
-											</tr>
-											<tr>
-												<th scope="row">2</th>
-												<td>Jacob</td>
-												<td>Thornton</td>
-												<td>@fat</td>
-											</tr>
-											<tr>
-												<th scope="row">3</th>
-												<td colspan="2">Larry the Bird</td>
-												<td>@twitter</td>
-											</tr>
-										</tbody>
-									</table>
+									<div className="col">
+										<label className="fw-semibold" style={{ fontSize: "12px" }}>
+											Added player's
+										</label>
+										<table className="table table-striped table-secondary" style={{ fontSize: "9px" }}>
+											<thead>
+												<tr className="">
+													<th scope="col">Name</th>
+													<th scope="col">Facility</th>
+													<th scope="col">Pricing rule</th>
+													<th scope="col">Per hour ($)</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th scope="row">1</th>
+													<td>Mark</td>
+													<td>Otto</td>
+													<td>@mdo</td>
+												</tr>
+												<tr>
+													<th scope="row">2</th>
+													<td>Jacob</td>
+													<td>Thornton</td>
+													<td>@fat</td>
+												</tr>
+												<tr>
+													<th scope="row">3</th>
+													<td colspan="2">Larry the Bird</td>
+													<td>@twitter</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
 								</div>
-							</div> 
-
 							</div>
 						</div>
 					</div>

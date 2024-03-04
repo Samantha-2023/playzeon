@@ -632,7 +632,7 @@ const AddCenter = () => {
 											/>
 										</div>
 									</div>
-
+k
 									<div className=" col-5 ps4">
 										<div className="row text-muted ps-2">
 											<div className="small title">
