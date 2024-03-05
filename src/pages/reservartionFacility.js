@@ -16,6 +16,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Offcanvas } from "react-bootstrap";
 import { checkAvailabilityAction } from "../redux/action/checkAvailabilityAction";
 import { pricingRuleAction } from "../redux/action/pricingRuleAction";
+import { pricingCostAction } from "../redux/action/pricingCostAction";
 
 // import { useNavigate } from "react-router-dom";
 
@@ -84,12 +85,17 @@ const ReservationFacility = (props) => {
 	console.log("pricingRule", pricingRule);
 	// console.log(" pricingRule", pricingRule?.data?.map(item =>item.facilityId));
 
+	// this selector is for the pricing cost  for the prcing rule
+	const pricingCostSelector = useSelector((state) => state.pricingCost?.pricingCostInitial);
+	console.log("pricingCost", pricingCostSelector);
+
 	const initialValues = {
 		phoneNumber: " ",
 		email: " ",
 		firstName: "",
 		lastName: "",
 		facility: "",
+		pricingRule: "",
 	};
 
 	const validationSchema = Yup.object().shape({
@@ -104,16 +110,18 @@ const ReservationFacility = (props) => {
 		firstName: Yup.string().min(2, "Name is required !").max(50, "Too Long!").required("please enter a first name"),
 
 		lastName: Yup.string().min(2, " lastName is required!").max(50, "Too Long!").required("please enter a last name"),
-		facility: Yup.string().min(2, " Street is required!").max(50, "Too Long!").required("please select anyone facility"),
+		facility: Yup.string().min(2, " Facility is required!").max(50, "Too Long!").required("please select anyone facility"),
+
+		pricingRule: Yup.string().min(2, "Pricing rule is required!").max(50, "Too Long!").required("please select anyone pricing rule"),
 	});
 
 	const submitForm = (values) => {
 		console.log("values:::", values);
-		// try {
-		// 	dispatch(pricingCostAction());
-		// } catch (error) {
-		// 	console.error("Form submission failed", error);
-		// }
+		try {
+			dispatch(pricingCostAction());
+		} catch (error) {
+			console.error("Form submission failed", error);
+		}
 	};
 
 	const formik = useFormik({
@@ -625,78 +633,80 @@ const ReservationFacility = (props) => {
 
 							<div className="row mt-2">
 								<form class="row g-2" onSubmit={formik.handleSubmit}>
-									<div className="col">
+									<div className="col-md-12">
 										<b style={{ fontSize: "13px" }}>Player Details</b>
 										<br />
+										<div className="row g-2">
+											<div class="col-md-6">
+												<label for="inputPassword4" className="form-label fw-semibold" style={{ fontSize: "11px" }}>
+													First name
+												</label>
 
-										<div class="col-md-6">
-											<label for="inputPassword4" className="form-label fw-semibold" style={{ fontSize: "11px" }}>
-												First name
-											</label>
+												<input
+													className="form-control"
+													aria-label="First name"
+													name="firstName"
+													type="text"
+													onChange={formik.handleChange}
+													value={formik.values.firstName}
+												/>
 
-											<input
-												className="form-control"
-												aria-label="First name"
-												name="firstName"
-												type="text"
-												onChange={formik.handleChange}
-												value={formik.values.firstName}
-											/>
+												{formik.touched.firstName && formik.errors?.firstName?.length && (
+													<p className="error-text">{formik.errors?.firstName}</p>
+												)}
+											</div>
+											<div class="col-md-6">
+												<label for="inputPassword4" className="form-label fw-semibold " style={{ fontSize: "11px" }}>
+													Last name
+												</label>
 
-											{formik.touched.firstName && formik.errors?.firstName?.length && (
-												<p className="error-text">{formik.errors?.firstName}</p>
-											)}
+												<input
+													className="form-control"
+													aria-label="Last name"
+													name="lastName"
+													type="text"
+													onChange={formik.handleChange}
+													value={formik.values.lastName}
+												/>
+
+												{formik.touched.lastName && formik.errors?.lastName?.length && (
+													<p className="error-text">{formik.errors?.lastName}</p>
+												)}
+											</div>
 										</div>
-										<div class="col-md-6">
-											<label for="inputPassword4" className="form-label fw-semibold " style={{ fontSize: "11px" }}>
-												Last name
-											</label>
+										<div className="row g-2">
+											<div class="col-md-6">
+												<label for="inputPassword4" className="form-label  fw-semibold " style={{ fontSize: "11px" }}>
+													Phone number
+												</label>
+												<input
+													className="form-control"
+													id="inputPassword4"
+													name="phoneNumber"
+													type="number"
+													onChange={formik.handleChange}
+													value={formik.values.phoneNumber}
+												/>
 
-											<input
-												className="form-control"
-												aria-label="Last name"
-												name="lastName"
-												type="text"
-												onChange={formik.handleChange}
-												value={formik.values.lastName}
-											/>
+												{formik.touched.phoneNumber && formik.errors?.phoneNumber?.length && (
+													<p className="error-text">{formik.errors?.phoneNumber}</p>
+												)}
+											</div>
 
-											{formik.touched.lastName && formik.errors?.lastName?.length && (
-												<p className="error-text">{formik.errors?.lastName}</p>
-											)}
-										</div>
-                                            {console.log(formik.values,"values123")}
-										<div class="col-md-6">
-											<label for="inputPassword4" className="form-label  fw-semibold " style={{ fontSize: "11px" }}>
-												Phone number
-											</label>
-											<input
-												className="form-control"
-												id="inputPassword4"
-												name="phoneNumber"
-												type="number"
-												onChange={formik.handleChange}
-												value={formik.values.phoneNumber}
-											/>
-
-											{formik.touched.phoneNumber && formik.errors?.phoneNumber?.length && (
-												<p className="error-text">{formik.errors?.phoneNumber}</p>
-											)}
-										</div>
-
-										<div class="col-md-6">
-											<label for="inputEmail4" className="form-label fw-semibold " style={{ fontSize: "11px" }}>
-												Email address
-											</label>
-											<input
-												className="form-control"
-												id="inputEmail4"
-												name="email"
-												type="email"
-												onChange={formik.handleChange}
-												value={formik.values.email}
-											/>
-											{formik.touched.email && formik.errors?.email?.length && <p className="error-text">{formik.errors?.email}</p>}
+											<div class="col-md-6">
+												<label for="inputEmail4" className="form-label fw-semibold " style={{ fontSize: "11px" }}>
+													Email address
+												</label>
+												<input
+													className="form-control"
+													id="inputEmail4"
+													name="email"
+													type="email"
+													onChange={formik.handleChange}
+													value={formik.values.email}
+												/>
+												{formik.touched.email && formik.errors?.email?.length && <p className="error-text">{formik.errors?.email}</p>}
+											</div>
 										</div>
 									</div>
 									{/* </div> */}
@@ -735,17 +745,20 @@ const ReservationFacility = (props) => {
 													typeof reservationlistselector.data === "object" &&
 													Object.values(reservationlistselector.data).map((facilityDetails) => {
 														console.log("facilityDetails", facilityDetails);
+														
 														return facilityDetails.map((facilityList) => (
 															<div key={facilityList.id}>
+																{console.log(formik.values.facility,"formik.values.facility")}
+																{console.log(facilityList?.id,"facilityList?.id")}
+
 																<input
 																	className="btn btn-success mt-1"
 																	// value={facilityList.id}
 																	value={formik.values.facilityList?.id}
-
 																	name={facilityList?.name}
 																	type="radio"
 																	id={`flexRadioDefault_${facilityList.id}`}
-																	checked={formik.values.facility === facilityList.id}
+																	// checked={formik.values.facility === facilityList.id}
 																	onClick={() => handlePricingChange(facilityList.id)}
 																	onChange={formik.handleChange}
 																/>
@@ -779,6 +792,9 @@ const ReservationFacility = (props) => {
 																	type="radio"
 																	name="flexRadioDefault"
 																	id="flexRadioDefault1"
+																	// checked={formik.values.pricingRule === pricingRule.id}
+																	onClick={() => handlePricingChange(item.id)}
+																	onChange={formik.handleChange}
 																/>
 																<label className="form-check-label" for="flexRadioDefault1">
 																	{item.pricingRule.ruleName}

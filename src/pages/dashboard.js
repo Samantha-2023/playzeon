@@ -86,7 +86,7 @@ const DashBoard = () => {
 														<h6
 															className="d-inline-block text-truncate"
 															title={center?.title}
-															style={{ maxWidth: "50px", color: "lightgray" }}
+															style={{ maxWidth: "50px", color: "lightgray" , fontSize:"11px"}}
 														>
 															{center?.title}
 														</h6>
