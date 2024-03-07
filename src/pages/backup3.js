@@ -43,8 +43,8 @@ const ReservationFacility = (props) => {
 	const [endDate, setEndDate] = useState();
 
 	const [show, setShow] = useState(false);
-	const [selectedPricingRuleCost, setSelectedPricingRuleCost] = useState("");
-	console.log(selectedPricingRuleCost, "selectedPricingRuleCost");
+	// const [startTime, setStartTime] = useState([]);
+	// const [endTime, setEndTime] = useState([]);
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
@@ -83,11 +83,7 @@ const ReservationFacility = (props) => {
 	// This selector is for the pricing rule list
 	const pricingRule = useSelector((state) => state.PricingRule?.pricingRuleInitial);
 	console.log("pricingRule", pricingRule);
-	console.log(
-		" pricingRule",
-		pricingRule?.data?.map((item) => item.pricingRuleId)
-	);
-	// console.log(pricingRuleId,"pricingRuleId");
+	// console.log(" pricingRule", pricingRule?.data?.map(item =>item.facilityId));
 
 	// this selector is for the pricing cost  for the prcing rule
 	const pricingCostSelector = useSelector((state) => state.pricingCost?.pricingCostInitial);
@@ -121,7 +117,6 @@ const ReservationFacility = (props) => {
 
 	const submitForm = (values) => {
 		console.log("values:::", values);
-
 		try {
 			dispatch(pricingCostAction());
 		} catch (error) {
@@ -152,9 +147,6 @@ const ReservationFacility = (props) => {
 		setEndDate(date);
 	};
 
-	const handleSaveClick = () => {
-		setIsEditMode(true);
-	};
 	const handleSelectChange = (event) => {
 		const selectedFacilityType = event.target.value;
 		console.log(selectedFacilityType, "cvb");
@@ -172,6 +164,11 @@ const ReservationFacility = (props) => {
 	};
 
 	const handleBookingType = (event) => {};
+
+	const handleSaveClick = () => {
+		setIsEditMode(true);
+		// dispatch(())
+	};
 
 	const handleCheckAvailability = () => {
 		const utcStartTime = moment.utc(`${startDate}`).format();
@@ -272,19 +269,10 @@ const ReservationFacility = (props) => {
 
 	//const extractFacilityIds = pricingRule?.data?.map((item) => item.facilityId) || [];
 	const handlePricingChange = (id) => {
+		console.log(id, "facid");
 		setFacilityId(id);
 		dispatch(pricingRuleAction(id));
 	};
-
-	const handlePricingRuleCost = (pricingRuleId) => {
-		console.log(pricingRuleId, "pricingRuleId");
-		console.log("handlePricingRuleCost");
-		setSelectedPricingRuleCost(pricingRuleId);
-		
-		dispatch(pricingCostAction(pricingRuleId));
-	};
-
-	console.log(selectedPricingRuleCost, "selectedPricingRuleCost");
 
 	// this  dispatch is for playzeon  sports photos
 	useEffect(() => {
@@ -757,20 +745,20 @@ const ReservationFacility = (props) => {
 													typeof reservationlistselector.data === "object" &&
 													Object.values(reservationlistselector.data).map((facilityDetails) => {
 														console.log("facilityDetails", facilityDetails);
-
+														
 														return facilityDetails.map((facilityList) => (
 															<div key={facilityList.id}>
-																{console.log(formik.values.facility, "formik.values.facility")}
-																{console.log(facilityList?.id, "facilityList?.id")}
+																{console.log(formik.values.facility,"formik.values.facility")}
+																{console.log(facilityList?.id,"facilityList?.id")}
 
 																<input
 																	className="btn btn-success mt-1"
 																	// value={facilityList.id}
-																	value={formik.values.facility}
-																	name={"facility"}
+																	value={formik.values.facilityList?.id}
+																	name={facilityList?.name}
 																	type="radio"
-																	//id={`flexRadioDefault_${facilityList.id}`}
-																	 defaultChecked={formik.values.facility === facilityList?.name}
+																	id={`flexRadioDefault_${facilityList.id}`}
+																	// checked={formik.values.facility === facilityList.id}
 																	onClick={() => handlePricingChange(facilityList.id)}
 																	onChange={formik.handleChange}
 																/>
@@ -795,12 +783,6 @@ const ReservationFacility = (props) => {
 												{pricingRule?.data &&
 													Object.keys(pricingRule?.data).length > 0 &&
 													pricingRule?.data?.map((item, index) => {
-														{
-															console.log(formik.values.item, "formik.values.pricingRule");
-														}
-														{
-															console.log(item.pricingRuleId, "pricingRuleId");
-														}
 														return (
 															<div className="form-check">
 																<input
@@ -809,12 +791,10 @@ const ReservationFacility = (props) => {
 																	value={item.pricingRule.ruleName}
 																	type="radio"
 																	name="flexRadioDefault"
-																	id={`flexRadioDefault_${item.id}`}
+																	id="flexRadioDefault1"
 																	// checked={formik.values.pricingRule === pricingRule.id}
-																	onChange={(event) => {
-																		formik.handleChange(event);
-																		handlePricingRuleCost(item.pricingRuleId);
-																	}}
+																	onClick={() => handlePricingChange(item.id)}
+																	onChange={formik.handleChange}
 																/>
 																<label className="form-check-label" for="flexRadioDefault1">
 																	{item.pricingRule.ruleName}
@@ -1011,3 +991,31 @@ export default ReservationFacility;
 //   }, [reservationlistselector]);
 
 // console.log(facilityNames,"facilityNames");
+
+
+
+
+
+
+
+import {FETCH_CHECK_AVAILABILITY_ACTION } from "../constants/constants";
+
+const initialValues={
+    checkavailabilityinitial : [],
+
+};//api response data is stored in the initial value , allfacilitylistreservation  is used to store data from the api 
+// allfacilitylistreservation is used for all sports api 
+
+export const checkAvailabilityReducer = (value = initialValues, action) => {
+        switch (action?.type) {
+                case  FETCH_CHECK_AVAILABILITY_ACTION.REQUEST:
+                    return {checkavailabilityinitial: action?.payload };
+                    // the api is receiving the data and it is stored in the intialvalue of addfaciltydisplayPage array
+                case FETCH_CHECK_AVAILABILITY_ACTION.SUCCESS:
+                    return {checkavailabilityinitial: action?.payload };
+                case FETCH_CHECK_AVAILABILITY_ACTION.ERROR:
+                    return {checkavailabilityinitial: action?.payload };
+                default:
+                    return value;
+            }
+        };
