@@ -17,6 +17,8 @@ import { Offcanvas } from "react-bootstrap";
 import { checkAvailabilityAction } from "../redux/action/checkAvailabilityAction";
 import { pricingRuleAction } from "../redux/action/pricingRuleAction";
 import { pricingCostAction } from "../redux/action/pricingCostAction";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 // import { useNavigate } from "react-router-dom";
 
@@ -43,10 +45,13 @@ const ReservationFacility = (props) => {
 	const [endDate, setEndDate] = useState();
 
 	const [show, setShow] = useState(false);
+	const [showSmallModal, setShowSmallModal] = useState(false);
 	const [selectedPricingRuleCost, setSelectedPricingRuleCost] = useState("");
 	console.log(selectedPricingRuleCost, "selectedPricingRuleCost");
 
-	const handleClose = () => setShow(false);
+	const [showConfirmation, setShowConfirmation] = useState(false);
+
+	// const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
 
 	const utcDate = new Date();
@@ -82,7 +87,9 @@ const ReservationFacility = (props) => {
 
 	// This selector is for the pricing rule list
 	const pricingRule = useSelector((state) => state.PricingRule?.pricingRuleInitial);
+
 	console.log("pricingRule", pricingRule);
+
 	console.log(
 		" pricingRule",
 		pricingRule?.data?.map((item) => item.pricingRuleId)
@@ -93,13 +100,33 @@ const ReservationFacility = (props) => {
 	const pricingCostSelector = useSelector((state) => state.pricingCost?.pricingCostInitial);
 	console.log("pricingCost", pricingCostSelector);
 
+	const handleSave = () => {
+		// the details should be displayed in the table  logic
+	};
+
+	const handleClose = () => {
+		setShow(false);
+		setShowConfirmation(true);
+	};
+
+	const handleCloseModal = () => {
+		setShowSmallModal(true);
+		setShowConfirmation(false);
+		setShow(false);
+	};
+
+	const handleConfirmClose = () => {
+		setShowConfirmation(false);
+		setShow(false);
+	};
+
 	const initialValues = {
 		phoneNumber: " ",
 		email: " ",
 		firstName: "",
 		lastName: "",
 		facility: "",
-		pricingRule: "",
+		pricingRule1: "",
 	};
 
 	const validationSchema = Yup.object().shape({
@@ -114,9 +141,9 @@ const ReservationFacility = (props) => {
 		firstName: Yup.string().min(2, "Name is required !").max(50, "Too Long!").required("please enter a first name"),
 
 		lastName: Yup.string().min(2, " lastName is required!").max(50, "Too Long!").required("please enter a last name"),
-		facility: Yup.string().min(2, " Facility is required!").max(50, "Too Long!").required("please select anyone facility"),
+		facility: Yup.string().required(),
 
-		pricingRule: Yup.string().min(2, "Pricing rule is required!").max(50, "Too Long!").required("please select anyone pricing rule"),
+		pricingRule1: Yup.string().required(),
 	});
 
 	const submitForm = (values) => {
@@ -152,9 +179,10 @@ const ReservationFacility = (props) => {
 		setEndDate(date);
 	};
 
-	const handleSaveClick = () => {
-		setIsEditMode(true);
-	};
+	// const handleSaveClick = () => {
+	// 	setIsEditMode(true);
+	// 	// dispatch
+	// };
 	const handleSelectChange = (event) => {
 		const selectedFacilityType = event.target.value;
 		console.log(selectedFacilityType, "cvb");
@@ -173,10 +201,10 @@ const ReservationFacility = (props) => {
 
 	const handleBookingType = (event) => {};
 
-	const handleCheckAvailability = () => {
-		const utcStartTime = moment.utc(`${startDate}`).format();
+	const utcStartTime = moment.utc(`${startDate}`).format();
 
-		const utcEndTime = moment.utc(`${endDate}`).format();
+	const utcEndTime = moment.utc(`${endDate}`).format();
+	const handleCheckAvailability = () => {
 
 		dispatch(checkAvailabilityAction(sportId, utcStartTime, utcEndTime, datesInRange));
 	};
@@ -276,12 +304,15 @@ const ReservationFacility = (props) => {
 		dispatch(pricingRuleAction(id));
 	};
 
-	const handlePricingRuleCost = (pricingRuleId) => {
+	const handlePricingRuleCost = (pricingRuleId, startTime, endTime, datesInRange,values) => {
 		console.log(pricingRuleId, "pricingRuleId");
 		console.log("handlePricingRuleCost");
+		console.log("009",values);
+		setIsEditMode(true);
+
 		setSelectedPricingRuleCost(pricingRuleId);
-		
-		dispatch(pricingCostAction(pricingRuleId));
+
+		dispatch(pricingCostAction(pricingRuleId, utcStartTime, utcEndTime, datesInRange));
 	};
 
 	console.log(selectedPricingRuleCost, "selectedPricingRuleCost");
@@ -645,6 +676,7 @@ const ReservationFacility = (props) => {
 
 							<div className="row mt-2">
 								<form class="row g-2" onSubmit={formik.handleSubmit}>
+									{console.log(formik.values,"12345")}
 									<div className="col-md-12">
 										<b style={{ fontSize: "13px" }}>Player Details</b>
 										<br />
@@ -680,7 +712,7 @@ const ReservationFacility = (props) => {
 													onChange={formik.handleChange}
 													value={formik.values.lastName}
 												/>
-
+                                           
 												{formik.touched.lastName && formik.errors?.lastName?.length && (
 													<p className="error-text">{formik.errors?.lastName}</p>
 												)}
@@ -704,7 +736,7 @@ const ReservationFacility = (props) => {
 													<p className="error-text">{formik.errors?.phoneNumber}</p>
 												)}
 											</div>
-
+                                  {console.log(formik.values,"formikval")}
 											<div class="col-md-6">
 												<label for="inputEmail4" className="form-label fw-semibold " style={{ fontSize: "11px" }}>
 													Email address
@@ -756,7 +788,7 @@ const ReservationFacility = (props) => {
 												{reservationlistselector &&
 													typeof reservationlistselector.data === "object" &&
 													Object.values(reservationlistselector.data).map((facilityDetails) => {
-														console.log("facilityDetails", facilityDetails);
+														console.log("facilityDetails", facilityDetails.name);
 
 														return facilityDetails.map((facilityList) => (
 															<div key={facilityList.id}>
@@ -769,10 +801,11 @@ const ReservationFacility = (props) => {
 																	value={formik.values.facility}
 																	name={"facility"}
 																	type="radio"
-																	//id={`flexRadioDefault_${facilityList.id}`}
-																	 defaultChecked={formik.values.facility === facilityList?.name}
+																	onChange={() => formik.handleChange({ target: { name: 'facility', value: facilityList?.name } })}
+																	//id={`flexRadioDefformikault_${facilityList.id}`}
+																	//defaultChecked={formik.values.facility === facilityList?.name}
 																	onClick={() => handlePricingChange(facilityList.id)}
-																	onChange={formik.handleChange}
+																//	onChange={formik.handleChange}
 																/>
 																<label htmlFor={`flexRadioDefault_${facilityList.id}`}>{facilityList.name}</label>
 															</div>
@@ -795,26 +828,23 @@ const ReservationFacility = (props) => {
 												{pricingRule?.data &&
 													Object.keys(pricingRule?.data).length > 0 &&
 													pricingRule?.data?.map((item, index) => {
-														{
+														
 															console.log(formik.values.item, "formik.values.pricingRule");
-														}
-														{
+														
+														{console.log(item?.pricingRule.ruleName,"items");}
 															console.log(item.pricingRuleId, "pricingRuleId");
-														}
+														
 														return (
 															<div className="form-check">
 																<input
 																	className="form-check-input"
-																	key={item.id}
-																	value={item.pricingRule.ruleName}
+																//	key={item.id}
+																	value={formik.values.pricingRule1}
 																	type="radio"
-																	name="flexRadioDefault"
+																	name="pricingRule1"
 																	id={`flexRadioDefault_${item.id}`}
 																	// checked={formik.values.pricingRule === pricingRule.id}
-																	onChange={(event) => {
-																		formik.handleChange(event);
-																		handlePricingRuleCost(item.pricingRuleId);
-																	}}
+																	onChange={() => formik.handleChange({ target: { name: 'pricingRule1', value: item?.pricingRule.ruleName } })}
 																/>
 																<label className="form-check-label" for="flexRadioDefault1">
 																	{item.pricingRule.ruleName}
@@ -828,7 +858,11 @@ const ReservationFacility = (props) => {
 
 									<div className=" row mt-3">
 										<div className="col  d-flex justify-content-end">
-											<button className={`btn ${isEditMode ? "btn-warning" : "btn-success"}`} type="submit" onClick={handleSaveClick}>
+											<button
+												className={`btn ${isEditMode ? "btn-warning" : "btn-success"}`}
+												type="submit"
+												//onClick={() =>handlePricingRuleCost(formik.values)}
+											>
 												{isEditMode ? "Edit" : "Save"}
 											</button>
 										</div>
@@ -988,12 +1022,182 @@ const ReservationFacility = (props) => {
 
 			<Offcanvas show={show} onHide={handleClose} placement="end">
 				<Offcanvas.Header closeButton>
-					<Offcanvas.Title>Add Player</Offcanvas.Title>
+					<Offcanvas.Title>
+						<p className="offcanvas-title bg-lightgray fw-bold " id="offcanvasRightLabel" style={{ background: "lightgray", fontSize: "11px" }}>
+							Add Player
+						</p>
+					</Offcanvas.Title>
 				</Offcanvas.Header>
 				<Offcanvas.Body>
-					Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+					<form class="row g-2" onSubmit={formik.handleSubmit}>
+						<div className="col-md-12">
+							<div className="row g-2">
+								<div class="col-md-6">
+									<label for="inputPassword4" className="form-label fw-semibold" style={{ fontSize: "11px" }}>
+										First name
+									</label>
+
+									<input
+										className="form-control"
+										aria-label="First name"
+										name="firstName"
+										type="text"
+										onChange={formik.handleChange}
+										value={formik.values.firstName}
+									/>
+
+									{formik.touched.firstName && formik.errors?.firstName?.length && <p className="error-text">{formik.errors?.firstName}</p>}
+								</div>
+								<div class="col-md-6">
+									<label for="inputPassword4" className="form-label fw-semibold " style={{ fontSize: "11px" }}>
+										Last name
+									</label>
+
+									<input
+										className="form-control"
+										aria-label="Last name"
+										name="lastName"
+										type="text"
+										onChange={formik.handleChange}
+										value={formik.values.lastName}
+									/>
+
+									{formik.touched.lastName && formik.errors?.lastName?.length && <p className="error-text">{formik.errors?.lastName}</p>}
+								</div>
+							</div>
+						</div>
+						{/* </div> */}
+
+						<div className="row mt-2">
+							<div className="col-sm-6">
+								<label className="booking-text form-label fw-semibold" style={{ fontSize: "10px" }}>
+									Facility<span className="text-danger">*</span>
+								</label>
+								{/* <div className="border">
+										 {getCheckAvailability?.data &&
+											Object.keys(getCheckAvailability?.data).length > 0 &&
+											getCheckAvailability?.data?.map((item, index) => {
+												console.log(item, "itemitemitem");
+												return (
+													<div className="form-check">
+														<input
+															className="form-check-input"
+															key={item.id}
+															value={item.title}
+															type="radio"
+															name="flexRadioDefault"
+															id="flexRadioDefault1"
+															onClick={handlePricingChange(item.id)}
+														/>
+														<label className="form-check-label" for="flexRadioDefault1">
+															{item.title}
+														</label>
+													</div>
+												);
+											})} 
+											</div> */}
+								{/* trick way 2 same mapping */}
+								<div className="border">
+									{reservationlistselector &&
+										typeof reservationlistselector.data === "object" &&
+										Object.values(reservationlistselector.data).map((facilityDetails) => {
+											console.log("facilityDetails", facilityDetails);
+
+											return facilityDetails.map((facilityList) => (
+												<div key={facilityList.id}>
+													{console.log(formik.values.facility, "formik.values.facility")}
+													{console.log(facilityList?.id, "facilityList?.id")}
+
+													<input
+														className="btn btn-success mt-1"
+														// value={facilityList.id}
+														value={formik.values.facility}
+														name={"facility"}
+														type="radio"
+														//id={`flexRadioDefault_${facilityList.id}`}
+														defaultChecked={formik.values.facility === facilityList?.name}
+														onClick={() => handlePricingChange(facilityList.id)}
+														onChange={formik.handleChange}
+													/>
+													<label htmlFor={`flexRadioDefault_${facilityList.id}`}>{facilityList.name}</label>
+												</div>
+											));
+										})}
+								</div>
+
+								{formik.touched.facility && formik.errors?.facility?.length && <p className="error-text">{formik.errors?.facility}</p>}
+
+								{/* col div down */}
+							</div>
+
+							<div className="col-sm-6">
+								<label className="booking-text form-label fw-semibold" style={{ fontSize: "10px" }}>
+									Pricing rule<span className="text-danger">*</span>
+								</label>
+								<div className="border">
+									{pricingRule?.data &&
+										Object.keys(pricingRule?.data).length > 0 &&
+										pricingRule?.data?.map((item, index) => {
+											{
+												console.log(formik.values.item, "formik.values.pricingRule");
+											}
+											{
+												console.log(item.pricingRuleId, "pricingRuleId");
+											}
+											return (
+												<div className="form-check">
+													<input
+														className="form-check-input"
+														key={item.id}
+														value={item.pricingRule.ruleName}
+														type="radio"
+														name="flexRadioDefault"
+														id={`flexRadioDefault_${item.id}`}
+														// checked={formik.values.pricingRule === pricingRule.id}
+														onChange={(event) => {
+															formik.handleChange(event);
+															handlePricingRuleCost(item.pricingRuleId);
+														}}
+													/>
+													<label className="form-check-label" for="flexRadioDefault1">
+														{item.pricingRule.ruleName}
+													</label>
+												</div>
+											);
+										})}
+								</div>
+							</div>
+						</div>
+
+						<div className=" row mt-3">
+							<div className="col -md-12 d-flex justify-content-center">
+								<button className="btn  btn-lg btn-success" type="submit" onClick={handleSave} style={{ fontSize: "11px" }}>
+									Add
+								</button>
+							</div>
+							<br />
+							<div className=" mt-3 d-flex justify-content-center">
+								<button className="btn  btn-lg btn-danger" onClick={handleCloseModal} style={{ fontSize: "11px" }}>
+									Close
+								</button>
+							</div>
+						</div>
+					</form>
 				</Offcanvas.Body>
 			</Offcanvas>
+
+			<Modal show={showConfirmation} onHide={() => setShowConfirmation(false)}>
+				<Modal.Header closeButton></Modal.Header>
+				<Modal.Body>Are you sure you want to close?</Modal.Body>
+				<Modal.Footer>
+					<Button variant="secondary" onClick={handleClose}>
+						Yes
+					</Button>
+					<Button variant="primary" onClick={handleConfirmClose}>
+						No
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</div>
 	);
 };
@@ -1011,3 +1215,20 @@ export default ReservationFacility;
 //   }, [reservationlistselector]);
 
 // console.log(facilityNames,"facilityNames");
+
+// ====================================================================================
+
+{
+	/* <div className="modal show" style={{ display: "block", position: "initial" }}>
+				<Modal.Dialog show={showSmallModal} onHide={handleClose}>
+					<Modal.Header closeButton>
+						<Modal.Title>Are you sure you want to close?</Modal.Title>
+					</Modal.Header>
+
+					<Modal.Footer>
+						<Button variant="secondary">Yes</Button>
+						<Button variant="primary">No</Button>
+					</Modal.Footer>
+				</Modal.Dialog>
+			</div> */
+}
