@@ -2,7 +2,7 @@ import axios from "axios";
 import {API_URL} from "../../constantsUrl/constantsUrl.js";
 import {Constants,FETCH_PRICING_COST_ACTION }  from "../constants/constants.js";
 
-export const pricingCostAction = (pricingRuleId,startTime, endTime, datesInRange)=>async(dispatch) => {
+export const pricingCostAction = (pricingRuleId,startTime, endTime)=>async(dispatch) => {
 	// this action is for facility type label list 
 	
 		await dispatch({
@@ -19,7 +19,7 @@ export const pricingCostAction = (pricingRuleId,startTime, endTime, datesInRange
 		const options = {
 			method: "GET",
 			headers: { Authorization: `Bearer ${localStorage.getItem("accessToken")}`, "ngrok-skip-browser-warning": 53 },
-			url: `${API_URL}/api/v1/costByPricingRule?ids=${pricingRuleId}&startTime=${startTime}&endTime=${endTime}&isMultiple=false&daysList=${datesInRange}`,
+			url: `${API_URL}/api/v1/costByPricingRule?ids=${pricingRuleId}&startTime=${startTime}&endTime=${endTime}&isMultiple=false&daysList=`,
            
             
 		};
